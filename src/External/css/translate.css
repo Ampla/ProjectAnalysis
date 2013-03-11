@@ -1,0 +1,48 @@
+
+html, body {
+	background: white;
+	font-family: verdana,arial,sans-serif;
+	font-size: 11px;
+	width:100%;
+	height:100%;
+	overflow:auto; 
+/*	background:transparent url(images/side_top.jpg) repeat-x scroll 0 0;*/
+/*	color:#444444; */
+}
+
+.item-href, .i-ref {
+	text-decoration: none;
+}
+
+.item-href:hover, .i-ref:hover 
+{
+	text-decoration: underline;
+	background-color: #E8FFE8;
+}
+
+.tr-alt
+{
+	background-color: #EEEEEE;
+}
+
+.align-top
+{
+	vertical-align :top;
+}
+
+.item-name
+{
+	color: #009530;
+}
+
+.i-trans
+{
+	padding: 3px;
+	font-size: x-small;
+	background-color: #FFFFCC;
+	color: #626469;
+	margin-top: 3px;
+	font-variant: normal;
+	border: thin dotted #C0C0C0;
+}
+

@@ -1,0 +1,37 @@
+
+.ui-layout-pane
+{
+	/* all 'panes' */
+	background-color: white;
+	border: 1px solid #008000; /* Use Green-1 */
+	padding: 10px;
+	overflow: auto;
+} 
+
+.ui-layout-north
+{
+	/* all 'panes' */
+	background-color: #009530;
+	color: White;
+	border: 1px solid #008000; /* Use Green-1 */
+	padding: 10px;
+	overflow: auto;
+	font-size:large;
+	font-weight: bold;
+} 
+
+
+.ui-layout-resizer { /* all 'resizer-bars' */ 
+	background: #009530; /* Use light grey */ 
+} 
+
+.ui-layout-toggler
+{
+	/* all 'toggler-buttons' */
+	background: #87D300; /* use dark gray */
+	font-size: 14px;
+	color: White;
+	text-align: center;
+	font-weight: bold;
+}
+

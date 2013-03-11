@@ -1,0 +1,134 @@
+﻿body
+{
+	background-color: #FFFFFF;
+	font-family: verdana,arial,sans-serif;
+	font-size: small;
+}
+table
+{
+	border-width: 1px;
+    border-color: #7f7f7f;
+    border-style: solid;
+}
+td
+{
+	text-align : left;
+}
+th{
+	background-color: #afafaf;
+	text-align: center;
+	font-size:x-small;
+}
+.topBorder{
+	border-top: solid 1px #afafaf;
+}
+.link
+{
+	color:black;
+}
+.default
+{
+	color: Gray;
+}
+.links-to
+{
+	background-color:#FFCCFF;
+}
+.links-from
+{
+	background-color:#CCFFCC;
+}
+.property-name
+{
+	list-style-type:circle;
+	color:black;
+}
+.property-value
+{
+	border-left: solid 1px #afafaf;
+	color:black;
+}
+.item
+{
+	font-weight:bold;
+	color:black;
+}
+.type
+{
+	font-weight:bold;
+}
+.data
+{
+	display:block;
+}
+.show
+{
+}
+.hide
+{
+}
+.other
+{
+	color:#999999;
+}
+.version
+{
+	text-align: right;
+	color:silver;
+	left:80%;
+	display:;
+}
+.smalltext
+{
+	font-size:x-small;
+}
+.menu
+{
+	color: #009530;
+	border-width: 1px;
+	border-color: #009530;
+	font-size: small;
+    background-color: white;
+}
+.menu-text
+{
+	margin: 0px;
+	padding-right: 15px;
+	padding-left: 15px;
+	font-weight: normal;
+}
+.menu-selected
+{
+	margin: 0px;
+	padding-right: 15px;
+	padding-left: 15px;
+	border: solid 2px #009530;
+	font-weight: bold;
+	background-color: #CCFFCC;
+}
+.selected
+{
+	font-weight:bold;
+	color: black;
+    background-color: #CCCCCC;
+}
+.header
+{ 
+	background-color: #009530;
+	color:White;
+	border-bottom-width: inherit; 
+}
+
+.section
+{
+	background-color: white;
+	font-size:small;
+}
+.warning
+{
+	background-color: #FFFF66;
+}
+.passed
+{
+	background-color: #CCFFCC;
+}

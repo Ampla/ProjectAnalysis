@@ -1,0 +1,65 @@
+﻿html, body 
+{
+	background: white;
+	font-family: verdana,arial,sans-serif;
+	font-size: 12px;
+	width:99%;
+	/*height:100%;*/
+	overflow:auto; 
+}
+td
+{
+	border: 1px solid #009530;
+	vertical-align: top;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-right: 10px;
+	padding-bottom: 2px;
+}
+td:hover 
+{
+	background-color: #E8FFE8;
+}
+table 
+{
+	background-color: white;
+    vertical-align: top;
+    border-style: none;
+}
+.point 
+{
+	text-decoration: underline;
+}
+.icon
+{
+	padding-right: 2px;
+    padding-left: 10px;
+}
+.item 
+{
+	color: #009530;
+	text-decoration: none;
+}
+
+.text
+{
+	color: #009530;
+}
+.i-trans
+{
+	background-color: #FFFFCC;
+	color: #626469;
+	font-variant: normal;
+	border: thin dotted #C0C0C0;
+}
+
+#layout-menu
+{
+	text-align: right;
+	color: #626469;
+}
+.arrow
+{
+	height: 16px;
+	width: 16px;
+}

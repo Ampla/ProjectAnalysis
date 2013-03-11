@@ -1,0 +1,151 @@
+﻿html, body
+{
+	background: white;
+	font-family: verdana,arial,sans-serif;
+	font-size: 12px;
+}
+th
+{
+	border: 1px solid #626469;
+	vertical-align: top;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-right: 10px;
+	padding-bottom: 2px;
+	background-color: #9FA0A4;
+	color: white;
+}
+td
+{
+	border: 1px solid #009530;
+	vertical-align: top;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-right: 10px;
+	padding-bottom: 2px;
+}
+
+th a
+{
+	color:White;
+}
+
+th a:hover
+{
+	color: White;
+	background-color: #ADAEB1;
+}
+
+a
+{
+	color: #009530; 
+}
+a:hover
+{
+	color: #009530;
+	background-color: #ECFFF2;
+}
+
+.open
+{
+	background-repeat: no-repeat;
+	background-image: url(images/minus.gif);
+	background-position: left center;
+}
+
+.close
+{
+	background-repeat: no-repeat;
+	background-image: url(images/plus.gif);
+	background-position: left center;
+}
+
+.details
+{ 
+	/*display : none;*/
+}
+
+.summary
+{
+	display: block;
+	color: #626469;
+	cursor: pointer;
+	padding-left: 16px;
+}
+
+.sub
+{
+	padding-left : 10px;
+}
+
+.collapse
+{
+	display: block;
+	color: #626469;
+	cursor: pointer;
+	padding-left: 16px;
+}
+
+.summary:hover
+{
+	color: #626469;
+	background-color: #F8F8F8;
+}
+
+.collapse:hover
+{
+	color: #626469;
+	background-color: #F8F8F8;
+}
+
+table
+{
+	background-color: white;
+	vertical-align: top;
+	border-style: none;
+	empty-cells: show;
+}
+.point 
+{
+	text-decoration: underline;
+}
+.icon
+{
+	padding-right: 2px;
+    padding-left: 10px;
+}
+.item 
+{
+	color: #009530;
+	text-decoration: none;
+}
+
+.text
+{
+	color: #009530;
+}
+
+.heading
+{
+	font-size : 16px;
+	font-weight: bold;
+}
+.i-trans
+{
+	background-color: #FFFFCC;
+	color: #626469;
+	font-variant: normal;
+	border: thin dotted #C0C0C0;
+}
+
+#layout-menu
+{
+	text-align: right;
+	color: #626469;
+}
+.arrow
+{
+	height: 16px;
+	width: 16px;
+}
+
