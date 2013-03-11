@@ -2,8 +2,6 @@
 
 The Project Analysis tool generates a detailed and interactive HTML report from a project XML export.
 
----
-
 ## Getting Started ##
 
 Follow the instructions below to generate your HTML report:
