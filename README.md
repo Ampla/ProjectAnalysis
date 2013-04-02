@@ -25,3 +25,5 @@ Follow the instructions below to generate your HTML report:
 * `Project.Metrics.html` provides a view of the KPIs defined under the metrics reporting points and where they source their data.
 
 * `Project.Security.html` provides a view of the Security operations, roles and where they are assigned in the project.
+
+* `Warnings.html` provides some common warnings to project configuration.  This is not the same as a project validate.
