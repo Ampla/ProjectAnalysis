@@ -12,50 +12,15 @@
       <head>
         <META http-equiv="Content-Type" content="text/html; charset=utf-8">
           <title>Project Analysis - Hierarchy</title>
-          <link rel="stylesheet" type="text/css" href="display.css" />
+          <link rel="stylesheet" type="text/css" href="css/display.css" />
           <script type="text/javascript" src="jquery.js"></script>
-          <script type="text/javascript" src="navigate.js"></script>
         </META>
       </head>
       <body>
-        <table width="100%">
-          <tr>
-            <td class="header">
-              <h1>Project Analysis - Code Items</h1>
-              <br/>
-              <table class="menu">
-                <tr>
-                  <td class="menu-text">Menu: </td>
-                  <td class="menu-text">
-                    <a href="Hierarchy.html">Hierarchy</a>
-                  </td>
-                  <td class="menu-selected">
-                    <a href="CodeItems.html">Code Items</a>
-                  </td>
-                  <td class="menu-text">
-                    <a href="ItemTypes.html">Item Types</a>
-                  </td>
-                  <td class="menu-text">
-                    <a href="Warnings.html">Warnings</a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="section">
-              <a id="collapseAll" href="#">Collapse All</a>
-              <a id="expandAll" href="#">Expand All</a>
-              <a id="defaultView" href="#">Default View</a>
-              <br/>
-
-              <hr/>
+        <a name="top"/>
+        <h1 class="text">Ampla Project - Code Items</h1>
               <hr/>
               <xsl:call-template name="codeItemsContent"/>
-
-            </td>
-          </tr>
-        </table>
       </body>
     </html>
   </xsl:template>
@@ -65,7 +30,7 @@
       <xsl:for-each select="//Item[@type = 'Citect.Ampla.StandardItems.Code']">
         <xsl:sort select="@fullName"/>
         <li>
-          <a href="#{@id}">
+          <a href="#{@hash}">
             <xsl:call-template name="getItemFullName"/>
           </a>
         </li>
@@ -75,27 +40,12 @@
   </xsl:template>
 
   <xsl:template match="Item[@type = 'Citect.Ampla.StandardItems.Code']">
-    <a name="{@id}"/>
-    <table>
-      <tr>
-        <th>
-          <xsl:call-template name="getItemFullName"/>
-          <span title="View in hiearchy...">
-            <xsl:text> [ </xsl:text>
-            <a href="Hierarchy.html#{@id}">...</a>
-            <xsl:text> ] </xsl:text>
-          </span>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <pre>
-            <xsl:value-of select="Property[@name='Source']"/>
-          </pre>
-        </td>
-      </tr>
-    </table>
-    <hr/>
+	<hr/>
+    <a name="{@hash}"/>
+	<h2 class='text'><xsl:call-template name="getItemFullName"/></h2>
+	<pre>
+    <xsl:value-of select="Property[@name='Source']"/>
+    </pre>
   </xsl:template>
 
   <xsl:template name="getItemFullName">
