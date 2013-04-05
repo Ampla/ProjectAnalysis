@@ -15,3 +15,15 @@ Follow the instructions below to generate your HTML report:
 4. View the output by opening `index.html` located in the `Output` folder.
 
 5. Run `Clean.cmd` to remove the existing output before running another project analysis.
+
+## Explanations of the output ##
+
+* `Project.Summary.html` provides a high level view of the project structure and where the reporting points are located.
+
+* `Project.Downtime.html` provides a relationship of the downtime relationship matrix.
+
+* `Project.Metrics.html` provides a view of the KPIs defined under the metrics reporting points and where they source their data.
+
+* `Project.Security.html` provides a view of the Security operations, roles and where they are assigned in the project.
+
+* `Warnings.html` provides some common warnings to project configuration.  This is not the same as a project validate.
