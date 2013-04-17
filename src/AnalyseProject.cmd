@@ -32,6 +32,7 @@ rem set lang=zh-chs
 
 %nxslt% Working\project.links.xml StyleSheets\Project.Translations.xslt -o output\translations.upload.html
 
+%nxslt% Working\project.links.xml StyleSheets\Project.Inventory.xslt -o working\inventory.xml
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
 
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
