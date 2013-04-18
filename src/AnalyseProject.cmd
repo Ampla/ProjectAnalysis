@@ -5,10 +5,10 @@ set authstore=AuthStore.xml
 xcopy External\lib Output\lib /E /Y /I 
 xcopy External\css Output\css /E /Y /I 
 xcopy External\images Output\images /E /Y /I 
-xcopy External\*.exe Working\*.exe /Y /I 
-xcopy External\lib\chili\csharp.js Output /Y /I
 
-set nxslt=Working\nxslt.exe
+set nxslt=Library\nxslt\nxslt.exe
+set graphviz=Library\GraphViz-2.30.1\bin
+set dotml=Library\dotml-1.4
 
 set lang=en
 set language=..\en.words.html
@@ -38,7 +38,11 @@ rem set lang=zh-chs
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
 %nxslt% Working\authstore.xml StyleSheets\Document.Security.xslt -o Output\Project.Security.html
 
+%nxslt% Working\inventory.xml StyleSheets\Document.Inventory.DotML.xslt -o Working\Inventory.dotml
 %nxslt% Working\downtime.xml StyleSheets\Document.Downtime.xslt -o Output\Project.Downtime.html
+
+%nxslt% Working\inventory.dotml %dotml%\dotml2dot.xsl -o Output\Project.Inventory.gv
+%graphviz%\dot.exe -Tpng Output\Project.Inventory.gv -o Output\inventory.png
 
 %nxslt% Working\project.links.xml StyleSheets\Project.Metrics.xslt -o working\metrics.xml
 %nxslt% Working\metrics.xml StyleSheets\Project.Mindmap.xslt -o Output\Project.Metrics.mm
@@ -58,18 +62,5 @@ rem set lang=zh-chs
 
 %nxslt% Working\project.links.xml StyleSheets\Document.Warnings.xslt -o Output\Warnings.html
 %nxslt% working\project.links.xml StyleSheets\File.ItemId.Fullname.Type.xslt -o Output\Id.Fullname.Type.txt
-
-
-rem %nxslt% Working\project.links.xml StyleSheets\Document.Browser.Testing.xslt -o Output\Project.Testing.html
-
-rem nxslt %project% StyleSheets\Project.Normalize.xslt -o Results\project.xml
-rem nxslt results\project.xml StyleSheets\Project.LinkFrom.xslt -o Results\project.links.from.xml
-rem nxslt results\project.links.from.xml StyleSheets\Project.LinkTo.xslt -o Results\project.links.xml
-rem nxslt results\project.xml StyleSheets\Project.Equipment.xslt -o Results\equipment.xml
-rem nxslt results\project.links.xml StyleSheets\Document.Browser.xslt    -o Results\Browser.html
-rem nxslt results\project.links.xml StyleSheets\Document.Properties.xslt -o Results\Properties.html
-rem nxslt results\project.xml       StyleSheets\Document.CodeItems.xslt  -o Results\CodeItems.html
-rem nxslt results\project.xml       StyleSheets\Document.ItemTypes.xslt  -o Results\ItemTypes.html
-rem nxslt results\project.xml       StyleSheets\Document.Warnings.xslt   -o Results\Warnings.html
 
 rem pause

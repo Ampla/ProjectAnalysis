@@ -21,7 +21,10 @@
 				<xsl:with-param name="context" select="/Project/Item"/>
 				<xsl:with-param name="children" select="$work-centres"/>
 			</xsl:call-template>
-		</xsl:element>			
+		</xsl:element>	
+		<xsl:element name="Movements">
+			<xsl:apply-templates select="//Item[@type='Citect.Ampla.Isa95.MaterialMovementItem']"/>
+		</xsl:element>
     </xsl:element>
   </xsl:template>
   
@@ -36,6 +39,7 @@
 			<xsl:when test="$selected[@hash = $hash]">
 				<xsl:copy>
 					<xsl:apply-templates select="@*"/>
+					<xsl:apply-templates select="Property[@name='AllowedMaterials']"/>
 					<xsl:call-template name="build-hierarchy">
 						<xsl:with-param name="context" select="$item/Item"/>
 						<xsl:with-param name="children" select="$children"/>
@@ -49,19 +53,43 @@
 	</xsl:for-each>
   </xsl:template>
   
-  <xsl:template name="workcentres">
-	<work-centres>
-		<xsl:for-each select="$work-centres">
-			<xsl:sort select="@fullName"/>
-			<xsl:element name="workcentre">
-				<xsl:apply-templates select="@*"/>
-				<xsl:attribute name='group'><xsl:value-of select="../@fullName"/></xsl:attribute>
+  <xsl:template match="Property[@name='AllowedMaterials']">
+	<xsl:element name='Materials'>
+		<xsl:apply-templates select="key('items-by-id', linkFrom/link/@id)"/>
+	</xsl:element>
+  </xsl:template>
+  
+  <xsl:template match="Item[@type='Citect.Ampla.Isa95.MaterialItem']">
+	<xsl:element name="Material">
+		<xsl:apply-templates select="@*"/>
+	</xsl:element>
+  </xsl:template>
+  
+  <xsl:template match="Item[@type='Citect.Ampla.Isa95.MaterialMovementItem']">
+	<xsl:element name="Movement">
+		<xsl:apply-templates select="@*"/>
+		<xsl:element name="MovementDirection">
+			<xsl:value-of select="Property[@name='MovementDirection']"/>
+		</xsl:element>
+		<xsl:element name="Source">
+			<xsl:element name="WorkCenter">
+				<xsl:apply-templates select="key('items-by-id', Property[@name='SourceWorkCenter']/linkFrom/link/@id)/@*"/>
 			</xsl:element>
-		</xsl:for-each>
-	</work-centres>
-
- </xsl:template>
-
+			<xsl:element name="Material">
+				<xsl:apply-templates select="key('items-by-id', Property[@name='SourceMaterial']/linkFrom/link/@id)/@*"/>
+			</xsl:element>
+		</xsl:element>
+		<xsl:element name="Destination">
+			<xsl:element name="WorkCenter">
+				<xsl:apply-templates select="key('items-by-id', Property[@name='DestinationWorkCenter']/linkFrom/link/@id)/@*"/>
+			</xsl:element>
+			<xsl:element name="Material">
+				<xsl:apply-templates select="key('items-by-id', Property[@name='DestinationMaterial']/linkFrom/link/@id)/@*"/>
+			</xsl:element>
+		</xsl:element>
+	</xsl:element>
+  </xsl:template>
+  
   <xsl:template match="@* | node()">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()"/>
