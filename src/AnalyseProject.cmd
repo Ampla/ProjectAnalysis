@@ -54,6 +54,9 @@ rem set lang=zh-chs
 %nxslt% Working\project.links.xml StyleSheets\Project.Metrics.xslt -o working\metrics.xml
 %nxslt% Working\metrics.xml StyleSheets\Document.Metrics.Mindmap.xslt -o Output\Project.Metrics.mm
 %nxslt% Working\metrics.xml StyleSheets\Document.Metrics.Report.xslt -o Output\Project.Metrics.html
+%nxslt% Working\metrics.xml StyleSheets\Document.Metrics.DotML.xslt -o Working\metrics.dotml
+%nxslt% Working\metrics.dotml %dotml%\dotml2dot.xsl -o Working\metrics.gv
+%graphviz%\dot.exe -Tpng Working\metrics.gv -o Output\Project.Metrics.png
 
 @echo === Project ===
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
