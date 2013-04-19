@@ -6,6 +6,9 @@
 
   <xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
 
+  <xsl:variable name="kpi-color">#2FB4E9</xsl:variable>
+  <xsl:variable name="resolver-color">#C4014B</xsl:variable>
+  
   <xsl:key name="sources-by-module" match="Resolver/Source" use="@module"/>
   <xsl:key name="sources-by-fullname" match="Resolver/Source" use="@fullName"/>
   <xsl:key name="sources-by-module-fullname-name" match="Resolver/Source" use="concat(@module, '-', @fullName, '-', @name)"/>
@@ -181,7 +184,7 @@
       <xsl:attribute name="FOLDED">true</xsl:attribute>
       <xsl:attribute name="STYLE">bubble</xsl:attribute>
       <xsl:attribute name="COLOR">#ffffff</xsl:attribute>
-      <xsl:attribute name="BACKGROUND_COLOR">#2FB4E9</xsl:attribute>
+      <xsl:attribute name="BACKGROUND_COLOR"><xsl:value-of select="$kpi-color"/></xsl:attribute>
       <xsl:attribute name="TEXT">
         <xsl:value-of select="@name"/>
       </xsl:attribute>
@@ -240,7 +243,7 @@
       </xsl:attribute>
       <xsl:attribute name="STYLE">bubble</xsl:attribute>
       <xsl:attribute name="COLOR">#ffffff</xsl:attribute>
-      <xsl:attribute name="BACKGROUND_COLOR">#C4014B</xsl:attribute>
+      <xsl:attribute name="BACKGROUND_COLOR"><xsl:value-of select="$resolver-color"/></xsl:attribute>
       <xsl:attribute name="TEXT">
         <xsl:value-of select="@name"/>
       </xsl:attribute>
