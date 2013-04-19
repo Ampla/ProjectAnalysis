@@ -14,6 +14,10 @@
   <xsl:variable name="wc-productionline" 	select="//Item[@type='Citect.Ampla.Isa95.ProductionLine']"/>
   <xsl:variable name="work-centres" 		select="$wc-input | $wc-output | $wc-processcell | $wc-storagezone | $wc-productionunit | $wc-productionline" />
 
+  <xsl:key name="movements-by-srce-wc" match="//Item[@type='Citect.Ampla.Isa95.MaterialMovementItem']" use="Property[@name='SourceWorkCenter']/linkFrom/link/@fullName" />
+  <xsl:key name="movements-by-dest-wc" match="//Item[@type='Citect.Ampla.Isa95.MaterialMovementItem']" use="Property[@name='DestinationWorkCenter']/linkFrom/link/@fullName" />
+  
+  
   <xsl:template match="/">
     <xsl:element name="Inventory">
 		<xsl:element name="Hierarchy">
@@ -23,7 +27,7 @@
 			</xsl:call-template>
 		</xsl:element>	
 		<xsl:element name="Movements">
-			<xsl:apply-templates select="//Item[@type='Citect.Ampla.Isa95.MaterialMovementItem']"/>
+			<xsl:apply-templates select="//Item[@type='Citect.Ampla.Isa95.MaterialMovementItem']"  />
 		</xsl:element>
     </xsl:element>
   </xsl:template>
@@ -52,6 +56,7 @@
 		</xsl:choose>
 	</xsl:for-each>
   </xsl:template>
+
   
   <xsl:template match="Property[@name='AllowedMaterials']">
 	<xsl:element name='Materials'>
@@ -71,9 +76,26 @@
 		<xsl:element name="MovementDirection">
 			<xsl:value-of select="Property[@name='MovementDirection']"/>
 		</xsl:element>
+		
+		<xsl:variable name="source-wc" select="key('items-by-id', Property[@name='SourceWorkCenter']/linkFrom/link/@id)"/>
+		<xsl:variable name="destination-wc" select="key('items-by-id', Property[@name='DestinationWorkCenter']/linkFrom/link/@id)"/>
+		
+		<xsl:element name="Location">
+		
+			<xsl:if test="$source-wc and $destination-wc">
+				<xsl:call-template name="find-common-folder">
+					<xsl:with-param name="a" select="$source-wc/ancestor-or-self::Item"/>
+					<xsl:with-param name="b" select="$destination-wc/ancestor-or-self::Item"/>
+				</xsl:call-template>
+			</xsl:if>
+		
+		</xsl:element>
+		
 		<xsl:element name="Source">
 			<xsl:element name="WorkCenter">
-				<xsl:apply-templates select="key('items-by-id', Property[@name='SourceWorkCenter']/linkFrom/link/@id)/@*"/>
+				<xsl:if test="$source-wc">
+					<xsl:apply-templates select="$source-wc/@*"/>
+				</xsl:if>
 			</xsl:element>
 			<xsl:element name="Material">
 				<xsl:apply-templates select="key('items-by-id', Property[@name='SourceMaterial']/linkFrom/link/@id)/@*"/>
@@ -81,15 +103,40 @@
 		</xsl:element>
 		<xsl:element name="Destination">
 			<xsl:element name="WorkCenter">
-				<xsl:apply-templates select="key('items-by-id', Property[@name='DestinationWorkCenter']/linkFrom/link/@id)/@*"/>
+				<xsl:if test="$destination-wc">
+					<xsl:apply-templates select="$destination-wc/@*"/>
+				</xsl:if>
 			</xsl:element>
 			<xsl:element name="Material">
 				<xsl:apply-templates select="key('items-by-id', Property[@name='DestinationMaterial']/linkFrom/link/@id)/@*"/>
 			</xsl:element>
 		</xsl:element>
+		
 	</xsl:element>
   </xsl:template>
   
+  
+  <xsl:template name="find-common-folder">
+	<xsl:param name="a"/>
+	<xsl:param name="b"/>
+	<xsl:param name="index">1</xsl:param>
+	<xsl:choose>
+		<xsl:when test="$index > count($a)"/>
+		<xsl:when test="$index > count($b)"/>
+		<xsl:when test="$a[$index] = $b[$index]">
+			<xsl:if test="$index > 1">
+				<xsl:text>.</xsl:text>
+			</xsl:if>
+			<xsl:value-of select='$a[$index]/@name'/>
+			<xsl:call-template name="find-common-folder">
+				<xsl:with-param name="a" select="$a"/>
+				<xsl:with-param name="b" select="$b"/>
+				<xsl:with-param name="index" select="$index + 1"/>
+			</xsl:call-template>
+		</xsl:when>
+	</xsl:choose>
+  </xsl:template>
+ 
   <xsl:template match="@* | node()">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()"/>

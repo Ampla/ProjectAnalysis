@@ -3,6 +3,11 @@
 
   <xsl:output method="xml" indent="yes"/>
 
+  <xsl:variable name="material-color">#87D200</xsl:variable>
+  <xsl:variable name="workcenter-color">#2FB4E9</xsl:variable>
+
+	<xsl:key name="movements-by-location" match="Movement" use="Location"/> 	  
+	
   <xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
   <xsl:variable name="quote">'</xsl:variable>
   <xsl:variable name="dquote">"</xsl:variable>
@@ -11,10 +16,10 @@
   <xsl:variable name="clusters" select="/Inventory/Hierarchy/descendant::Item[Item]"/>
   
   <xsl:template match="/">
-  	<dotml:graph file-name="inventory-graph" label="Inventory Model" rankdir="TB">
+  	<dotml:graph file-name="inventory-graph" label="Inventory Model" rankdir="LR" fontname="Arial">
 		<dotml:node id="error" label="Error" />
 		<xsl:apply-templates select="/Inventory/Hierarchy/Item"/>
-		<xsl:apply-templates select="/Inventory/Movements/Movement"/>
+		<!-- <xsl:apply-templates select="/Inventory/Movements/Movement"/> -->
 	</dotml:graph>
 	
   </xsl:template>
@@ -22,18 +27,20 @@
   <xsl:template match="Item[Item]">
 	<dotml:cluster id="{@hash}" label="{@name}" style="dotted">
 		<xsl:apply-templates select="Item">
-			<xsl:sort select="@name"/>
+			<xsl:sort select="count(descendant::*)"/>
 		</xsl:apply-templates>
+		<xsl:apply-templates select="key('movements-by-location', @fullName)"/>
 	</dotml:cluster>
   </xsl:template>
   
   <xsl:template match="Item[Materials/Material]">
-	<dotml:cluster id="{@hash}" label="{@name}">
-		<dotml:record>
+	<dotml:cluster id="{@hash}" label="{@name}" style="filled" fillcolor="{$workcenter-color}">
+		<dotml:record style="filled" fillcolor="{$material-color}">
 			<xsl:apply-templates select="Materials/Material">
 				<xsl:sort select="@name"/>
 			</xsl:apply-templates>
 		</dotml:record>
+		<xsl:apply-templates select="key('movements-by-location', @fullName)"/>
 	</dotml:cluster>
   </xsl:template>
 
@@ -41,7 +48,7 @@
 		<xsl:variable name="material-hash">
 			<xsl:call-template name='material-hash'/>
 		</xsl:variable>
-	<dotml:node id="{$material-hash}" label="{@name}" style="dashed" fontsize="11.0"/>
+	<dotml:node id="{$material-hash}" label="{@name}"  fontsize="10.0"/>
   </xsl:template>
   
 	<xsl:template name="material-hash">
@@ -65,7 +72,7 @@
 	</xsl:template>
   
   <xsl:template match="Item[not(Item) and not(Materials/Material)]">
-	<dotml:node id="{@hash}" label="{@name}"/>
+	<dotml:node id="{@hash}" label="{@name}" style="filled" fillcolor="{$workcenter-color}"/>
   </xsl:template>
   
   <xsl:template match="Movement">
@@ -81,7 +88,7 @@
 			<xsl:with-param name="mat-hash" select="Destination/Material/@hash"/>
 		</xsl:call-template>
 	</xsl:variable>
-	<dotml:edge from="{$source-hash}" to="{$destination-hash}" label='{@name}'/>
+	<dotml:edge from="{$source-hash}" to="{$destination-hash}" />
   </xsl:template>
   
 </xsl:stylesheet>

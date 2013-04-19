@@ -46,6 +46,10 @@ rem set lang=zh-chs
 %nxslt% Working\inventory.dotml %dotml%\dotml2dot.xsl -o Working\inventory.gv
 %graphviz%\dot.exe -Tpng Working\inventory.gv -o Output\Project.Inventory.png
 
+%nxslt% Working\inventory.xml StyleSheets\Document.Inventory.Materials.DotML.xslt -o Working\inventory.materials.dotml
+%nxslt% Working\inventory.materials.dotml %dotml%\dotml2dot.xsl -o Working\inventory.materials.gv
+%graphviz%\dot.exe -Tpng Working\inventory.materials.gv -o Output\Project.Inventory.Materials.png
+
 @echo === Downtime ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
 %nxslt% Working\downtime.xml StyleSheets\Document.Downtime.xslt -o Output\Project.Downtime.html
