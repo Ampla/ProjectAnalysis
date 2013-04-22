@@ -58,7 +58,7 @@
 	<xsl:element name="a">
 		<xsl:attribute name="href"><xsl:value-of select="."/></xsl:attribute>
 		<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
-		<xsl:value-of select="."/>
+		<code><xsl:value-of select="."/></code>
 	</xsl:element>
   </xsl:template>
   
