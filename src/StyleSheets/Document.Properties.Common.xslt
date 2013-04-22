@@ -54,6 +54,14 @@
     <xsl:call-template name="format-code"/>
   </xsl:template>
 
+  <xsl:template match="Property[@name='URL']">
+	<xsl:element name="a">
+		<xsl:attribute name="href"><xsl:value-of select="."/></xsl:attribute>
+		<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
+		<xsl:value-of select="."/>
+	</xsl:element>
+  </xsl:template>
+  
   <xsl:template match="Property[@name='Identity']">
     <xsl:choose>
       <xsl:when test="($suppressIdentity='true') and (contains(text(), '|'))">
