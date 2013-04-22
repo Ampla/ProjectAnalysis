@@ -33,7 +33,7 @@
 					<xsl:for-each select="$modules">
 						<xsl:variable name="module" select="."/>
 						<xsl:variable name="documents" select="key('documents-by-module', $module)"/>
-						<h3 class="text"><xsl:value-of select="$module"/> Documents (<xsl:value-of select="count($documents)"/>)</h3> 
+						<h2 class="text"><xsl:value-of select="$module"/> Documents (<xsl:value-of select="count($documents)"/>)</h2> 
 						<xsl:call-template name="list-items">
 							<xsl:with-param name="items" select="$documents"/>
 						</xsl:call-template>	
@@ -92,7 +92,7 @@
 	<xsl:template match="Item">
 		<hr/>
 		<a name="{@hash}"/>
-		<h2 class='text'><xsl:call-template name="getItemFullName"/></h2>
+		<h3 class='text'><xsl:call-template name="getItemFullName"/></h3>
 		<xsl:call-template name="outputItemProperties">
 			<xsl:with-param name="sect">i-sect</xsl:with-param>
 		</xsl:call-template>
