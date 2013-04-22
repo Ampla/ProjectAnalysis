@@ -61,9 +61,9 @@ rem %nxslt% Working\inventory.xml StyleSheets\Document.Inventory.Materials.DotML
 rem %nxslt% Working\inventory.materials.dotml %dotml%\dotml2dot.xsl -o Working\inventory.materials.gv
 rem %graphviz%\dot.exe -Tpng Working\inventory.materials.gv -o Output\Project.Inventory.Materials.png
 
-rem cd Working\Graphs
-for /F "usebackq" %%i in (`xcopy Working\Graphs\*.cmd /L`) DO call %%i
-rem cd ..\..
+cd Working\Graphs
+for /F "usebackq" %%i in (`dir /b *.cmd`) DO call %%i
+cd ..\..
 
 @echo === Downtime ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
