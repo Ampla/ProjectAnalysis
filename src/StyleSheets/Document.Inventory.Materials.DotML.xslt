@@ -1,7 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dotml="http://www.martin-loetzsch.de/DOTML" >
+<xsl:stylesheet version="1.0" 
+				xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+				xmlns:dotml="http://www.martin-loetzsch.de/DOTML" 
+				xmlns:exsl="http://exslt.org/common"
+                extension-element-prefixes="exsl"				
+				>
 
 	<xsl:output method="xml" indent="yes"/>
+	
+	<xsl:param name="path-nxslt"   >..\..\Library\nxslt\nxslt.exe </xsl:param>
+	<xsl:param name="path-graphviz">..\..\Library\GraphViz-2.30.1\bin\dot.exe -Tpng </xsl:param>
+	<xsl:param name="path-dotml"   >..\..\Library\dotml-1.4\dotml2dot.xsl </xsl:param>
 
 	<xsl:variable name="record-color">#EEEEEE</xsl:variable>
 	<xsl:variable name="border-color">#AAAAAA</xsl:variable>
@@ -9,6 +18,7 @@
 	<xsl:variable name="material-color">#87D200</xsl:variable>
 	<xsl:variable name="material-other">#CCCCCC</xsl:variable>
 	<xsl:variable name="workcenter-color">#2FB4E9</xsl:variable>
+	
   
   <xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
   <xsl:variable name="quote">'</xsl:variable>
@@ -26,10 +36,47 @@
 	<xsl:variable name="materials" select="//Material[generate-id() = generate-id(key('materials-by-hash', @hash)[1])]"/>
   
 	<xsl:template match="/">
-		<dotml:graph file-name="inventory-graph" label="Inventory Materials" rankdir="LR" fontname="Arial" fontsize="14.0">
+		<xsl:element name="FileList">
 			<xsl:for-each select="$materials">
 				<xsl:sort select="@name"/>
 				<xsl:variable name="material-hash" select="@hash"/>
+				<xsl:variable name="dotml-filename" select="concat( @hash, '.dotml')"/>
+				<xsl:variable name="gv-filename" select="concat(@hash, '.gv')"/>
+				<xsl:variable name="png-filename" select="concat('..\..\Output\Graphs\Material.', @name, '.png')"/>
+				<xsl:variable name="cmd-filename" select="concat('Graphs\', @hash, '.cmd')"/>
+				
+				<xsl:variable name="command">
+					<xsl:call-template name="output-cmd">
+						<xsl:with-param name="cmd-filename" select="$cmd-filename"/>
+						<xsl:with-param name="dotml-filename" select="$dotml-filename"/>
+						<xsl:with-param name="gv-filename" select="$gv-filename"/>
+						<xsl:with-param name="png-filename" select="$png-filename"/>
+					</xsl:call-template>
+				</xsl:variable>
+				
+				<File name="{$dotml-filename}" type="dotml" material="{@name}">
+					<xsl:value-of select='$command'/>
+				</File>				
+				<xsl:call-template name="output-dotml">
+					<xsl:with-param name="material-hash" select="$material-hash"/>
+					<xsl:with-param name="filename" select="concat('Graphs\', $dotml-filename)"/>
+					<xsl:with-param name="material" select="@name"/>
+				</xsl:call-template>	
+
+				<exsl:document href="{$cmd-filename}" method="text" >
+					<xsl:value-of select='$command'/>
+				</exsl:document>
+
+			</xsl:for-each>
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template name="output-dotml">
+		<xsl:param name="material-hash"/>
+		<xsl:param name="filename"/>
+		<xsl:param name="material"/>
+		<exsl:document href="{$filename}" method="xml" indent="yes">
+			<dotml:graph file-name="{$filename}" label="Material usage: {@name}" rankdir="LR" fontname="Arial" fontsize="14.0">
 				<dotml:cluster id="{concat($material-hash, '_cluster')}" label="{@name}" style="solid" bgcolor="{$material-color}" labelloc="t">
 					<xsl:variable name='material' select="key('materials-by-hash', @hash)"/>
 					<xsl:variable name='source-movements' select="key('movements-by-source-material', @hash)"/>
@@ -50,14 +97,35 @@
 					</xsl:call-template>
 				</dotml:cluster>
 				
-			</xsl:for-each>
-			<!-- <dotml:node id="error" label="Error" /> -->
-			<!--
-			<xsl:apply-templates select="/Inventory/Hierarchy/Item"/>
-			<xsl:apply-templates select="/Inventory/Movements/Movement"/>
-			-->
-		</dotml:graph>
+			</dotml:graph>
+		</exsl:document>
 	</xsl:template>
+
+	<!--
+		%nxslt% Working\metrics.dotml %dotml%\dotml2dot.xsl -o Working\metrics.gv
+		%graphviz%\dot.exe -Tpng Working\metrics.gv -o Output\Project.Metrics.png
+	-->
+	<xsl:template name="output-cmd">
+		<xsl:param name="cmd-filename"/>
+		<xsl:param name="dotml-filename"/>
+		<xsl:param name="gv-filename"/>
+		<xsl:param name="png-filename"/>
+
+			<xsl:text>REM Convert "</xsl:text><xsl:value-of select="$dotml-filename"/>" to "<xsl:value-of select="$png-filename"/><xsl:text>"</xsl:text>
+
+			<xsl:value-of select="concat($crlf, $path-nxslt, $dotml-filename, ' ', $path-dotml, ' -o ', $gv-filename)" /> 
+			<xsl:value-of select="concat($crlf, $path-graphviz, $gv-filename, ' ', ' -o ', $dquote, $png-filename, $dquote)" /> 
+
+	</xsl:template>
+	
+	<xsl:template name="command-line">
+		<xsl:value-of select="concat($crlf, $path-nxslt, $dotml-filename, ' ', $path-dotml, ' -o ', $gv-filename)" /> 
+	</xsl:template>
+	<!--
+	
+	
+	
+	-->
 	  
 	<xsl:template name="build-sub-hierarchy">
 		<xsl:param name="context"/>
