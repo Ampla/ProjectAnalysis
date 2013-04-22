@@ -19,10 +19,9 @@
 	<xsl:variable name="material-other">#CCCCCC</xsl:variable>
 	<xsl:variable name="workcenter-color">#2FB4E9</xsl:variable>
 	
-  
-  <xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
-  <xsl:variable name="quote">'</xsl:variable>
-  <xsl:variable name="dquote">"</xsl:variable>
+	<xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
+	<xsl:variable name="quote">'</xsl:variable>
+	<xsl:variable name="dquote">"</xsl:variable>
 
 	<xsl:key name="materials-by-hash" match="Material" use="@hash"/>
 	<xsl:key name="movements-by-location" match="Movement" use="Location"/> 	  
@@ -111,22 +110,12 @@
 		<xsl:param name="gv-filename"/>
 		<xsl:param name="png-filename"/>
 
-			<xsl:text>REM Convert "</xsl:text><xsl:value-of select="$dotml-filename"/>" to "<xsl:value-of select="$png-filename"/><xsl:text>"</xsl:text>
+		<xsl:text>REM Convert "</xsl:text><xsl:value-of select="$dotml-filename"/>" to "<xsl:value-of select="$png-filename"/><xsl:text>"</xsl:text>
 
-			<xsl:value-of select="concat($crlf, $path-nxslt, $dotml-filename, ' ', $path-dotml, ' -o ', $gv-filename)" /> 
-			<xsl:value-of select="concat($crlf, $path-graphviz, $gv-filename, ' ', ' -o ', $dquote, $png-filename, $dquote)" /> 
-
-	</xsl:template>
-	
-	<xsl:template name="command-line">
 		<xsl:value-of select="concat($crlf, $path-nxslt, $dotml-filename, ' ', $path-dotml, ' -o ', $gv-filename)" /> 
+		<xsl:value-of select="concat($crlf, $path-graphviz, $gv-filename, ' ', ' -o ', $dquote, $png-filename, $dquote)" /> 
 	</xsl:template>
-	<!--
-	
-	
-	
-	-->
-	  
+		
 	<xsl:template name="build-sub-hierarchy">
 		<xsl:param name="context"/>
 		<xsl:param name="children"/>
