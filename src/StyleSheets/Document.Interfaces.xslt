@@ -15,6 +15,8 @@
 	<xsl:variable name="document-items" select="//Item[@type = 'Citect.Ampla.General.Server.Document']"/>
 	<xsl:variable name="modules" select="$document-items[generate-id() = generate-id(key('documents-by-module', Property[@name='Module'])[1])]/Property[@name='Module']" />
 
+	<xsl:variable name="p2b-file2ampla" select="//Item[@type='Citect.Ampla.Plant2Business.Server.File2AmplaIntegration']"/>
+	
 	<xsl:template match="/">
 		<html>
 			<head>
@@ -45,6 +47,14 @@
 						<xsl:with-param name="items" select="$dashboard-items"/>
 					</xsl:call-template>	
 				</xsl:if>
+
+				<xsl:if test="count($p2b-file2ampla) > 0">
+					<h2 class="text">Plant2Business File to Ampla integrations(<xsl:value-of select="count($p2b-file2ampla)"/>)</h2>
+					<xsl:call-template name="list-items">
+						<xsl:with-param name="items" select="$p2b-file2ampla"/>
+					</xsl:call-template>	
+				</xsl:if>
+				
 				<xsl:if test="count($document-items) > 0">
 					<xsl:for-each select="$modules">
 						<xsl:apply-templates select="key('documents-by-module', .)">
@@ -55,6 +65,12 @@
 
 				<xsl:if test="count($dashboard-items) > 0">
 					<xsl:apply-templates select="$dashboard-items">
+						<xsl:sort select="@fullName"/>
+					</xsl:apply-templates>	
+				</xsl:if>
+
+				<xsl:if test="count($p2b-file2ampla) > 0">
+					<xsl:apply-templates select="$p2b-file2ampla">
 						<xsl:sort select="@fullName"/>
 					</xsl:apply-templates>	
 				</xsl:if>
