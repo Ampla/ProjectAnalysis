@@ -192,7 +192,11 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-    
+
+	<xsl:template match="Item[@type='Citect.Ampla.Plant2Business.Server.File2AmplaIntegration']" mode="extra-info">
+		<div><img src="{concat('Graphs\', @hash, '.png')}" alt="{concat('File2Ampla image for ', @fullName)}"/></div>
+	</xsl:template>
+  
   <xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode="extra-info">
     <xsl:call-template name="outputFieldsTable"/>
   </xsl:template>

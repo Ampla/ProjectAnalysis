@@ -8,7 +8,8 @@
     doctype-system="http://www.w3.org/TR/html4/strict.dtd"  />
 
 	<xsl:include href="Document.Properties.Common.xslt"/> 
-	
+	<xsl:include href="Document.Properties.ExtraInfo.xslt"/>
+
 	<xsl:key name="documents-by-module" match="Item[@type = 'Citect.Ampla.General.Server.Document']" use="Property[@name='Module']"/>
 	<xsl:variable name="dashboard-items" select="//Item[@type='Citect.Ampla.Metrics.Server.Dashboard']" />
 	
@@ -109,6 +110,7 @@
 		<hr/>
 		<a name="{@hash}"/>
 		<h3 class='text'><xsl:call-template name="getItemFullName"/></h3>
+		<xsl:apply-templates select='.' mode='extra-info'/>
 		<xsl:call-template name="outputItemProperties">
 			<xsl:with-param name="sect">i-sect</xsl:with-param>
 		</xsl:call-template>
