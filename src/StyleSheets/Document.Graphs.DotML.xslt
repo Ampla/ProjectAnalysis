@@ -8,28 +8,29 @@
 
 	<xsl:output method="xml" indent="yes"/>
 	
-	<xsl:param name="path-nxslt"   >..\..\Library\nxslt\nxslt.exe </xsl:param>
-	<xsl:param name="path-graphviz">..\..\Library\GraphViz-2.30.1\bin\dot.exe -Tpng </xsl:param>
-	<xsl:param name="path-dotml"   >..\..\Library\dotml-1.4\dotml2dot.xsl </xsl:param>
+	<xsl:param name="path-nxslt"    >..\..\Library\nxslt\nxslt.exe </xsl:param>
+	<xsl:param name="path-graphviz" >..\..\Library\GraphViz-2.30.1\bin\dot.exe -Tpng </xsl:param>
+	<xsl:param name="path-dotml"    >..\..\Library\dotml-1.4\dotml2dot.xsl </xsl:param>
+	<xsl:param name="path-png"		>..\..\Output\Graphs\</xsl:param>
 
-	<!-- default template to include files -->
-	<xsl:template match='Item[@id]' mode='include'>
-		<!-- Return 'Yes' to include this item as a graph --> 
-	</xsl:template>
-
-	<xsl:template match='Item[@id]' mode='graph'>
-		<xsl:comment>
-			<xsl:value-of select='@fullName'/> <xsl:text> doesn't have a dotml graph template</xsl:text>
-		</xsl:comment>
-	</xsl:template>
-	
 	<xsl:include href='Include.Graphs.Colours.xslt'/>
-	<xsl:include href='Include.Graphs.File2Ampla.xslt'/>	
+	<xsl:include href='Include.Graphs.Defaults.xslt'/>
 	
-	<xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
-	<xsl:variable name="quote">'</xsl:variable>
-	<xsl:variable name="dquote">"</xsl:variable>
+	<!-- specific templates for graphs -->
+	<xsl:include href='Include.Graphs.File2Ampla.xslt'/>	
 
+	<!-- 
+	
+	<xsl:include href='Include.Graphs.<Type>.xslt'/>
+	
+	<xsl:template match="Item[@type='<Type>']" mode='include'>Yes</xsl:template>
+	
+	<xsl:template match="Item[@type='<Type>']" mode="graph">
+		<dotml:graph>
+			...
+		</dotml:graph>
+	</xsl:template>		
+	-->
 	
 	<xsl:template match="/">
 		<xsl:element name="Graphs">
@@ -50,36 +51,13 @@
 						</exsl:document>
 						<xsl:call-template name='output-cmd'/>
 					</xsl:when>
-					<xsl:otherwise>
-						<!--
-							<xsl:comment><xsl:value-of select='@fullName'/> is not a match</xsl:comment>
-						-->
-					</xsl:otherwise>
+					<xsl:otherwise/>
 				</xsl:choose>
 			</xsl:for-each>
 		</xsl:element>
 	</xsl:template>
 	
-	<!-- Default filenames -->
-	<xsl:template match='Item[@id]' mode='get-dotml-filename'>
-		<xsl:param name='name' select='@hash'/>
-		<xsl:value-of select="concat($name, '.dotml')"/>
-	</xsl:template>
 
-	<xsl:template match='Item[@id]' mode='get-gv-filename'>
-		<xsl:param name='name' select='@hash'/>
-		<xsl:value-of select="concat($name, '.gv')"/>
-	</xsl:template>
-
-	<xsl:template match='Item[@id]' mode='get-png-filename'>
-		<xsl:param name='name' select='@hash'/>
-		<xsl:value-of select="concat('..\..\Output\Graphs\', $name, '.png')"/>
-	</xsl:template>
-
-	<xsl:template match='Item[@id]' mode='get-cmd-filename'>
-		<xsl:param name='name' select='@hash'/>
-		<xsl:value-of select="concat($name, '.cmd')"/>
-	</xsl:template>
 	
 	<!--
 		%nxslt% Working\metrics.dotml %dotml%\dotml2dot.xsl -o Working\metrics.gv
@@ -91,14 +69,14 @@
 		<xsl:param name="png-filename"><xsl:apply-templates select='.' mode='get-png-filename'/></xsl:param>
 		<xsl:param name="cmd-filename"><xsl:apply-templates select='.' mode='get-cmd-filename'/></xsl:param>
 		<xsl:variable name='command'>
-			<xsl:text>REM Convert "</xsl:text><xsl:value-of select="$dotml-filename"/>" to "<xsl:value-of select="$png-filename"/><xsl:text>"</xsl:text>
+			<xsl:text>REM Convert "</xsl:text><xsl:value-of select="$dotml-filename"/>" to "<xsl:value-of select="concat($path-png, $png-filename)"/><xsl:text>"</xsl:text>
 			<xsl:value-of select="concat($crlf, $path-nxslt, $dotml-filename, ' ', $path-dotml, ' -o ', $gv-filename)" /> 
-			<xsl:value-of select="concat($crlf, $path-graphviz, $gv-filename, ' ', ' -o ', $dquote, $png-filename, $dquote)" /> 
+			<xsl:value-of select="concat($crlf, $path-graphviz, $gv-filename, ' ', ' -o ', $dquote, $path-png, $png-filename, $dquote)" /> 
 		</xsl:variable>
 		<exsl:document href="{concat('Graphs\', $cmd-filename)}" method="text" >
 			<xsl:value-of select='$command'/>
 		</exsl:document>
-		<Graph input='{$dotml-filename}' output='{$png-filename}'>
+		<Graph input='{$dotml-filename}' output='{concat($path-png, $png-filename)}'>
 			<xsl:value-of select='$command'/>
 		</Graph>
 	</xsl:template>

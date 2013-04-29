@@ -11,7 +11,7 @@
 	</xsl:template>
 	
 	<xsl:template match="Item[@type='Citect.Ampla.Plant2Business.Server.File2AmplaIntegration']" mode='graph'>
-		<xsl:param name="filename"><xsl:call-template name='get-dotml-filename'/></xsl:param>
+		<xsl:param name="filename"/>
 				
 				
 				<!-- Property name="SourceDirectory">

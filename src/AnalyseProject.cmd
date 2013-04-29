@@ -56,7 +56,9 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\inventory.dotml %dotml%\dotml2dot.xsl -o Working\inventory.gv
 %graphviz%\dot.exe -Tpng Working\inventory.gv -o Output\Graphs\Inventory.png
 
-%xsltproc% -o Working\graph.files.xml StyleSheets\Document.Graphs.DotML.xslt Working\project.links.xml 
+cls
+@echo === Graphs ===
+%xsltproc% -o Working\graph.files.xml StyleSheets\Document.Graphs.DotML.xslt Working\project.links.xml
 
 rem %nxslt% Working\inventory.xml StyleSheets\Document.Inventory.Materials.DotML.xslt -o Working\inventory.materials.dotml
 %xsltproc% -o Working\inventory.material.files.xml StyleSheets\Document.Inventory.Materials.DotML.xslt Working\inventory.xml 

@@ -392,6 +392,11 @@ Address = </xsl:text><xsl:value-of select="$address"/>
     </xsl:for-each>
   </xsl:template>
 
+  <xsl:template match="property-value/ItemLink">
+      <div>
+        <xsl:call-template name="resolve-item-link"/>
+      </div>
+  </xsl:template>
 
   <!-- 
                   <DependencyCollection>
