@@ -18,6 +18,7 @@
 	
 	<!-- specific templates for graphs -->
 	<xsl:include href='Include.Graphs.File2Ampla.xslt'/>	
+	<xsl:include href='Include.Graphs.ReportingPoint.xslt'/>	
 
 	<!-- 
 	
