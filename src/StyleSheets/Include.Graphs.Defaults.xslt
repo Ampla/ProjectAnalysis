@@ -34,6 +34,11 @@
 		<!-- Return 'Yes' to include this item as a graph --> 
 	</xsl:template>
 
+	<!-- default graph type-->
+	<xsl:template match='Item[@id]' mode='graph-type'>dot</xsl:template>
+	<!-- default graph options-->
+	<xsl:template match='Item[@id]' mode='graph-options'></xsl:template>
+	
 	<!-- Default template that will output a simple error diagram -->
 	<xsl:template match='Item[@id]' mode='graph'>
 		<xsl:param name='filename'/>
