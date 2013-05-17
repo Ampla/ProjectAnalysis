@@ -4,33 +4,29 @@
 	xmlns:dotml="http://www.martin-loetzsch.de/DOTML" 
 	>
 		
-	<xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
-	<xsl:variable name="quote">'</xsl:variable>
-	<xsl:variable name="dquote">"</xsl:variable>
-	
 	<!-- Default filenames -->
-	<xsl:template match='Item[@id]' mode='get-dotml-filename'>
+	<xsl:template match='Item[@hash]' mode='get-dotml-filename'>
 		<xsl:param name='name' select='@hash'/>
 		<xsl:value-of select="concat($name, '.dotml')"/>
 	</xsl:template>
 
-	<xsl:template match='Item[@id]' mode='get-gv-filename'>
+	<xsl:template match='Item[@hash]' mode='get-gv-filename'>
 		<xsl:param name='name' select='@hash'/>
 		<xsl:value-of select="concat($name, '.gv')"/>
 	</xsl:template>
 
-	<xsl:template match='Item[@id]' mode='get-png-filename'>
+	<xsl:template match='Item[@hash]' mode='get-png-filename'>
 		<xsl:param name='name' select='@hash'/>
 		<xsl:value-of select="concat($name, '.png')"/>
 	</xsl:template>
 
-	<xsl:template match='Item[@id]' mode='get-cmd-filename'>
+	<xsl:template match='Item[@hash]' mode='get-cmd-filename'>
 		<xsl:param name='name' select='@hash'/>
 		<xsl:value-of select="concat($name, '.cmd')"/>
 	</xsl:template>
 	
 	<!-- default template to include files -->
-	<xsl:template match='Item[@id]' mode='include'>
+	<xsl:template match='Item[@hash]' mode='include'>
 		<!-- Return 'Yes' to include this item as a graph --> 
 	</xsl:template>
 

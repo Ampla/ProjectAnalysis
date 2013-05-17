@@ -65,6 +65,12 @@ rem %nxslt% Working\inventory.xml StyleSheets\Document.Inventory.Materials.DotML
 rem %nxslt% Working\inventory.materials.dotml %dotml%\dotml2dot.xsl -o Working\inventory.materials.gv
 rem %graphviz%\dot.exe -Tpng Working\inventory.materials.gv -o Output\Project.Inventory.Materials.png
 
+@echo === Metrics ===
+%nxslt% Working\project.links.xml StyleSheets\Project.Metrics.xslt -o Working\metrics.xml
+%xsltproc% -o Working\metrics.files.xml StyleSheets\Document.Metrics.DotML.xslt Working\metrics.xml 
+%nxslt% Working\metrics.xml StyleSheets\Document.Metrics.Mindmap.xslt -o Output\Project.Metrics.mm
+%nxslt% Working\metrics.xml StyleSheets\Document.Metrics.Report.xslt -o Output\Project.Metrics.html
+
 cd Working\Graphs
 for /F "usebackq" %%i in (`dir /b *.cmd`) DO call %%i
 cd ..\..
@@ -72,14 +78,6 @@ cd ..\..
 @echo === Downtime ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
 %nxslt% Working\downtime.xml StyleSheets\Document.Downtime.xslt -o Output\Project.Downtime.html
-
-@echo === Metrics ===
-%nxslt% Working\project.links.xml StyleSheets\Project.Metrics.xslt -o working\metrics.xml
-%nxslt% Working\metrics.xml StyleSheets\Document.Metrics.Mindmap.xslt -o Output\Project.Metrics.mm
-%nxslt% Working\metrics.xml StyleSheets\Document.Metrics.Report.xslt -o Output\Project.Metrics.html
-%nxslt% Working\metrics.xml StyleSheets\Document.Metrics.DotML.xslt -o Working\metrics.dotml
-%nxslt% Working\metrics.dotml %dotml%\dotml2dot.xsl -o Working\metrics.gv
-%graphviz%\dot.exe -Tpng Working\metrics.gv -o Output\Project.Metrics.png
 
 @echo === Project ===
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
@@ -93,6 +91,5 @@ cd ..\..
 
 %nxslt% Working\project.links.xml StyleSheets\Document.Warnings.xslt -o Output\Warnings.html
 %nxslt% working\project.links.xml StyleSheets\File.ItemId.Fullname.Type.xslt -o Output\Id.Fullname.Type.txt
-
 
 rem pause
