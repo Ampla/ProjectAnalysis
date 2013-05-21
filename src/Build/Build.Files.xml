@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Inputs>
+    <File id="input.project" name="AmplaProject.xml"/>
+    <File id="input.authstore" name="Authstore.xml"/>
+    <Param id="lang">en</Param>
+    <File id="translations" name="en.words.html" mode="optional"/>
+  </Inputs>
+  <Stylesheets>
+    <File id="xslt.project.normalize" name="Project.Normalize.xslt"/>
+    <File id="xslt.project.linkfrom" name="Project.LinkFrom.xslt"/>
+    <File id="xslt.project.linkto" name="Project.LinkTo.xslt"/>
+    <File id="xslt.project.security" name="Project.Security.xslt"/>
+    <File id="xslt.authstore.normalize" name="Authstore.Normalize.xslt"/>
+    <File id="xslt.security" name="Document.Security.xslt"/>
+    <File id="xslt.interfaces" name="Document.Interfaces.xslt"/>
+    <File id="xslt.codeitems" name="Document.CodeItems.xslt"/>
+    <File id="xslt.project.translations" name="Project.Translations.xslt"/>
+    <File id="xslt.document.translations" name="Document.Translations.xslt"/>
+    <File id="xslt.project.inventory" name="Project.Inventory.xslt"/>
+    <File id="dotml.inventory" name="Document.Inventory.DotML.xslt"/>
+    <File id="lib.dotml2dot" name="dotML2dot.xslt"/>
+    <File id="exe.dot" name="dot.exe"/>
+    <File id="xslt.graphs.dotml" name="Document.Graphs.DotML.xslt"/>
+    <File id="dotml.file2Ampla" name="Include.Graphs.File2Ampla.xslt"/>
+    <File id="dotml.reportingpoint" name="Include.Graphs.ReportingPoint.xslt"/>
+    <File id="dotml.project" name="Include.Graphs.Project.xslt"/>
+    <File id="dotml.inventory.materials" name="Document.Inventory.Materials.DotML.xslt"/>
+    <File id="xslt.project.metrics" name="Project.Metrics.xslt"/>
+    <File id="dotml.metrics" name="Document.Metrics.DotML.xslt"/>
+    <File id="xslt.metrics.mindmap" name="Document.Metrics.Mindmap.xslt"/>
+    <File id="xslt.metrics.report" name="Project.Metrics.Report.xslt"/>
+    <File id="xslt.project.downtime" name="Project.Downtime.xslt"/>
+    <File id="xslt.downtime" name="Document.Downtime.xslt"/>
+    <File id="xslt.summary" name="Document.Summary.xslt"/>
+    <File id="xslt.frames" name="Document.Frames.xslt"/>
+    <File id="xslt.hierarchy" name="Document.Hierarchy.xslt"/>
+    <File id="xslt.itemTypes" name="Document.ItemTypes.xslt"/>
+    <File id="xslt.properties" name="Document.Properties.xslt"/>
+    <File id="xslt.warnings" name="Document.Warnings.xslt"/>
+  </Stylesheets>
+  <Section name="Normalize Project file">
+    <Transform id="project.xml" name="project.xml" directory="Working">
+      <Input id-ref="input.project"/>
+      <Stylesheet id-ref="xslt.project.normalize"/>
+      <Param name="language">
+        <value-of select="translations" property="fullpath"/>
+      </Param>
+    </Transform>
+    <Transform id="project.linkFrom.xml" name="project.links.from.xml" directory="Working">
+      <Input id-ref="project.xml"/>
+      <Stylesheet id-ref="xslt.project.linkfrom"/>
+    </Transform>
+    <Transform id="project.link" name="project.links.xml" directory="Working">
+      <Input id-ref="project.linkFrom.xml"/>
+      <Stylesheet id-ref="xslt.project.linkto"/>
+    </Transform>
+  </Section>
+  <Section name="Security">
+    <Transform id="project.security.xml" name="project.security.xml" directory="Working">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.project.security"/>
+    </Transform>
+    <Transform id="authstore.xml" name="authstore.xml" directory="Working">
+      <Input id-ref="input.authstore"/>
+      <Stylesheet id-ref="xslt.authstore.normalize"/>
+      <Param name="projectsecurity" id-ref="project.security.xml"/>
+    </Transform>
+    <Transform id="project.security.html" name="Project.Security.html" directory="Output">
+      <Input id-ref="authstore.xml"/>
+      <Stylesheet id-ref="xslt.security"/>
+    </Transform>
+  </Section>
+  <Section name="Interfaces">
+    <Transform id="project.interfaceas.html" name="Project.Interfaces.html" directory="Output">
+      <Input id-ref="project.xml"/>
+      <Stylesheet id-ref="xslt.interfaces"/>
+    </Transform>
+  </Section>
+  <Section name="Code">
+    <Transform id="project.code.html" name="Project.CodeItems.html" directory="Output">
+      <Input id-ref="project.xml"/>
+      <Stylesheet id-ref="xslt.codeitems"/>
+    </Transform>
+  </Section>
+  <Section name="Translations">
+    <Transform id="translations.upload.html" name="translations.upload.html" directory="Output">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.project.translations"/>
+    </Transform>
+    <Transform id="translations.html" name="translations.html" directory="Output">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.document.translations"/>
+    </Transform>
+  </Section>
+  <Section name="Inventory">
+    <Transform id="inventory.xml" name="inventory.xml" directory="Working">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.project.inventory"/>
+    </Transform>
+    <Transform id="inventory.dotml" name="inventory.dotml" directory="Graph">
+      <Input id-ref="inventory.xml"/>
+      <Stylesheet id-ref="dotml.inventory"/>
+    </Transform>
+    <Transform id="inventory.gv" name="inventory.gv" directory="Graph">
+      <Input id-ref="inventory.dotml"/>
+      <Stylesheet id-ref="lib.dotml2dot"/>
+    </Transform>
+    <Transform id="inventory.png" name="inventory.png" directory="Output">
+      <Input id-ref="inventory.gv"/>
+      <Stylesheet id-ref="exe.dot"/>
+    </Transform>
+    <Transform id="inventory.material.files.xml" name="inventory.material.files.xml" directory="Graph">
+      <Input id-ref="inventory.xml"/>
+      <Stylesheet id-ref="dotml.inventory.materials"/>
+      <Output id="inventory.material.files.dotml" name="Material Diagrams.png" directory="Output"/>
+    </Transform>
+  </Section>
+
+  <Section name="Graphs">
+    <Transform id="graph.files.xml" name="graph.files.xml" directory="Graph">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.graphs.dotml"/>
+      <Stylesheet id-ref="dotml.file2Ampla"/>
+      <Stylesheet id-ref="dotml.reportingpoint"/>
+      <Stylesheet id-ref="dotml.project"/>
+      <Output id="graph.file2Ampla.dotml" name="File2Ampla Graphs.png" directory="Output"/>
+      <Output id="graph.reportingpoint.dotml" name="Reporting Point Graphs.png" directory="Output"/>
+      <Output id="graph.project.dotml" name="Project Graph.png" directory="Output"/>
+    </Transform>
+  </Section>
+
+  <Section name="Metrics">
+    <Transform id="metrics.xml" name="metrics.xml" directory="Working">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.project.metrics"/>
+    </Transform>
+    <Transform id="metrics.files.xml" name="metrics.files.xml" directory="Graph">
+      <Input id-ref="metrics.xml"/>
+      <Stylesheet id-ref="dotml.metrics"/>
+    </Transform>
+    <Transform id="project.metrics.mm" name="Project.Metrics.mm" directory="Output">
+      <Input id-ref="metrics.xml"/>
+      <Stylesheet id-ref="xslt.metrics.mindmap"/>
+    </Transform>
+    <Transform id="project.metrics.report" name="Project.Metrics.html" directory="Output">
+      <Input id-ref="metrics.xml"/>
+      <Stylesheet id-ref="xslt.metrics.report"/>
+    </Transform>
+  </Section>
+
+  <Section name="Downtime">
+    <Transform id="downtime.xml" name="downtime.xml" directory="Working">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.project.downtime"/>
+    </Transform>
+    <Transform id="project.downtime" name="Project.Downtime.html" directory="Output">
+      <Input id-ref="downtime.xml"/>
+      <Stylesheet id-ref="xslt.downtime"/>
+    </Transform>
+  </Section>
+
+  <Section name="Summary">
+    <Transform id="index.html" name="index.html" directory="Output">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.summary"/>
+    </Transform>
+    <Transform id="hierarchy.html" name="hierarchy.html" directory="Output">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.hierarchy"/>
+    </Transform>
+    <Transform id="types.xml" name="types.html" directory="Output">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.itemTypes"/>
+    </Transform>
+    <Transform id="all.xml" name="all.html" directory="Output">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.properties"/>
+    </Transform>
+    <Transform id="warnings.xml" name="Warnings.html" directory="Output">
+      <Input id-ref="project.link"/>
+      <Stylesheet id-ref="xslt.warnings"/>
+    </Transform>
+  </Section>
+</Project>
