@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylesheets", "StyleSheets\Stylesheets.csproj", "{6A6C320A-E54C-4441-B0D2-FE7816EEC1D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3E6B4E5-C430-4575-BF73-7FC4E8919185}"
+	ProjectSection(SolutionItems) = preProject
+		AnalyseProject.cmd = AnalyseProject.cmd
+		Clean.cmd = Clean.cmd
+		Library\dotml-1.4\dotml-1.4.xsd = Library\dotml-1.4\dotml-1.4.xsd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2DC8166D-13E1-4EF1-8BB5-84D943005787}"
+	ProjectSection(SolutionItems) = preProject
+		Build\Build.Diagram.cmd = Build\Build.Diagram.cmd
+		Build\BuildToDotML.xslt = Build\BuildToDotML.xslt
+		Library\dotml-1.4\dotml-1.4.xsd = Library\dotml-1.4\dotml-1.4.xsd
+		Build\RequiredFiles.xml = Build\RequiredFiles.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A6C320A-E54C-4441-B0D2-FE7816EEC1D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6C320A-E54C-4441-B0D2-FE7816EEC1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6C320A-E54C-4441-B0D2-FE7816EEC1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6C320A-E54C-4441-B0D2-FE7816EEC1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

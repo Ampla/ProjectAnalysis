@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6A6C320A-E54C-4441-B0D2-FE7816EEC1D0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Stylesheets</RootNamespace>
+    <AssemblyName>Stylesheets</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Authstore.Normalize.xslt" />
+    <Content Include="Common.Graphs.DotML.xslt" />
+    <Content Include="Document.Browser.Testing.xslt" />
+    <Content Include="Document.Browser.xslt" />
+    <Content Include="Document.CodeItems.xslt" />
+    <Content Include="Document.Common.xslt" />
+    <Content Include="Document.Downtime.xslt" />
+    <Content Include="Document.Frames.xslt" />
+    <Content Include="Document.Graphs.DotML.xslt" />
+    <Content Include="Document.Hierarchy.xslt" />
+    <Content Include="Document.Interfaces.xslt" />
+    <Content Include="Document.Inventory.DotML.xslt" />
+    <Content Include="Document.Inventory.Materials.DotML.xslt" />
+    <Content Include="Document.ItemTypes.xslt" />
+    <Content Include="Document.Metrics.DotML.xslt" />
+    <Content Include="Document.Metrics.Mindmap.xslt" />
+    <Content Include="Document.Metrics.Report.xslt" />
+    <Content Include="Document.Metrics.xslt" />
+    <Content Include="Document.OleDb.xslt" />
+    <Content Include="Document.Properties.Common.xslt" />
+    <Content Include="Document.Properties.ExtraInfo.xslt" />
+    <Content Include="Document.Properties.xslt" />
+    <Content Include="Document.Security.Text.xslt" />
+    <Content Include="Document.Security.xslt" />
+    <Content Include="Document.Summary.xslt" />
+    <Content Include="Document.Translations.xslt" />
+    <Content Include="Document.Warnings.xslt" />
+    <Content Include="File.ItemId.Fullname.Type.xslt" />
+    <Content Include="FormatStrings.xml" />
+    <Content Include="Ignore.Include.Graphs.Metrics.xslt" />
+    <Content Include="Include.Graphs.Colours.xslt" />
+    <Content Include="Include.Graphs.Defaults.xslt" />
+    <Content Include="Include.Graphs.File2Ampla.xslt" />
+    <Content Include="Include.Graphs.Project.xslt" />
+    <Content Include="Include.Graphs.ReportingPoint.xslt" />
+    <Content Include="Project.Downtime.xslt" />
+    <Content Include="Project.Equipment.xslt" />
+    <Content Include="Project.Flow.xslt" />
+    <Content Include="Project.Inventory.xslt" />
+    <Content Include="Project.LinkFrom.xslt" />
+    <Content Include="Project.LinkTo.xslt" />
+    <Content Include="Project.Metrics.xslt" />
+    <Content Include="Project.Mindmap%280.8.1%29.xslt" />
+    <Content Include="Project.Normalize.xslt" />
+    <Content Include="Project.OLEDB.xslt" />
+    <Content Include="Project.RDF.xslt" />
+    <Content Include="Project.Security.xslt" />
+    <Content Include="Project.Translations.xslt" />
+    <Content Include="Translate.Project.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Freemind.xsc">
+      <DependentUpon>Freemind.xsd</DependentUpon>
+    </None>
+    <None Include="Freemind.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Freemind.xss">
+      <DependentUpon>Freemind.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
