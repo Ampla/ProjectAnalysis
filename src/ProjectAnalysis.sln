@@ -13,9 +13,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2DC8166D-13E1-4EF1-8BB5-84D943005787}"
 	ProjectSection(SolutionItems) = preProject
 		Build\Build.Diagram.cmd = Build\Build.Diagram.cmd
+		Build\Build.Files.xml = Build\Build.Files.xml
 		Build\BuildToDotML.xslt = Build\BuildToDotML.xslt
 		Library\dotml-1.4\dotml-1.4.xsd = Library\dotml-1.4\dotml-1.4.xsd
-		Build\RequiredFiles.xml = Build\RequiredFiles.xml
 	EndProjectSection
 EndProject
 Global
