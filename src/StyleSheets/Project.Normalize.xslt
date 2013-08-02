@@ -596,6 +596,16 @@
     </xsl:copy>
   </xsl:template>
   
+  <xsl:template match="Property[@name='ParameterGroups']">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:call-template name="csvToItemLink">
+        <xsl:with-param name="value" select="."/>
+      </xsl:call-template>
+    </xsl:copy>
+  </xsl:template>
+
+  
   <xsl:template match="Property[contains(@name, 'Subscription')]">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>

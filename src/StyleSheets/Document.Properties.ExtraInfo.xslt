@@ -221,6 +221,14 @@
     </xsl:call-template>
   </xsl:template>
 
+   <xsl:template match="Item[@type='Citect.Ampla.Planning.Recipe.Server.RecipeParameterGroup']" mode="extra-info">
+    <xsl:call-template name="outputPropertyTable">
+      <xsl:with-param name="heading" select='@name'/>
+	  <xsl:with-param name="includeType">false</xsl:with-param>
+	  <xsl:with-param name="namePrefix" select="concat(@name, '.')"/>
+    </xsl:call-template>
+  </xsl:template>
+  
   <xsl:template match="Item[@type='Citect.Ampla.Connectors.Simulation.SimulationGroup']" mode="extra-info">
     <xsl:call-template name="outputPropertyTable">
       <xsl:with-param name="heading">Variables</xsl:with-param>
@@ -297,6 +305,7 @@
     <xsl:param name="item-id" select="@id"/>
     <xsl:param name="properties" select="Item[@id]/Property[generate-id()= generate-id(key('properties-by-name', concat($item-id, '-', @name))[1])]"/>
     <xsl:param name="includeType">true</xsl:param>
+	<xsl:param name="namePrefix"></xsl:param>
 
     <xsl:if test="($includeExtraInfo='true') and (count($items)>0)">
       <xsl:variable name="includeChildren" select="count($items/Item[@id])>0"/>
@@ -340,7 +349,7 @@
               </td>
               <td class="p-val">
                 <xsl:call-template name="item-href">
-                  <xsl:with-param name="name" select="@name"/>
+                  <xsl:with-param name="name" select="concat($namePrefix, @name)"/>
                   <xsl:with-param name="site"></xsl:with-param>
                 </xsl:call-template>
               </td>
