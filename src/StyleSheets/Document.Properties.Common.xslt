@@ -574,6 +574,66 @@ Address = </xsl:text><xsl:value-of select="$address"/>
     </table>
   </xsl:template>
 
+  <xsl:template match="Property[@type='Citect.Ampla.General.Common.SpecificationDescriptorCollection,Citect.Ampla.General.Common']">
+    <table>
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Colour</th>
+        </tr>
+        <xsl:for-each select="Item">
+          <tr>
+            <td>
+              <xsl:value-of select="Property[@name='Name']"/>
+            </td>
+            <td>
+              <xsl:value-of select="Property[@name='Color']"/>
+            </td>
+          </tr>
+        </xsl:for-each>
+      </tbody>
+    </table>
+  </xsl:template>
+  
+<!--
+  <Property name="Specifications">
+    <Property collection="true" type="Citect.Ampla.General.Common.SpecificationDescriptorCollection,Citect.Ampla.General.Common">
+      <Property name="Capacity">8</Property>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">Red</Property>
+        <Property name="Name">Warning</Property>
+      </Item>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">Orange</Property>
+        <Property name="Name">Danger</Property>
+      </Item>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">SaddleBrown</Property>
+        <Property name="Name">Critical</Property>
+      </Item>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">Green</Property>
+        <Property name="Name">Acceptable</Property>
+      </Item>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">Yellow</Property>
+        <Property name="Name">Still Acceptable</Property>
+      </Item>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">Red</Property>
+        <Property name="Name">BT Critical</Property>
+      </Item>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">DarkOliveGreen</Property>
+        <Property name="Name">BT Warning</Property>
+      </Item>
+      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
+        <Property name="Color">PaleGreen</Property>
+        <Property name="Name">OK</Property>
+      </Item>
+    </Property>
+  </Property>
+-->
 
   <xsl:template match="property-value[text()]">
     <xsl:variable name="item" select="key('items-by-fullName', text())"/>
