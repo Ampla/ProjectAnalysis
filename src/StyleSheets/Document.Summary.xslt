@@ -97,6 +97,8 @@
               <xsl:when test="contains(@type,'Planning')">planning</xsl:when>
               <xsl:when test="contains(@type,'Cost')">cost</xsl:when>
               <xsl:when test="contains(@type,'View')">view</xsl:when>
+              <xsl:when test="contains(@type,'Lot')">inventory</xsl:when>
+              <xsl:otherwise>folder</xsl:otherwise>
             </xsl:choose>
           </xsl:variable>
           <div title="{@fullName}">
