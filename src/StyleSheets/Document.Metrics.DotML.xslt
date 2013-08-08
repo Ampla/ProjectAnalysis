@@ -85,7 +85,9 @@
 	<xsl:variable name="kpi-hash" select="@hash"/>
     <dotml:cluster id="cl_{@kpi-hash}" style="dotted"> 
 	<dotml:node id="{$kpi-hash}" label="{@name}" style="filled" fillcolor="#87D200"/>
-	<dotml:record> 
+	<dotml:record>
+    <xsl:variable name="formula" select="concat(Formula/@name, ' = ', Formula/text())"/>
+    <dotml:node id="{concat('f_', @hash)}" label="{$formula}"/>
 		<xsl:for-each select="Resolver">
 			<dotml:node id="{@hash}" label="{@name}" style="filled" fillcolor="#2FB4E9"/>
 		</xsl:for-each>
