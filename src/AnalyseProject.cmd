@@ -5,7 +5,7 @@ set authstore=AuthStore.xml
 xcopy External\lib Output\lib /E /Y /I 
 xcopy External\css Output\css /E /Y /I 
 xcopy External\images Output\images /E /Y /I 
-xcopy Library\bootstrap Output\bootstrap /E /Y /I
+xcopy "Library\bootstrap 2.3.2" Output\bootstrap /E /Y /I
 xcopy "Library\jquery 1.10.2" Output\jquery /E /Y /I
 
 if EXIST Working goto Working_exists
