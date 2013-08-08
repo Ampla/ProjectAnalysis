@@ -5,7 +5,8 @@ set authstore=AuthStore.xml
 xcopy External\lib Output\lib /E /Y /I 
 xcopy External\css Output\css /E /Y /I 
 xcopy External\images Output\images /E /Y /I 
-xcopy External\Graphs Output\Graphs /E /Y /I
+xcopy Library\bootstrap Output\bootstrap /E /Y /I
+xcopy "Library\jquery 1.10.2" Output\jquery /E /Y /I
 
 if EXIST Working goto Working_exists
 mkdir Working
@@ -26,6 +27,10 @@ rem set lang=pt-br
 rem set language=..\zh-chs.html
 rem set lang=zh-chs
 
+if EXIST Output\Graphs goto graphs_exists
+mkdir Output\Graphs
+:graphs_exists
+
 del Working\Graphs\*.* /Q
 del Output\Graphs\*.* /Q
 
@@ -38,6 +43,12 @@ del Output\Graphs\*.* /Q
 @echo === Security ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Security.xslt -o Working\project.security.xml
 %nxslt% %authstore% StyleSheets\Authstore.Normalize.xslt -o Working\authstore.xml projectSecurity=..\Working\project.security.xml
+
+@echo === Bootstrap ===
+%nxslt% Working\project.links.xml       StyleSheets\Bootstrap.ReportingPoints.xslt  -o Output\Bootstrap.Modules.html
+%nxslt% Working\project.links.xml       StyleSheets\Bootstrap.CodeItems.xslt		-o Output\Bootstrap.CodeItems.html
+%nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Planning.xslt			-o Output\Bootstrap.Planning.html
+
 
 @echo === Interfaces ===
 %nxslt% Working\project.xml       StyleSheets\Document.Interfaces.xslt  -o Output\Project.Interfaces.html
