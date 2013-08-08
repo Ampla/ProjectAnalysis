@@ -35,7 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Authstore.Normalize.xslt" />
+    <Content Include="Bootstrap.Planning.xslt" />
     <Content Include="Common.Graphs.DotML.xslt" />
+    <Content Include="Bootstrap.ReportingPoints.xslt" />
+    <Content Include="Bootstrap.CodeItems.xslt" />
+    <Content Include="Bootstrap.Common.xslt" />
     <Content Include="Document.Browser.Testing.xslt" />
     <Content Include="Document.Browser.xslt" />
     <Content Include="Document.CodeItems.xslt" />
@@ -85,14 +89,8 @@
     <Content Include="Translate.Project.xslt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Freemind.xsc">
-      <DependentUpon>Freemind.xsd</DependentUpon>
-    </None>
     <None Include="Freemind.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Freemind.xss">
-      <DependentUpon>Freemind.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
