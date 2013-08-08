@@ -595,46 +595,6 @@ Address = </xsl:text><xsl:value-of select="$address"/>
     </table>
   </xsl:template>
   
-<!--
-  <Property name="Specifications">
-    <Property collection="true" type="Citect.Ampla.General.Common.SpecificationDescriptorCollection,Citect.Ampla.General.Common">
-      <Property name="Capacity">8</Property>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">Red</Property>
-        <Property name="Name">Warning</Property>
-      </Item>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">Orange</Property>
-        <Property name="Name">Danger</Property>
-      </Item>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">SaddleBrown</Property>
-        <Property name="Name">Critical</Property>
-      </Item>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">Green</Property>
-        <Property name="Name">Acceptable</Property>
-      </Item>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">Yellow</Property>
-        <Property name="Name">Still Acceptable</Property>
-      </Item>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">Red</Property>
-        <Property name="Name">BT Critical</Property>
-      </Item>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">DarkOliveGreen</Property>
-        <Property name="Name">BT Warning</Property>
-      </Item>
-      <Item type="Citect.Ampla.General.Common.SpecificationDescriptor,Citect.Ampla.General.Common">
-        <Property name="Color">PaleGreen</Property>
-        <Property name="Name">OK</Property>
-      </Item>
-    </Property>
-  </Property>
--->
-
   <xsl:template match="property-value[text()]">
     <xsl:variable name="item" select="key('items-by-fullName', text())"/>
     <xsl:choose>

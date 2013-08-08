@@ -3,7 +3,7 @@
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 				xmlns:dotml="http://www.martin-loetzsch.de/DOTML" 
 				xmlns:exsl="http://exslt.org/common"
-                extension-element-prefixes="exsl"				
+        extension-element-prefixes="exsl"				
 				>
 
 	<xsl:output method="xml" indent="yes"/>
