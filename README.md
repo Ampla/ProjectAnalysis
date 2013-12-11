@@ -15,3 +15,7 @@ Follow the instructions below to generate your HTML report:
 4. View the output by opening `index.html` located in the `Output` folder.
 
 5. Run `Clean.cmd` to remove the existing output before running another project analysis.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Ampla/projectanalysis/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
