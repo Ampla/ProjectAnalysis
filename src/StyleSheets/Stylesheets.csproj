@@ -40,6 +40,7 @@
     <Content Include="Bootstrap.ReportingPoints.xslt" />
     <Content Include="Bootstrap.CodeItems.xslt" />
     <Content Include="Bootstrap.Common.xslt" />
+    <Content Include="Bootstrap.Variables.xslt" />
     <Content Include="Document.Browser.Testing.xslt" />
     <Content Include="Document.Browser.xslt" />
     <Content Include="Document.CodeItems.xslt" />

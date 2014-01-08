@@ -39,6 +39,12 @@
                 <a href="Bootstrap.CodeItems.html">Code Items</a>
               </li>
               <li>
+                <xsl:if test="$tab='Variables'">
+                  <xsl:attribute name="class">active</xsl:attribute>
+                </xsl:if>
+                <a href="Bootstrap.Variables.html">Variables</a>
+              </li>
+              <li>
                 <xsl:if test="$tab='Metrics'">
                   <xsl:attribute name="class">active</xsl:attribute>
                 </xsl:if>
@@ -86,6 +92,11 @@
     <!-- default badge template is none -->
   </xsl:template>
 
+  <xsl:template match="*" mode="badge-position">
+    <!-- default badge position is pull-right -->
+    <xsl:text>pull-right</xsl:text>
+  </xsl:template>
+
   <xsl:template name="item-badge">
     <xsl:param name="text">0</xsl:param>
     <xsl:param name="color">green</xsl:param>
@@ -94,8 +105,10 @@
         <xsl:when test="$color = 'grey'"></xsl:when>
         <xsl:when test="$color = 'gray'"></xsl:when>
         <xsl:when test="$color = 'green'">badge-success</xsl:when>
-        <xsl:when test="$color = 'red'">badge-warning</xsl:when>
+        <xsl:when test="$color = 'orange'">badge-warning</xsl:when>
+        <xsl:when test="$color = 'red'">badge-important</xsl:when>
         <xsl:when test="$color = 'blue'">badge-info</xsl:when>
+        <xsl:when test="$color = 'black'">badge-inverse</xsl:when>
         <xsl:otherwise>badge-success</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -108,14 +121,49 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template name="item-label">
+    <xsl:param name="text">0</xsl:param>
+    <xsl:param name="color">green</xsl:param>
+    <xsl:variable name="label-class">
+      <xsl:choose>
+        <xsl:when test="$color = 'grey'"></xsl:when>
+        <xsl:when test="$color = 'gray'"></xsl:when>
+        <xsl:when test="$color = 'green'">label-success</xsl:when>
+        <xsl:when test="$color = 'orange'">label-warning</xsl:when>
+        <xsl:when test="$color = 'red'">label-important</xsl:when>
+        <xsl:when test="$color = 'blue'">label-info</xsl:when>
+        <xsl:when test="$color = 'black'">label-inverse</xsl:when>
+        <xsl:otherwise>label-success</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:element name="span">
+      <xsl:attribute name="class">
+        <xsl:text>label </xsl:text>
+        <xsl:value-of select="$label-class"/>
+      </xsl:attribute>
+      <xsl:value-of select="$text"/>
+    </xsl:element>
+  </xsl:template>
+
   <xsl:template match="Item[@fullName]" mode="list-item">
     <i class="icon-plus"/>
     <xsl:text> </xsl:text>
     <xsl:value-of select="@fullName"/>
     <xsl:text> </xsl:text>
-    <span class="pull-right">
-      <xsl:apply-templates mode="badge" select="."/>
-    </span>
+
+    <xsl:variable name="badge-position">
+      <xsl:apply-templates select="." mode="badge-position"/>
+    </xsl:variable>
+
+    <xsl:variable name="badge">
+      <xsl:apply-templates select="." mode="badge"/>
+    </xsl:variable>
+
+    <xsl:if test="string-length($badge > 0)">
+      <span class="{$badge-position}">
+        <xsl:apply-templates mode="badge" select="."/>
+      </span>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="Item[@fullName]" mode="collapse-details">

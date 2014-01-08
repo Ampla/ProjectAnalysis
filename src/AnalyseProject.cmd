@@ -49,6 +49,8 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.CodeItems.xslt		-o Output\Bootstrap.CodeItems.html
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Planning.xslt			-o Output\Bootstrap.Planning.html
 
+@echo === Variables ===
+%nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
 
 @echo === Interfaces ===
 %nxslt% Working\project.xml       StyleSheets\Document.Interfaces.xslt  -o Output\Project.Interfaces.html
