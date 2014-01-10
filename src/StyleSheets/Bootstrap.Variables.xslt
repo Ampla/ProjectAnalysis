@@ -15,13 +15,6 @@
 
   <xsl:variable name="variable-types" select="/Project/Reference/Type[contains(@name, 'Variable')]"/>
   
-  <!--
-	<xsl:variable name="opc-hda" select="//Item[@type = 'Citect.Ampla.Connectors.OpcHdaConnector.OpcHdaVariable']"/>
-	<xsl:variable name="opc-da" select="//Item[@type = 'Citect.Ampla.Connectors.OpcDaConnector.OpcDaVariable']"/>
-  <xsl:variable name="scada" select="//Item[@type = 'Citect.Ampla.Connectors.ScadaConnector.ScadaVariable']"/>
-  <xsl:variable name="calculated" select="//Item[@type = 'Citect.Ampla.StandardItems.CalculatedVariable']"/>
-  <xsl:variable name="stored" select="//Item[@type = 'Citect.Ampla.StandardItems.StoredVariable']"/>
--->
   <xsl:template match="/">
     <html lang="en">
       <head>

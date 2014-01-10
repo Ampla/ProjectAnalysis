@@ -170,42 +170,35 @@
     <xsl:variable name="properties" select="Property"/>
     <xsl:variable name="items" select="Item"/>
 
-    <xsl:choose>
-      <xsl:when test="count($items) > 0">
-        <table>
-          <tbody>
+    <xsl:if test="count($properties) > 0">
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <xsl:for-each select="$properties">
             <tr>
+              <th>
+                <xsl:value-of select="@name"/>
+              </th>
               <td>
-                <xsl:call-template name="list-item-with-details-collapsed">
-                  <xsl:with-param name="items" select="Item"/>
-                </xsl:call-template>
+                <xsl:apply-templates select="." />
               </td>
             </tr>
-          </tbody>
-        </table>
-      </xsl:when>
-      <xsl:when test="count($properties) > 0">
-        <table class="table table-bordered table-hover">
-          <tbody>
-            <xsl:for-each select="$properties">
-              <tr>
-                <th>
-                  <xsl:value-of select="@name"/>
-                </th>
-                <td>
-                  <xsl:apply-templates select="." />
-                </td>
-              </tr>
-            </xsl:for-each>
-          </tbody>
-        </table>
-      </xsl:when>
-      <xsl:otherwise>
-
-      </xsl:otherwise>
-    </xsl:choose>
-
-
+          </xsl:for-each>
+        </tbody>
+      </table>
+    </xsl:if>
+    <xsl:if test="count($items) > 0">
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <xsl:call-template name="list-item-with-details-collapsed">
+                <xsl:with-param name="items" select="Item"/>
+              </xsl:call-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="list-item-with-details-collapsed">
