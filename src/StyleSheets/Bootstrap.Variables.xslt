@@ -124,10 +124,28 @@
         <xsl:otherwise>grey</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    
+
+    <xsl:variable name="links" select="key('all-items-by-id', linkTo/link/@id)"/>
+
+    <xsl:variable name="links-count" select="count($links)"/>
+
+    <xsl:variable name="links-color">
+      <xsl:choose>
+        <xsl:when test="$links-count > 0">green</xsl:when>
+        <xsl:otherwise>grey</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:text> </xsl:text>
+
     <xsl:call-template name="item-label">
       <xsl:with-param name="text" select="$data-type"/>
       <xsl:with-param name="color" select="$color"/>
+    </xsl:call-template>
+
+    <xsl:call-template name="item-badge">
+      <xsl:with-param name="text" select="$links-count"/>
+      <xsl:with-param name="color" select="$links-color"/>
     </xsl:call-template>
   </xsl:template>
 

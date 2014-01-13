@@ -6,6 +6,7 @@
   <xsl:variable name="cr" select="'&#xD;'"/>
 
   <xsl:key name="all-items-by-type" match="Item[@type]" use="@type"/>
+  <xsl:key name="all-items-by-id" match="Item[@type]" use="@id"/>
 
   <xsl:template name="build-menu">
     <xsl:param name="tab"></xsl:param>
@@ -166,9 +167,12 @@
     </xsl:if>
   </xsl:template>
 
+
   <xsl:template match="Item[@fullName]" mode="collapse-details">
+    <xsl:param name="render-links">true</xsl:param>
     <xsl:variable name="properties" select="Property"/>
     <xsl:variable name="items" select="Item"/>
+    <xsl:variable name="links" select="key('all-items-by-id', linkTo/link/@id)" />
 
     <xsl:if test="count($properties) > 0">
       <table class="table table-bordered table-hover">
@@ -186,13 +190,21 @@
         </tbody>
       </table>
     </xsl:if>
+    <xsl:if test="$render-links = 'true'">
+      <xsl:if test="count($links) > 0">
+        <xsl:call-template name="list-links-with-details-collapsed">
+          <xsl:with-param name="items" select="$links"/>
+          <xsl:with-param name="prefix" select="concat(@hash, '_', position(), '_')"/>
+        </xsl:call-template>
+      </xsl:if>
+    </xsl:if>
     <xsl:if test="count($items) > 0">
       <table>
         <tbody>
           <tr>
             <td>
               <xsl:call-template name="list-item-with-details-collapsed">
-                <xsl:with-param name="items" select="Item"/>
+                <xsl:with-param name="items" select="$items"/>
               </xsl:call-template>
             </td>
           </tr>
@@ -214,7 +226,53 @@
       <div id="{$div-id}" class="collapse">
         <xsl:apply-templates select="." mode="collapse-details">
           <xsl:with-param name="data-target" select="$div-id"/>
+          <xsl:with-param name="render-links">true</xsl:with-param>
         </xsl:apply-templates>
+      </div>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="Item[@fullName]" mode="list-link">
+    <div class="well">
+      <i class="icon-arrow-right"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="@fullName"/>
+      <xsl:text> </xsl:text>
+
+      <xsl:variable name="badge-position">
+        <xsl:apply-templates select="." mode="badge-position"/>
+      </xsl:variable>
+
+      <xsl:variable name="badge">
+        <xsl:apply-templates select="." mode="badge"/>
+      </xsl:variable>
+
+      <xsl:if test="string-length($badge > 0)">
+        <span class="{$badge-position}">
+          <xsl:apply-templates mode="badge" select="."/>
+        </span>
+      </xsl:if>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="list-links-with-details-collapsed">
+    <xsl:param name="items"/>
+    <xsl:param name="prefix"></xsl:param>
+
+    <xsl:for-each select="$items">
+      <xsl:sort select="@fullName"/>
+      <xsl:variable name="div-id" select="concat($prefix, @hash, '_data')"/>
+
+      <div class="offset1">
+        <div id="{concat($prefix, @hash)}" data-toggle="collapse" data-target="{concat('#', $div-id)}">
+          <xsl:apply-templates select="." mode="list-link"/>
+        </div>
+        <div id="{$div-id}" class="collapse">
+          <xsl:apply-templates select="." mode="collapse-details">
+            <xsl:with-param name="data-target" select="$div-id"/>
+            <xsl:with-param name="render-links">false</xsl:with-param>
+          </xsl:apply-templates>
+        </div>
       </div>
     </xsl:for-each>
   </xsl:template>
