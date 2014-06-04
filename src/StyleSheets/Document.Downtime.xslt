@@ -21,9 +21,9 @@
   <xsl:key name="matrix-by-classification" match="Matrix" use="@classification"/>
   <xsl:key name="matrix-by-effect" match="Matrix" use="@effect"/>
 
-  <xsl:variable name="causes" select="/Project/Cause"/>
-  <xsl:variable name="classifications" select="/Project/Classification"/>
-  <xsl:variable name="effects" select="/Project/Effect"/>
+  <xsl:variable name="causes" select="/Project/Causes/Cause"/>
+  <xsl:variable name="classifications" select="/Project/Classifications/Classification"/>
+  <xsl:variable name="effects" select="/Project/Effects/Effect"/>
   <xsl:variable name="equipmentTypes" select="/Project/EquipmentType"/>
   <xsl:variable name="relationshipMatrixs" select="/Project/EquipmentType/RelationshipMatrix/Matrix"/>
 

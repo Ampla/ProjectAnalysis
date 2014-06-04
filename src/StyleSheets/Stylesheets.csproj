@@ -39,15 +39,21 @@
     <Content Include="Common.Graphs.DotML.xslt" />
     <Content Include="Bootstrap.ReportingPoints.xslt" />
     <Content Include="Bootstrap.CodeItems.xslt" />
-    <Content Include="Bootstrap.Common.xslt" />
-    <Content Include="Bootstrap.Variables.xslt" />
+    <Content Include="Bootstrap.Common.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Bootstrap.Variables.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Browser.Testing.xslt" />
     <Content Include="Document.Browser.xslt" />
     <Content Include="Document.CodeItems.xslt" />
     <Content Include="Document.Common.xslt" />
     <Content Include="Document.Downtime.xslt" />
     <Content Include="Document.Frames.xslt" />
-    <Content Include="Document.Graphs.DotML.xslt" />
+    <Content Include="Document.Graphs.DotML.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Hierarchy.xslt" />
     <Content Include="Document.Interfaces.xslt" />
     <Content Include="Document.Inventory.DotML.xslt" />
@@ -70,7 +76,9 @@
     <Content Include="FormatStrings.xml" />
     <Content Include="Ignore.Include.Graphs.Metrics.xslt" />
     <Content Include="Include.Graphs.Colours.xslt" />
-    <Content Include="Include.Graphs.Defaults.xslt" />
+    <Content Include="Include.Graphs.Defaults.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Include.Graphs.File2Ampla.xslt" />
     <Content Include="Include.Graphs.Project.xslt" />
     <Content Include="Include.Graphs.ReportingPoint.xslt" />

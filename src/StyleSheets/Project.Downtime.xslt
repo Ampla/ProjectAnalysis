@@ -10,6 +10,15 @@
   <xsl:variable name="semi-colon">;</xsl:variable>
   <xsl:variable name="no-effect">&lt;NULL&gt;</xsl:variable>
 
+  <xsl:key name="causes-by-id" match="Item[@type='Citect.Ampla.General.Server.CauseCode']" use="Property[@name='CauseCodeID']"/>
+  <xsl:key name="causes-by-name" match="Item[@type='Citect.Ampla.General.Server.CauseCode']" use="@name"/>
+
+  <xsl:key name="classifications-by-id" match="Item[@type='Citect.Ampla.General.Server.Classification']" use="Property[@name='ClassificationID']"/>
+  <xsl:key name="classifications-by-name" match="Item[@type='Citect.Ampla.General.Server.Classification']" use="@name"/>
+
+  <xsl:key name="effects-by-id" match="Item[@type='Citect.Ampla.General.Server.Effect']" use="Property[@name='EffectID']"/>
+  <xsl:key name="effects-by-name" match="Item[@type='Citect.Ampla.General.Server.Effect']" use="@name"/>
+
   <xsl:template match="/">
     <xsl:apply-templates select="Project"/>
   </xsl:template>
@@ -25,80 +34,136 @@
   </xsl:template>
 
   <xsl:template name="buildCauseCodes">
-    <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.CauseCode']">
-      <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
-      <xsl:sort select="@name"/>
-      <xsl:element name="Cause">
-        <xsl:apply-templates select="@hash"/>
-        <xsl:apply-templates select="@name"/>
-        <xsl:apply-templates select="@translation"/>
-        <xsl:apply-templates select="@fullName"/>
-        <xsl:apply-templates select="@id"/>
-        <xsl:attribute name="cause">
-          <xsl:choose>
-            <xsl:when test="Property[@name='CauseCodeID']">
-              <xsl:value-of select="Property[@name='CauseCodeID']"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:text>none</xsl:text>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:attribute>
-      </xsl:element>
-    </xsl:for-each>
+    <xsl:element name="Causes">
+      <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.CauseCode']">
+        <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
+        <xsl:sort select="@name"/>
+        <xsl:element name="Cause">
+          <xsl:apply-templates select="@hash"/>
+          <xsl:apply-templates select="@name"/>
+          <xsl:apply-templates select="@translation"/>
+          <xsl:apply-templates select="@fullName"/>
+          <xsl:apply-templates select="@id"/>
+          <xsl:attribute name="cause">
+            <xsl:choose>
+              <xsl:when test="Property[@name='CauseCodeID']">
+                <xsl:value-of select="Property[@name='CauseCodeID']"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>none</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:attribute>
+          <xsl:variable name="same-names" select="key('causes-by-name', @name)"/>
+          <xsl:variable name="same-ids" select="key('causes-by-id', Property[@name='CauseCodeID'])"/>
+
+          <xsl:if test="count($same-names) > 1">
+            <xsl:element name="Message">
+              <xsl:attribute name="text">
+                <xsl:text>Duplicate cause: </xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:value-of select="concat(' ', count($same-names), ' causes')"/>
+              </xsl:attribute>
+              <xsl:attribute name="level">error</xsl:attribute>
+            </xsl:element>
+          </xsl:if>
+
+          <xsl:if test="count($same-ids) > 1">
+            <xsl:element name="Message">
+              <xsl:attribute name="text">
+                <xsl:text>Duplicate Cause Code Id: </xsl:text>
+                <xsl:value-of select="Property[@name='CauseCodeID']"/>
+                <xsl:value-of select="concat(' ', count($same-ids), ' causes')"/>
+              </xsl:attribute>
+              <xsl:attribute name="level">error</xsl:attribute>
+            </xsl:element>
+          </xsl:if>
+
+        </xsl:element>
+      </xsl:for-each>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template name="buildClassifications">
-    <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.Classification']">
-      <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
-      <xsl:sort select="@name"/>
-      <xsl:element name="Classification">
-        <xsl:apply-templates select="@hash"/>
-        <xsl:apply-templates select="@name"/>
-        <xsl:apply-templates select="@translation"/>
-        <xsl:apply-templates select="@fullName"/>
-        <xsl:apply-templates select="@id"/>
-        <xsl:attribute name="classification">
-          <xsl:choose>
-            <xsl:when test="Property[@name='ClassificationID']">
-              <xsl:value-of select="Property[@name='ClassificationID']"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:text>none</xsl:text>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:attribute>
-      </xsl:element>
-    </xsl:for-each>
+    <xsl:element name="Classifications">
+      <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.Classification']">
+        <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
+        <xsl:sort select="@name"/>
+        <xsl:element name="Classification">
+          <xsl:apply-templates select="@hash"/>
+          <xsl:apply-templates select="@name"/>
+          <xsl:apply-templates select="@translation"/>
+          <xsl:apply-templates select="@fullName"/>
+          <xsl:apply-templates select="@id"/>
+          <xsl:attribute name="classification">
+            <xsl:choose>
+              <xsl:when test="Property[@name='ClassificationID']">
+                <xsl:value-of select="Property[@name='ClassificationID']"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>none</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:attribute>
+          <xsl:variable name="same-names" select="key('classifications-by-name', @name)"/>
+          <xsl:variable name="same-ids" select="key('classifications-by-id', Property[@name='ClassificationID'])"/>
+
+          <xsl:if test="count($same-names) > 1">
+            <xsl:element name="Message">
+              <xsl:attribute name="text">
+                <xsl:text>Duplicate classification: </xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:value-of select="concat(' ', count($same-names), ' classifications')"/>
+              </xsl:attribute>
+              <xsl:attribute name="level">error</xsl:attribute>
+            </xsl:element>
+          </xsl:if>
+
+          <xsl:if test="count($same-ids) > 1">
+            <xsl:element name="Message">
+              <xsl:attribute name="text">
+                <xsl:text>Duplicate Classification Id: </xsl:text>
+                <xsl:value-of select="Property[@name='ClassificationID']"/>
+                <xsl:value-of select="concat(' ', count($same-ids), ' classifications')"/>
+              </xsl:attribute>
+              <xsl:attribute name="level">error</xsl:attribute>
+            </xsl:element>
+          </xsl:if>
+          
+        </xsl:element>
+      </xsl:for-each>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template name="buildEffects">
-    <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.Effect']">
-      <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
-      <xsl:sort select="@name"/>
-      <xsl:element name="Effect">
-        <xsl:apply-templates select="@hash"/>
-        <xsl:apply-templates select="@name"/>
-        <xsl:apply-templates select="@translation"/>
-        <xsl:apply-templates select="@fullName"/>
-        <xsl:apply-templates select="@id"/>
-        <xsl:attribute name="effect">
-          <xsl:choose>
-            <xsl:when test="Property[@name='EffectID']">
-              <xsl:value-of select="Property[@name='EffectID']"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:text>none</xsl:text>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:attribute>
-        <xsl:if test="Property[@name='EffectMask']">
-          <xsl:attribute name="mask">
-            <xsl:value-of select="Property[@name='EffectMask']"/>
+    <xsl:element name="Effects">
+      <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.Effect']">
+        <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
+        <xsl:sort select="@name"/>
+        <xsl:element name="Effect">
+          <xsl:apply-templates select="@hash"/>
+          <xsl:apply-templates select="@name"/>
+          <xsl:apply-templates select="@translation"/>
+          <xsl:apply-templates select="@fullName"/>
+          <xsl:apply-templates select="@id"/>
+          <xsl:attribute name="effect">
+            <xsl:choose>
+              <xsl:when test="Property[@name='EffectID']">
+                <xsl:value-of select="Property[@name='EffectID']"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>none</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
           </xsl:attribute>
-        </xsl:if>
-      </xsl:element>
-    </xsl:for-each>
+          <xsl:if test="Property[@name='EffectMask']">
+            <xsl:attribute name="mask">
+              <xsl:value-of select="Property[@name='EffectMask']"/>
+            </xsl:attribute>
+          </xsl:if>
+        </xsl:element>
+      </xsl:for-each>
+    </xsl:element>
   </xsl:template>
 
   <!-- 
