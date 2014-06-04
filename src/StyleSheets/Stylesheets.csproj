@@ -45,6 +45,7 @@
     <Content Include="Bootstrap.Variables.xslt">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Bootstrap.EquipmentIds.xslt" />
     <Content Include="Document.Browser.Testing.xslt" />
     <Content Include="Document.Browser.xslt" />
     <Content Include="Document.CodeItems.xslt" />

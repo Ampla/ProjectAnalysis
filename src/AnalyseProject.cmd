@@ -35,7 +35,7 @@ del Working\Graphs\*.* /Q
 del Output\Graphs\*.* /Q
 
 @echo === Normalise ===
-%nxslt% %project% StyleSheets\Project.Normalize.xslt -o Working\project.xml language=%language%
+%nxslt% %project% StyleSheets\Project.Normalize.xslt -o Working\project.xml language=%language%	
 %nxslt% Working\project.xml StyleSheets\Project.LinkFrom.xslt -o Working\project.links.from.xml
 %nxslt% Working\project.links.from.xml StyleSheets\Project.LinkTo.xslt -o Working\project.links.xml
 %nxslt% Working\project.links.xml StyleSheets\Project.Flow.xslt -o Working\project.flow.xml
@@ -48,6 +48,7 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.ReportingPoints.xslt  -o Output\Bootstrap.Modules.html
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.CodeItems.xslt		-o Output\Bootstrap.CodeItems.html
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Planning.xslt			-o Output\Bootstrap.Planning.html
+%nxslt% Working\project.links.xml       StyleSheets\Bootstrap.EquipmentIds.xslt			-o Output\Bootstrap.EquipmentIds.html
 
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html

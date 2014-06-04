@@ -46,6 +46,12 @@
                 <a href="Bootstrap.Variables.html">Variables</a>
               </li>
               <li>
+                <xsl:if test="$tab='Equipment Id'">
+                  <xsl:attribute name="class">active</xsl:attribute>
+                </xsl:if>
+                <a href="Bootstrap.EquipmentIds.html">Equipment Ids</a>
+              </li>
+              <li>
                 <xsl:if test="$tab='Metrics'">
                   <xsl:attribute name="class">active</xsl:attribute>
                 </xsl:if>
