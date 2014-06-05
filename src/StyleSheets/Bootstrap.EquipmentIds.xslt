@@ -141,10 +141,25 @@
               <xsl:value-of select="@fullName"/>
             </td>
             <td>
-              <xsl:call-template name="item-label">
-                <xsl:with-param name="text" select="Property[@name='EquipmentId']"/>
-                <xsl:with-param name="color">blue</xsl:with-param>
-              </xsl:call-template>
+              <xsl:choose>
+                <xsl:when test="Property[@name='EquipmentId']">
+                  <xsl:call-template name="item-label">
+                    <xsl:with-param name="text" select="Property[@name='EquipmentId']"/>
+                    <xsl:with-param name="color">blue</xsl:with-param>
+                  </xsl:call-template>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:variable name="parents" select="./ancestor-or-self::Item[Property[@name='EquipmentId']]"/>
+                  <xsl:choose>
+                    <xsl:when test="count($parents) > 0">
+                      <xsl:call-template name="item-label">
+                        <xsl:with-param name="text" select="$parents[last()]/Property[@name='EquipmentId']"/>
+                        <xsl:with-param name="color">grey</xsl:with-param>
+                      </xsl:call-template>
+                    </xsl:when>
+                  </xsl:choose>
+                </xsl:otherwise>
+              </xsl:choose>
             </td>
           </tr>
         </xsl:for-each>
