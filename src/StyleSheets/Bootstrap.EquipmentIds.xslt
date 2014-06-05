@@ -145,7 +145,7 @@
                 <xsl:when test="Property[@name='EquipmentId']">
                   <xsl:call-template name="item-label">
                     <xsl:with-param name="text" select="Property[@name='EquipmentId']"/>
-                    <xsl:with-param name="color">blue</xsl:with-param>
+                    <xsl:with-param name="color">green</xsl:with-param>
                   </xsl:call-template>
                 </xsl:when>
                 <xsl:otherwise>
