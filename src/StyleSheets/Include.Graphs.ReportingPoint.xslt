@@ -9,6 +9,11 @@
 	
 	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='include'>Yes</xsl:template>
 
+	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='get-png-filename'>
+		<xsl:param name='name' select='@hash'/>
+		<xsl:value-of select="concat('p_', $name, '.png')"/>
+	</xsl:template>
+	
 	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='graph'>
 		<xsl:param name="filename"/>
 		<xsl:variable name='full-name' select="@fullName"/>

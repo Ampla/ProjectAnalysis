@@ -13,6 +13,11 @@
 	
 	<!-- specific templates for graphs -->
 	<xsl:include href='Include.Graphs.File2Ampla.xslt'/>	
+	
+	<!--
+	<xsl:include href='Include.Graphs.Plant2Business.xslt'/>	 
+	-->
+	<xsl:include href='Include.Graphs.Database2Ampla.xslt'/>
 	<xsl:include href='Include.Graphs.ReportingPoint.xslt'/>		
 	<xsl:include href='Include.Graphs.Project.xslt'/>	
 
