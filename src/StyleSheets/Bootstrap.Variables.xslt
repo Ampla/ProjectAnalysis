@@ -45,61 +45,65 @@
         <xsl:call-template name="build-menu">
           <xsl:with-param name="tab">Variables</xsl:with-param>
         </xsl:call-template>
-        
-        <div class="container">
-          <div class="tabbable">
-            <ul class="nav nav-tabs" id="tabs">
-              <li>
-                <a href="#home" data-toggle="tab">
-                  <i class="icon-home"/>
-                </a>
-              </li>
-              <xsl:for-each select="$variable-types">
+        <small>
+          <div class="container">
+            <div class="tabbable">
+              <ul class="nav nav-tabs" id="tabs">
                 <li>
-                  <a href="#{@name}" data-toggle="tab">
-                    <i class="icon-tag"/>
-                    <xsl:variable name="name">
-                      <xsl:call-template name="use-short-name"/>
-                    </xsl:variable>
-                    <xsl:value-of select="concat(' ', $name, ' ')"/>
-                    <xsl:variable name="items" select="key('all-items-by-type', @fullName)"/>
-                    <xsl:call-template name="item-badge">
-                      <xsl:with-param name="text" select="count($items)"/>
-                    </xsl:call-template>
+                  <a href="#home" data-toggle="tab">
+                    <i class="icon-home"/>
                   </a>
                 </li>
-              </xsl:for-each>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane fade" id="home">
-                <p>Variables found in the project:</p>
-                <ul>
-                  <xsl:for-each select="$variable-types">
-                    <xsl:variable name="items" select="key('all-items-by-type', @fullName)"/>
-                    <li>
+                <xsl:for-each select="$variable-types">
+                  <li>
+                    <a href="#{@name}" data-toggle="tab">
+                      <i class="icon-tag"/>
+                      <xsl:variable name="name">
+                        <xsl:call-template name="use-short-name"/>
+                      </xsl:variable>
+                      <xsl:value-of select="concat(' ', $name, ' ')"/>
+                      <xsl:variable name="items" select="key('all-items-by-type', @fullName)"/>
+                      <xsl:call-template name="item-badge">
+                        <xsl:with-param name="text" select="count($items)"/>
+                      </xsl:call-template>
+                    </a>
+                  </li>
+                </xsl:for-each>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade" id="home">
+                  <p>Variables found in the project:</p>
+                  <ul>
+                    <xsl:for-each select="$variable-types">
+                      <xsl:variable name="items" select="key('all-items-by-type', @fullName)"/>
+                      <li>
                         <xsl:value-of select="@name"/>
-                      <span class="muted">
-                        <xsl:text> - </xsl:text>
-                        <xsl:value-of select="count ($items)"/>
-                        <xsl:text> item(s)</xsl:text>
-                      </span>
-                    </li>
-                  </xsl:for-each>
-                </ul>
-              </div>
-              <xsl:for-each select="$variable-types">
-                <div class="tab-pane fade" id="{@name}">
-                  <xsl:variable name="items" select="key('all-items-by-type', @fullName)"/>
-                  <xsl:call-template name="list-item-with-details-collapsed">
-                    <xsl:with-param name="items" select="$items"/>
-                  </xsl:call-template>
+                        <span class="muted">
+                          <xsl:text> - </xsl:text>
+                          <xsl:value-of select="count ($items)"/>
+                          <xsl:text> item(s)</xsl:text>
+                        </span>
+                      </li>
+                    </xsl:for-each>
+                  </ul>
                 </div>
-              </xsl:for-each>
+                <xsl:for-each select="$variable-types">
+                  <div class="tab-pane fade" id="{@name}">
+                    <xsl:variable name="items" select="key('all-items-by-type', @fullName)"/>
+                    <xsl:call-template name="list-item-with-details-collapsed">
+                      <xsl:with-param name="items" select="$items"/>
+                    </xsl:call-template>
+                  </div>
+                </xsl:for-each>
+              </div>
             </div>
           </div>
-        </div>
+        </small>
         <script src="jquery/jquery.js"/>
         <script src="bootstrap/js/bootstrap.js"/>
+        <script>
+          $('#tabs a:first').tab('show');
+        </script>
       </body>
     </html>
   </xsl:template>

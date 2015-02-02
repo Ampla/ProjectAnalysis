@@ -372,7 +372,7 @@
     <xsl:param name="find"></xsl:param>
     <xsl:param name="replace"></xsl:param>
     <xsl:choose>
-      <xsl:when test="contains($search, $find)">
+		<xsl:when test="contains($search, $find)">
         <xsl:call-template name="findReplace">
           <xsl:with-param name="search">
             <xsl:value-of select="substring-before($search, $find)"/>

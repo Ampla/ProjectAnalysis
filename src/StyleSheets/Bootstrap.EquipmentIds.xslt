@@ -128,6 +128,7 @@
 
   <xsl:template name="table-for-equipment-id">
     <xsl:param name="items" select="."/>
+    <small>
     <table class="table table-condensed table-hover">
       <tbody>
         <tr>
@@ -165,6 +166,7 @@
         </xsl:for-each>
       </tbody>
     </table>
+    </small>
   </xsl:template>
   
 </xsl:stylesheet>
