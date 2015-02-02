@@ -24,8 +24,8 @@
   <xsl:variable name="causes" select="/Project/Causes/Cause"/>
   <xsl:variable name="classifications" select="/Project/Classifications/Classification"/>
   <xsl:variable name="effects" select="/Project/Effects/Effect"/>
-  <xsl:variable name="equipmentTypes" select="/Project/EquipmentType"/>
-  <xsl:variable name="relationshipMatrixs" select="/Project/EquipmentType/RelationshipMatrix/Matrix"/>
+  <xsl:variable name="equipmentTypes" select="/Project/EquipmentTypes/EquipmentType"/>
+  <xsl:variable name="relationshipMatrixs" select="/Project/EquipmentTypes/EquipmentType/RelationshipMatrix/Matrix"/>
 
   <xsl:template match="/Project">
       <html>
@@ -659,7 +659,7 @@
   </xsl:template>
 
   <xsl:template name="summary">
-    <xsl:variable name="matrix" select="/Project/EquipmentType/RelationshipMatrix/Matrix"/>
+    <xsl:variable name="matrix" select="/Project/EquipmentTypes/EquipmentType/RelationshipMatrix/Matrix"/>
     <xsl:variable name="equipment" select="$matrix/ancestor::EquipmentType"/>
     <xsl:variable name="cause" select="key('cause-by-id', $matrix/@cause)"/>
     <xsl:variable name="classification" select="key('classification-by-id', $matrix/@classification)"/>

@@ -53,6 +53,11 @@ del Output\Graphs\*.* /Q
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
 
+@echo === Downtime ===
+%nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
+%nxslt% Working\downtime.xml StyleSheets\Document.Downtime.xslt -o Output\Project.Downtime.html
+%nxslt% Working\downtime.xml StyleSheets\Bootstrap.Downtime.xslt -o Output\Bootstrap.Downtime.html
+
 @echo === Interfaces ===
 %nxslt% Working\project.xml       StyleSheets\Document.Interfaces.xslt  -o Output\Project.Interfaces.html
 
@@ -89,10 +94,6 @@ cd Working\Graphs
 for /F "usebackq" %%i in (`dir /b *.cmd`) DO call %%i
 cd ..\..
 
-@echo === Downtime ===
-%nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
-%nxslt% Working\downtime.xml StyleSheets\Document.Downtime.xslt -o Output\Project.Downtime.html
-
 @echo === Project ===
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
 %nxslt% Working\authstore.xml StyleSheets\Document.Security.xslt -o Output\Project.Security.html
@@ -101,7 +102,7 @@ cd ..\..
 %nxslt% Working\project.links.xml StyleSheets\Document.Hierarchy.xslt -o Output\hierarchy.html 
 %nxslt% Working\project.links.xml StyleSheets\Document.ItemTypes.xslt -o Output\types.html
 %nxslt% Working\project.links.xml StyleSheets\Document.Properties.xslt -o Output\all.html
-%nxslt% Working\project.links.xml StyleSheets\Document.Properties.xslt -o Output\prop.html includeChildItems=false
+rem %nxslt% Working\project.links.xml StyleSheets\Document.Properties.xslt -o Output\prop.html includeChildItems=false
 
 %nxslt% Working\project.links.xml StyleSheets\Document.Warnings.xslt -o Output\Warnings.html
 %nxslt% working\project.links.xml StyleSheets\File.ItemId.Fullname.Type.xslt -o Output\Id.Fullname.Type.txt

@@ -30,6 +30,7 @@
       <xsl:call-template name="buildClassifications"/>
       <xsl:call-template name="buildEffects"/>
       <xsl:call-template name="buildEquipmentTypes"/>
+      <xsl:call-template name="buildLocations"/>
     </xsl:copy>
   </xsl:template>
 
@@ -175,22 +176,33 @@
       </Item>
   -->
   <xsl:template name="buildEquipmentTypes">
-    <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.EquipmentType']">
-      <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
-      <xsl:sort select="@name"/>
-      <xsl:element name="EquipmentType">
-        <xsl:apply-templates select="@hash"/>
-        <xsl:apply-templates select="@name"/>
-        <xsl:apply-templates select="@translation"/>
-        <xsl:apply-templates select="@fullName"/>
-        <xsl:apply-templates select="@id"/>
-        <xsl:element name="RelationshipMatrix">
-          <xsl:call-template name="extractMatrix">
-            <xsl:with-param name="matrix" select="Property[@name='RelationshipMatrix']"/>
-          </xsl:call-template>
+    <xsl:element name="EquipmentTypes">
+      <xsl:for-each select="//Item[@type='Citect.Ampla.General.Server.EquipmentType']">
+        <xsl:sort select="Property[@name='DisplayOrder']" data-type="number"/>
+        <xsl:sort select="@name"/>
+        <xsl:element name="EquipmentType">
+          <xsl:apply-templates select="@hash"/>
+          <xsl:apply-templates select="@name"/>
+          <xsl:apply-templates select="@translation"/>
+          <xsl:apply-templates select="@fullName"/>
+          <xsl:apply-templates select="@id"/>
+          <xsl:element name="RelationshipMatrix">
+            <xsl:call-template name="extractMatrix">
+              <xsl:with-param name="matrix" select="Property[@name='RelationshipMatrix']"/>
+            </xsl:call-template>
+          </xsl:element>
+          <xsl:element name="Locations">
+            <xsl:for-each select="linkTo/link[@property='EquipmentTypes']">
+              <xsl:element name="Location">
+                <xsl:attribute name="fullName">
+                  <xsl:value-of select="@fullName"/>
+                </xsl:attribute>
+              </xsl:element>
+            </xsl:for-each>
+          </xsl:element>
         </xsl:element>
-      </xsl:element>
-    </xsl:for-each>
+      </xsl:for-each>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template name="extractMatrix">
@@ -282,7 +294,24 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  
+
+  <xsl:template name="buildLocations">
+    <xsl:variable name="locations" select="//Item[@type='Citect.Ampla.General.Server.ApplicationsFolder']"/>
+    <xsl:variable name="missingEquipmentTypes" select="$locations[not(Property[@name='EquipmentTypes']/linkFrom/link) and not(starts-with(@fullName, 'System Configuration.'))]"/>
+    <xsl:if test="$missingEquipmentTypes">
+      <xsl:element name="Locations">
+        <xsl:attribute name="message">Missing EquipmentType</xsl:attribute>
+        <xsl:for-each select="$missingEquipmentTypes">
+          <xsl:sort select="@fullName"/>
+          <xsl:element name="Location">
+            <xsl:apply-templates select="@hash"/>
+            <xsl:apply-templates select="@fullName"/>
+          </xsl:element>
+        </xsl:for-each>
+      </xsl:element>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template match="@* | node()">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()"/>

@@ -61,7 +61,7 @@
                 <xsl:if test="$tab='Downtime Relationship'">
                   <xsl:attribute name="class">active</xsl:attribute>
                 </xsl:if>
-                <a href="Project.Downtime.html">Downtime Relationship</a>
+                <a href="Bootstrap.Downtime.html">Downtime Relationship</a>
               </li>
               <xsl:variable name='planning' select="key('all-items-by-type', 'Citect.Ampla.Planning.Server.PlanningReportingPoint')"/>
               <xsl:variable name='product-recipe' select="key('all-items-by-type', 'Citect.Ampla.Planning.Recipe.Server.ProductRecipe')"/>
@@ -103,6 +103,25 @@
     <!-- default badge position is pull-right -->
     <xsl:text>pull-right</xsl:text>
   </xsl:template>
+
+  <xsl:template name="color-badge">
+    <xsl:param name="text">0</xsl:param>
+    <xsl:param name="color">green</xsl:param>
+    <xsl:call-template name="item-badge">
+      <xsl:with-param name="color" select="$color"/>
+      <xsl:with-param name="text" select="$text" />
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="color-label">
+    <xsl:param name="text">0</xsl:param>
+    <xsl:param name="color">green</xsl:param>
+    <xsl:call-template name="item-label">
+      <xsl:with-param name="color" select="$color"/>
+      <xsl:with-param name="text" select="$text" />
+    </xsl:call-template>
+  </xsl:template>
+
 
   <xsl:template name="item-badge">
     <xsl:param name="text">0</xsl:param>
@@ -300,6 +319,10 @@
         <xsl:value-of select="$counter"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="space">
+    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
   </xsl:template>
 
 </xsl:stylesheet>
