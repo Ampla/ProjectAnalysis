@@ -18,7 +18,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Ampla Project Analysis</a>
+          <a class="brand" href="#">Ampla</a>
           <div class="nav-collapse collapse">
             <!--            
   <p class="navbar-text pull-right">Logged in as <a href="#" class="navbar-link">Username</a></p>
