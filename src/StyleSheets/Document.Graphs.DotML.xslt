@@ -19,6 +19,7 @@
 	-->
 	<xsl:include href='Include.Graphs.Database2Ampla.xslt'/>
 	<xsl:include href='Include.Graphs.ReportingPoint.xslt'/>		
+	<xsl:include href='Include.Graphs.Metrics.xslt'/>	
 	<xsl:include href='Include.Graphs.Project.xslt'/>	
 
 	<xsl:template match="/">
