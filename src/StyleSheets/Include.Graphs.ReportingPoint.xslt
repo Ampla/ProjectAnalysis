@@ -8,21 +8,44 @@
 	<xsl:key name="linkto-by-id-property" match="linkTo/link" use="concat(@id, '-', @property)"/>
 	
 	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='include'>Yes</xsl:template>
+	<xsl:template match="Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']" mode='include'>Yes</xsl:template>
 
 	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='get-png-filename'>
 		<xsl:param name='name' select='@hash'/>
 		<xsl:value-of select="concat('p_', $name, '.png')"/>
 	</xsl:template>
 	
+	<xsl:template match="Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']" mode='get-png-filename'>
+		<xsl:param name='name' select='@hash'/>
+		<xsl:value-of select="concat('q_', $name, '.png')"/>
+	</xsl:template>
+	
 	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='graph'>
 		<xsl:param name="filename"/>
+		<xsl:call-template name='render-reporting-point'>
+			<xsl:with-param name='filename' select='$filename'/>
+			<xsl:with-param name='module'>Production</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
+	
+	<xsl:template match="Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']" mode='graph'>
+		<xsl:param name="filename"/>
+		<xsl:call-template name='render-reporting-point'>
+			<xsl:with-param name='filename' select='$filename'/>
+			<xsl:with-param name='module'>Quality</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
+	
+	<xsl:template name="render-reporting-point" mode='graph'>
+		<xsl:param name="filename"/>
+		<xsl:param name='module'/>
 		<xsl:variable name='full-name' select="@fullName"/>
 		<xsl:variable name='rp' select="."/>
 		<xsl:variable name='input-links' select="$rp/descendant::linkFrom/link[not(starts-with(@fullName, $full-name))]"/>
 		<xsl:variable name='output-links' select="$rp/descendant::linkTo/link[not(starts-with(@fullName, $full-name))]"/>
 		<xsl:variable name='inputs' select="key('items-by-id', $input-links/@id)"/>
 		<xsl:variable name='outputs' select="key('items-by-id', $output-links/@id)"/>
-		<dotml:graph file-name="{$filename}" label="Production: {@fullName}" rankdir="LR" fontname="{$fontname}" fontcolor="{$focus-color}" fontsize="{$font-size-h1}" labelloc='t' >
+		<dotml:graph file-name="{$filename}" label="{$module}: {@fullName}" rankdir="LR" fontname="{$fontname}" fontcolor="{$focus-color}" fontsize="{$font-size-h1}" labelloc='t' >
 			
 			<xsl:variable name='output-properties' select="$output-links[generate-id()=generate-id(key('linkto-by-id-property', concat(@id, '-', @property))[1])]"/>
 			
