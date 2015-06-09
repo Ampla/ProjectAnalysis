@@ -204,6 +204,10 @@
   <xsl:template match="Item[@type='Citect.Ampla.Downtime.Server.DowntimeReportingPoint']" mode="extra-info">
     <xsl:call-template name="outputFieldsTable"/>
   </xsl:template>
+  
+  <xsl:template match="Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']" mode="extra-info">
+    <xsl:call-template name="outputFieldsTable"/>
+  </xsl:template>
 
   <xsl:template match="Item[@type='Citect.Ampla.Metrics.Server.MetricsReportingPoint']" mode="extra-info">
     <xsl:call-template name="outputFieldsTable"/>
