@@ -11,7 +11,10 @@
 	
 	<xsl:template match="Item[@type='Citect.Ampla.Metrics.Server.KPI']" mode='get-png-filename'>
 		<xsl:param name='name' select='@hash'/>
-		<xsl:value-of select="concat('k_', ../../@hash, '_', $name, '.png')"/>
+		<!--
+		<xsl:value-of select="concat('k_', ../../@hash, '_', @name, '.png')"/>
+		-->
+		<xsl:value-of select="concat(@fullName, '.png')"/>
 	</xsl:template>
 	
 	<xsl:template match="Item[@type='Citect.Ampla.Metrics.Server.KPI']" mode='graph'>
