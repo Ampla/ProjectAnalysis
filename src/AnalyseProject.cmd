@@ -96,6 +96,7 @@ cd ..\..
 
 @echo === Project ===
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
+%nxslt% Working\project.links.xml StyleSheets\Document.Equipment.xslt -o Output\Project.Equipment.html lang=%lang%
 %nxslt% Working\authstore.xml StyleSheets\Document.Security.xslt -o Output\Project.Security.html
 
 %nxslt% Working\project.links.xml StyleSheets\Document.Frames.xslt -o Output\index.html
