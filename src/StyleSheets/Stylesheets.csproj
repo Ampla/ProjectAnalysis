@@ -39,12 +39,8 @@
     <Content Include="Common.Graphs.DotML.xslt" />
     <Content Include="Bootstrap.ReportingPoints.xslt" />
     <Content Include="Bootstrap.CodeItems.xslt" />
-    <Content Include="Bootstrap.Common.xslt">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Bootstrap.Variables.xslt">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Bootstrap.Common.xslt" />
+    <Content Include="Bootstrap.Variables.xslt" />
     <Content Include="Bootstrap.EquipmentIds.xslt" />
     <Content Include="Bootstrap.Downtime.xslt" />
     <Content Include="Document.Browser.Testing.xslt" />
@@ -54,9 +50,7 @@
     <Content Include="Document.Downtime.xslt" />
     <Content Include="Document.Equipment.xslt" />
     <Content Include="Document.Frames.xslt" />
-    <Content Include="Document.Graphs.DotML.xslt">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Document.Graphs.DotML.xslt" />
     <Content Include="Document.Hierarchy.xslt" />
     <Content Include="Document.Interfaces.xslt" />
     <Content Include="Document.Inventory.DotML.xslt" />
@@ -75,13 +69,12 @@
     <Content Include="Document.Summary.xslt" />
     <Content Include="Document.Translations.xslt" />
     <Content Include="Document.Warnings.xslt" />
+    <Content Include="Excel.Downtime.xslt" />
     <Content Include="File.ItemId.Fullname.Type.xslt" />
     <Content Include="FormatStrings.xml" />
     <Content Include="Ignore.Include.Graphs.Metrics.xslt" />
     <Content Include="Include.Graphs.Colours.xslt" />
-    <Content Include="Include.Graphs.Defaults.xslt">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Include.Graphs.Defaults.xslt" />
     <Content Include="Include.Graphs.File2Ampla.xslt" />
     <Content Include="Include.Graphs.Project.xslt" />
     <Content Include="Include.Graphs.ReportingPoint.xslt" />
@@ -101,9 +94,7 @@
     <Content Include="Translate.Project.xslt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Freemind.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Freemind.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
