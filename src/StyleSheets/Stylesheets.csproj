@@ -52,6 +52,7 @@
     <Content Include="Document.CodeItems.xslt" />
     <Content Include="Document.Common.xslt" />
     <Content Include="Document.Downtime.xslt" />
+    <Content Include="Document.Equipment.xslt" />
     <Content Include="Document.Frames.xslt" />
     <Content Include="Document.Graphs.DotML.xslt">
       <SubType>Designer</SubType>
