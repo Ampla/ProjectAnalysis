@@ -74,8 +74,10 @@
     <Content Include="FormatStrings.xml" />
     <Content Include="Ignore.Include.Graphs.Metrics.xslt" />
     <Content Include="Include.Graphs.Colours.xslt" />
+    <Content Include="Include.Graphs.Database2Ampla.xslt" />
     <Content Include="Include.Graphs.Defaults.xslt" />
     <Content Include="Include.Graphs.File2Ampla.xslt" />
+    <Content Include="Include.Graphs.Metrics.xslt" />
     <Content Include="Include.Graphs.Project.xslt" />
     <Content Include="Include.Graphs.ReportingPoint.xslt" />
     <Content Include="Project.Downtime.xslt" />
