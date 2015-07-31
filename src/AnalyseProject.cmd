@@ -52,6 +52,7 @@ del Output\Graphs\*.* /Q
 
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Variables.xslt -o Output\Excel.Variables.xls
 
 @echo === Downtime ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
