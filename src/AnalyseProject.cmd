@@ -52,12 +52,13 @@ del Output\Graphs\*.* /Q
 
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Variables.xslt -o Output\Excel.Variables.xls
 
 @echo === Downtime ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
 %nxslt% Working\downtime.xml StyleSheets\Document.Downtime.xslt -o Output\Project.Downtime.html
 %nxslt% Working\downtime.xml StyleSheets\Bootstrap.Downtime.xslt -o Output\Bootstrap.Downtime.html
-%nxslt% Working\downtime.xml StyleSheets\Excel.Downtime.xslt -o Output\Excel.Downtime.xml
+%nxslt% Working\downtime.xml StyleSheets\Excel.Downtime.xslt -o Output\Excel.Downtime.xls
 
 @echo === Interfaces ===
 %nxslt% Working\project.xml       StyleSheets\Document.Interfaces.xslt  -o Output\Project.Interfaces.html
