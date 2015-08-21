@@ -33,6 +33,7 @@
   <xsl:variable name="equipmentTypes" select="/Project/EquipmentTypes/EquipmentType"/>
   <xsl:variable name="relationshipMatrixs" select="/Project/EquipmentTypes/EquipmentType/RelationshipMatrix/Matrix"/>
   <xsl:variable name="applicationFolders" select="/Project/EquipmentTypes/EquipmentType/Locations/Location[generate-id() = generate-id(key('locations-by-fullname', @fullName)[1])]"/>
+  <xsl:variable name="downtimeReportingPoints" select="/Project/DowntimeReportingPoints/DowntimeReportingPoint"/>
 
   <xsl:template match="/Project">
     <xsl:call-template name='excel-header-1'/>
@@ -134,6 +135,35 @@
 
         </Table>
       </Worksheet>
+	  
+	  <Worksheet ss:Name='DowntimeCauseLocations'>
+        <Table>
+          <xsl:call-template name='header-row-2-columns'>
+            <xsl:with-param name='column-1'>DowntimeReportingPoint</xsl:with-param>
+            <xsl:with-param name='column-2'>CauseLocation</xsl:with-param>
+          </xsl:call-template>
+          <xsl:for-each select='$downtimeReportingPoints'>
+			<xsl:variable name='point' select='.'/>
+			<xsl:choose>
+				<xsl:when test='count($point/CauseLocations/CauseLocation) = 0'>
+					<xsl:call-template name='data-row-2-columns'>
+					  <xsl:with-param name='column-1' select='$point/@fullName'/>
+					  <xsl:with-param name='column-2'>{all}</xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:for-each select='$point/CauseLocations/CauseLocation'>
+						<xsl:call-template name='data-row-2-columns'>
+						  <xsl:with-param name='column-1' select='$point/@fullName'/>
+						  <xsl:with-param name='column-2' select='@fullName'/>
+						</xsl:call-template>
+					</xsl:for-each>
+				</xsl:otherwise>
+			</xsl:choose>
+          </xsl:for-each>
+        </Table>
+      </Worksheet>
+
     </Workbook>
   </xsl:template>
 

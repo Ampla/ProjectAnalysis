@@ -31,6 +31,7 @@
       <xsl:call-template name="buildEffects"/>
       <xsl:call-template name="buildEquipmentTypes"/>
       <xsl:call-template name="buildLocations"/>
+      <xsl:call-template name="buildDowntimePoints"/>
     </xsl:copy>
   </xsl:template>
 
@@ -310,6 +311,26 @@
         </xsl:for-each>
       </xsl:element>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="buildDowntimePoints">
+    <xsl:variable name="downtimePoints" select="//Item[@type='Citect.Ampla.Downtime.Server.DowntimeReportingPoint']"/>
+	<xsl:element name='DowntimeReportingPoints'>
+		<xsl:for-each select="$downtimePoints">
+			<xsl:element name='DowntimeReportingPoint'>
+				<xsl:apply-templates select="@hash"/>
+				<xsl:apply-templates select="@fullName"/>
+				<xsl:variable name='causeLocations' select="./Property[@name='CauseLocations']"/>
+				<xsl:element name='CauseLocations'>
+					<xsl:for-each select='$causeLocations/linkFrom/link'>
+						<xsl:element name='CauseLocation'>
+							<xsl:apply-templates select="@fullName"/>
+						</xsl:element>
+					</xsl:for-each>
+				</xsl:element>
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:element>
   </xsl:template>
 
   <xsl:template match="@* | node()">
