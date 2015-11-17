@@ -19,6 +19,8 @@
   <xsl:key name="effects-by-id" match="Item[@type='Citect.Ampla.General.Server.Effect']" use="Property[@name='EffectID']"/>
   <xsl:key name="effects-by-name" match="Item[@type='Citect.Ampla.General.Server.Effect']" use="@name"/>
 
+  <xsl:key name="items-by-fullname" match="Item[@fullName]" use="@fullName"/>
+  
   <xsl:template match="/">
     <xsl:apply-templates select="Project"/>
   </xsl:template>
@@ -325,6 +327,12 @@
 					<xsl:for-each select='$causeLocations/linkFrom/link'>
 						<xsl:element name='CauseLocation'>
 							<xsl:apply-templates select="@fullName"/>
+              <xsl:choose>
+                <xsl:when test="key('items-by-fullname', @fullName)"><!--valid location --></xsl:when>
+                <xsl:otherwise>
+                  <xsl:attribute name="message">Invalid Cause Location</xsl:attribute>
+                </xsl:otherwise>
+              </xsl:choose>
 						</xsl:element>
 					</xsl:for-each>
 				</xsl:element>

@@ -46,7 +46,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Bootstrap.EquipmentIds.xslt" />
-    <Content Include="Bootstrap.Downtime.xslt" />
+    <Content Include="Bootstrap.Downtime.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Excel.Variables.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -75,7 +77,9 @@
     <Content Include="Document.Security.xslt" />
     <Content Include="Document.Summary.xslt" />
     <Content Include="Document.Translations.xslt" />
-    <Content Include="Document.Warnings.xslt" />
+    <Content Include="Document.Warnings.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Excel.Common.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -91,15 +95,23 @@
     <Content Include="Include.Graphs.Metrics.xslt" />
     <Content Include="Include.Graphs.Project.xslt" />
     <Content Include="Include.Graphs.ReportingPoint.xslt" />
-    <Content Include="Project.Downtime.xslt" />
+    <Content Include="Project.Downtime.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Project.Equipment.xslt" />
     <Content Include="Project.Flow.xslt" />
     <Content Include="Project.Inventory.xslt" />
-    <Content Include="Project.LinkFrom.xslt" />
-    <Content Include="Project.LinkTo.xslt" />
+    <Content Include="Project.LinkFrom.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Project.LinkTo.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Project.Metrics.xslt" />
     <Content Include="Project.Mindmap%280.8.1%29.xslt" />
-    <Content Include="Project.Normalize.xslt" />
+    <Content Include="Project.Normalize.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Project.OLEDB.xslt" />
     <Content Include="Project.RDF.xslt" />
     <Content Include="Project.Security.xslt" />
