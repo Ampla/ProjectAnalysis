@@ -126,9 +126,26 @@
         </xsl:attribute>
         <xsl:attribute name="fullName">
           <xsl:value-of select="@name"/>
-        </xsl:attribute>        
+        </xsl:attribute>
+        <xsl:apply-templates select="Property[@behavior='Historical']"/>
       </xsl:copy>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="Type/Property[@behavior='Historical']">
+    <xsl:variable name="dataType">
+      <xsl:choose>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.SampleStream, Citect.Ampla.Runtime.Data'">Object</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.EventSampleStream, Citect.Ampla.Runtime.Data'">Event</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.Int32SampleStream, Citect.Ampla.Runtime.Data'">Int32</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.BooleanSampleStream, Citect.Ampla.Runtime.Data'">Boolean</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.StringSampleStream, Citect.Ampla.Runtime.Data'">String</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.SingleSampleStream, Citect.Ampla.Runtime.Data'">Single</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.DateTimeSampleStream, Citect.Ampla.Runtime.Data'">DateTime</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.DoubleSampleStream, Citect.Ampla.Runtime.Data'">Double</xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    <Stream name="{@name}" dataType="{$dataType}"/>
   </xsl:template>
 
   <xsl:template match="ClassDefinition[@id]">
