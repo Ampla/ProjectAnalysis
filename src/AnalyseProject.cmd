@@ -39,6 +39,7 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.xml StyleSheets\Project.LinkFrom.xslt -o Working\project.links.from.xml
 %nxslt% Working\project.links.from.xml StyleSheets\Project.LinkTo.xslt -o Working\project.links.xml
 %nxslt% Working\project.links.xml StyleSheets\Project.Flow.xslt -o Working\project.flow.xml
+%nxslt% Working\project.links.xml StyleSheets\Project.Expressions.xslt -o Working\project.expressions.xml
 
 @echo === Security ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Security.xslt -o Working\project.security.xml
@@ -53,6 +54,13 @@ del Output\Graphs\*.* /Q
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Variables.xslt -o Output\Excel.Variables.xls
+
+@echo === Expressions ===
+%nxslt% Working\project.expressions.xml StyleSheets\Excel.Expressions.xslt -o Output\Excel.Expressions.xls
+
+rem %nxslt% Working\project.expressions.xml StyleSheets\Document.Expressions.DotML.xslt -o Working\expressions.dotml
+rem %nxslt% Working\expressions.dotml %dotml%\dotml2dot.xsl -o Working\expressions.gv
+rem %graphviz%\dot.exe -Tpng Working\expressions.gv -o Output\Graphs\expressions.png
 
 @echo === Downtime ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml

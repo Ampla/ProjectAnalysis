@@ -31,7 +31,23 @@
 		</Cell>
 	</xsl:template>
 
-	<xsl:template name='data-row-2-columns'>
+  <xsl:template name='text-cell'>
+    <xsl:param name='text' select='.'/>
+    <xsl:call-template name='style-cell'>
+      <xsl:with-param name='text' select='$text'/>
+      <xsl:with-param name='style'>text</xsl:with-param> 
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name='header-cell'>
+    <xsl:param name='text' select='.'/>
+    <xsl:call-template name='style-cell'>
+      <xsl:with-param name='text' select='$text'/>
+      <xsl:with-param name='style'>header</xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name='data-row-2-columns'>
 		<xsl:param name='column-1'/>
 		<xsl:param name='column-2'/>
 		<xsl:call-template name='excel-row-X-columns'>
@@ -187,6 +203,6 @@
 				</xsl:call-template>
 			</xsl:if>
 		</Row>
-	</xsl:template>	
-	
+	</xsl:template>
+
 </xsl:stylesheet>
