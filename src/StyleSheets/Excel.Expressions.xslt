@@ -183,6 +183,9 @@
         <xsl:with-param name='text'>Expression.Format</xsl:with-param>
       </xsl:call-template>
       <xsl:call-template name='header-cell'>
+        <xsl:with-param name='text'>Expression.DataType</xsl:with-param>
+      </xsl:call-template>
+      <xsl:call-template name='header-cell'>
         <xsl:with-param name='text'>Index</xsl:with-param>
       </xsl:call-template>
       <xsl:call-template name='header-cell'>
@@ -190,6 +193,9 @@
       </xsl:call-template>
       <xsl:call-template name='header-cell'>
         <xsl:with-param name='text'>Stream</xsl:with-param>
+      </xsl:call-template>
+      <xsl:call-template name='header-cell'>
+        <xsl:with-param name='text'>Stream.DataType</xsl:with-param>
       </xsl:call-template>
     </Row>
   </xsl:template>
@@ -221,6 +227,11 @@
               <xsl:with-param name='text' select='$property/property-value/HistoricalExpressionConfig/ExpressionConfig/@format'/>
             </xsl:call-template>
             <xsl:call-template name='text-cell'>
+              <xsl:with-param name='text'>
+                <xsl:apply-templates select='$item' mode='data-type'/>
+              </xsl:with-param>
+            </xsl:call-template>
+            <xsl:call-template name='text-cell'>
               <xsl:with-param name='text' select='position()'/>
             </xsl:call-template>
             <xsl:call-template name='text-cell'>
@@ -228,6 +239,11 @@
             </xsl:call-template>
             <xsl:call-template name='text-cell'>
               <xsl:with-param name='text' select='ItemPropertyLink/@propertyName'/>
+            </xsl:call-template>
+            <xsl:call-template name='text-cell'>
+              <xsl:with-param name='text'>
+                <xsl:apply-templates select="key('items-by-id', ItemPropertyLink/ItemLink/@targetID)" mode='data-type'/>
+              </xsl:with-param>
             </xsl:call-template>
           </Row>
         </xsl:for-each>
@@ -262,6 +278,55 @@
             <xsl:with-param name='text'>-</xsl:with-param>
           </xsl:call-template>
         </Row>        
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match='Item' mode='data-type'>
+    <xsl:choose>
+      <xsl:when test="Property[@name='SampleTypeCode']">
+        <xsl:call-template name="get-Property">
+          <xsl:with-param name="property">SampleTypeCode</xsl:with-param>
+          <xsl:with-param name="default">Single</xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="contains(@type,'Variable')">
+        <xsl:call-template name="get-Property">
+          <xsl:with-param name="property">SampleTypeCode</xsl:with-param>
+          <xsl:with-param name="default">Single</xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="@type='Citect.Ampla.General.Server.AccumulatorVariable'">
+        <xsl:call-template name="get-Property">
+          <xsl:with-param name="property">SampleTypeCode</xsl:with-param>
+          <xsl:with-param name="default">Single</xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="@type='Citect.Ampla.Downtime.Server.VirtualDowntime'">Double</xsl:when>
+      <xsl:when test="contains(@type, 'FieldDefinition')">
+        <xsl:call-template name="get-Property">
+          <xsl:with-param name="property">DataType</xsl:with-param>
+          <xsl:with-param name="default">Integer</xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="@type='Citect.Ampla.General.Server.ExpressionCaptureCondition'">Boolean</xsl:when>
+      <xsl:when test="@type='Citect.Ampla.Downtime.Server.DowntimeExpressionCaptureCondition'">Boolean</xsl:when>
+      <xsl:when test="count(Stream)=1">
+        <xsl:value-of select="Stream/@type"/>
+      </xsl:when>
+      <xsl:otherwise>-</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get-Property">
+    <xsl:param name="property"></xsl:param>
+    <xsl:param name="default"/>
+    <xsl:choose>
+      <xsl:when test="Property[@name=$property]">
+        <xsl:value-of select="Property[@name=$property]"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$default"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
