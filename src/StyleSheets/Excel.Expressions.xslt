@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0"
+				        xmlns="urn:schemas-microsoft-com:office:spreadsheet"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -69,7 +70,7 @@
   </xsl:template>
 
   <xsl:template name='expression-header'>
-    <Row xmlns="urn:schemas-microsoft-com:office:spreadsheet">
+    <Row>
       <xsl:call-template name='header-cell'>
         <xsl:with-param name='text'>Parent</xsl:with-param>
       </xsl:call-template>
@@ -134,7 +135,7 @@
   <xsl:template name='expression-row'>
     <xsl:param name='item'/>
     <xsl:param name='property'/>
-    <Row xmlns="urn:schemas-microsoft-com:office:spreadsheet">
+    <Row>
       <xsl:call-template name='text-cell'>
         <xsl:with-param name='text' select='$item/../@fullName'/>
       </xsl:call-template>
@@ -163,7 +164,7 @@
   </xsl:template>
 
   <xsl:template name='stream-header'>
-    <Row xmlns="urn:schemas-microsoft-com:office:spreadsheet">
+    <Row>
       <xsl:call-template name='header-cell'>
         <xsl:with-param name='text'>Parent</xsl:with-param>
       </xsl:call-template>
@@ -207,7 +208,7 @@
     <xsl:choose>
       <xsl:when test='$dependencies'>
         <xsl:for-each select='$dependencies'>
-          <Row xmlns="urn:schemas-microsoft-com:office:spreadsheet">
+          <Row>
             <xsl:call-template name='text-cell'>
               <xsl:with-param name='text' select='$item/../@fullName'/>
             </xsl:call-template>
@@ -231,8 +232,8 @@
                 <xsl:apply-templates select='$item' mode='data-type'/>
               </xsl:with-param>
             </xsl:call-template>
-            <xsl:call-template name='text-cell'>
-              <xsl:with-param name='text' select='position()'/>
+            <xsl:call-template name='number-cell'>
+              <xsl:with-param name='value' select='position()'/>
             </xsl:call-template>
             <xsl:call-template name='text-cell'>
               <xsl:with-param name='text' select='ItemPropertyLink/ItemLink/@absolutePath'/>
@@ -249,7 +250,7 @@
         </xsl:for-each>
       </xsl:when>
       <xsl:otherwise>
-        <Row xmlns="urn:schemas-microsoft-com:office:spreadsheet">
+        <Row>
           <xsl:call-template name='text-cell'>
             <xsl:with-param name='text' select='$item/../@fullName'/>
           </xsl:call-template>

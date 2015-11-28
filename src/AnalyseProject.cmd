@@ -51,6 +51,10 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Planning.xslt			-o Output\Bootstrap.Planning.html
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.EquipmentIds.xslt			-o Output\Bootstrap.EquipmentIds.html
 
+@echo === Reporting Points ===
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Production.xslt -o Output\Excel.Modules.Production.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Quality.xslt -o Output\Excel.Modules.Quality.xls
+
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Variables.xslt -o Output\Excel.Variables.xls

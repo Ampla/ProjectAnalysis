@@ -18,24 +18,58 @@
 			<Style ss:ID='text' ss:Name='Normal'>
 				<Font ss:FontName="Arial" />
 			</Style>
-		</Styles>
+      <Style ss:ID='value' ss:Parent='text' ss:Name='Value'>
+        <Font ss:Bold="1"/>
+      </Style>
+      <Style ss:ID='inherited-value' ss:Parent='text' ss:Name='Inherited Value'>
+        <Font ss:Italic="1" />
+      </Style>
+      <Style ss:ID='default-value' ss:Parent='text' ss:Name='Default Value'>
+        <Font ss:Italic="1" ss:Color='Silver' />
+      </Style>
+      <Style ss:ID='no-value' ss:Parent='text' ss:Name='No Value'>
+        <Interior ss:Pattern='Solid' ss:Color='Silver'/>
+      </Style>
+    </Styles>
 	</xsl:template>
 	
 	<xsl:template name='style-cell'>
 		<xsl:param name='text' select='.' />
 		<xsl:param name='style'>text</xsl:param>
+    <xsl:param name='type'>String</xsl:param>
+    <xsl:param name='comment'/>
 		<Cell ss:StyleID="{$style}">
-			<Data ss:Type="String">
+			<Data ss:Type="{$type}">
 				<xsl:value-of select='$text'/>
 			</Data>
+      <xsl:if test='$comment'>
+        <Comment>
+          <Data>
+            <xsl:value-of select='$comment'/>
+          </Data>
+        </Comment>
+      </xsl:if>
 		</Cell>
 	</xsl:template>
 
   <xsl:template name='text-cell'>
     <xsl:param name='text' select='.'/>
+    <xsl:param name='comment'/>
     <xsl:call-template name='style-cell'>
       <xsl:with-param name='text' select='$text'/>
-      <xsl:with-param name='style'>text</xsl:with-param> 
+      <xsl:with-param name='style'>text</xsl:with-param>
+      <xsl:with-param name='comment' select='$comment'/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name='number-cell'>
+    <xsl:param name='value' select='.'/>
+    <xsl:param name='comment'/>
+    <xsl:call-template name='style-cell'>
+      <xsl:with-param name='text' select='$value'/>
+      <xsl:with-param name='style'>text</xsl:with-param>
+      <xsl:with-param name='type'>Number</xsl:with-param>
+      <xsl:with-param name='comment' select='$comment'/>
     </xsl:call-template>
   </xsl:template>
 
