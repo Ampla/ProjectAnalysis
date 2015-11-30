@@ -51,6 +51,15 @@
     <Content Include="Bootstrap.Downtime.xslt">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Excel.Modules.Downtime.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Modules.Quality.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Property.Tables.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Excel.Modules.Production.xslt">
       <SubType>Designer</SubType>
     </Content>
