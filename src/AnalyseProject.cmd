@@ -54,6 +54,7 @@ del Output\Graphs\*.* /Q
 @echo === Reporting Points ===
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Production.xslt -o Output\Excel.Modules.Production.xls
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Quality.xslt -o Output\Excel.Modules.Quality.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Downtime.xslt -o Output\Excel.Modules.Downtime.xls
 
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
