@@ -28,20 +28,25 @@
 
   <xsl:template name="item-property-table">
     <xsl:param name='items' select="Item"/>
+    <xsl:param name="fullname-header">FullName</xsl:param>
     <xsl:param name="select-child"></xsl:param>
+    <xsl:param name="definition-include">1</xsl:param>
     <xsl:param name="index-include">1</xsl:param>
     <xsl:param name="type-include">1</xsl:param>
     <xsl:param name="select-child-items">1</xsl:param>
 
-    <xsl:variable name="all-items" select="$items/Item[@name=$select-child]/Item"/>
-    
+    <xsl:variable name="all-items" select="$items/Item[@name=$select-child]/descendant::Item"/>
+    <xsl:variable name="definitions" select="$all-items[@definition]"/>
     <xsl:variable name="types" select="key('types-by-name', $all-items/@type)"/>
     <xsl:variable name="properties" select="$unique-properties[@name=$types/Property/@name]"/>
     
     <Table>
+      <Column ss:Width='400'/>
+      <Column ss:AutoFitWidth="1" />
+      <Column ss:Width='100'/>
       <Row>
         <xsl:call-template name='header-cell'>
-          <xsl:with-param name='text'>FullName</xsl:with-param>
+          <xsl:with-param name='text' select='$fullname-header'/>
         </xsl:call-template>
         <xsl:if test='$index-include=1'>
           <xsl:call-template name='header-cell'>
@@ -51,6 +56,11 @@
         <xsl:call-template name='header-cell'>
           <xsl:with-param name='text'>Name</xsl:with-param>
         </xsl:call-template>
+        <xsl:if test="$definition-include = 1 and count($definitions) > 0">
+          <xsl:call-template name='header-cell'>
+            <xsl:with-param name='text'>Definition</xsl:with-param>
+          </xsl:call-template>
+        </xsl:if>
         <xsl:for-each select='$properties'>
           <xsl:sort select="@count" data-type="number" order="descending"/>
           <xsl:sort select="@name"/>
@@ -71,12 +81,13 @@
         <xsl:sort select="Property[@name='DisplayOrder']" data-type="number" />
         <xsl:sort select="@name" />
         <xsl:variable name="item" select="."/>
-        <xsl:variable name="type" select="key('types-by-name', $item/@type)"/>
         <xsl:variable name="children" select="$item/Item[@name=$select-child]"/>
         <xsl:choose>
-          <xsl:when test="$children/Item">
-            <xsl:for-each select="$children/Item">
+          <xsl:when test="$children/descendant::Item">
+            <xsl:variable name="relative-prefix" select="concat($item/@fullName, '.', $select-child, '.')"/>
+            <xsl:for-each select="$children/descendant::Item">
               <xsl:variable name="child" select="."/>
+              <xsl:variable name="type" select="key('types-by-name', $child/@type)"/>
               <Row>
                 <xsl:call-template name="text-cell">
                   <xsl:with-param name="text" select="$item/@fullName"/>
@@ -87,8 +98,13 @@
                   </xsl:call-template>
                 </xsl:if>
                 <xsl:call-template name="text-cell">
-                  <xsl:with-param name="text" select="$child/@name"/>
+                  <xsl:with-param name="text" select="substring-after($child/@fullName, $relative-prefix)"/>
                 </xsl:call-template>
+                <xsl:if test="$definition-include = 1 and count($definitions) > 0">
+                  <xsl:call-template name="text-cell">
+                    <xsl:with-param name="text" select="$child/@definition"/>
+                  </xsl:call-template>
+                </xsl:if>
                 <xsl:for-each select="$properties">
                   <xsl:sort select="@count" data-type="number" order="descending"/>
                   <xsl:sort select="@name"/>

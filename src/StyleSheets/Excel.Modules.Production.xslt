@@ -9,7 +9,7 @@
                 xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" >
   <!-- 
   
-  This XSL transforms Production data into an Office XML 2003 file.
+  This XSL transforms Production configuration into an Office XML 2003 file.
   https://msdn.microsoft.com/en-us/library/aa140066(v=office.10).aspx
   -->
   <xsl:output method="xml" encoding="utf-8" indent="yes" />
@@ -55,13 +55,12 @@
       </Worksheet>
 
       <Worksheet ss:Name='Fields'>
-        <xsl:call-template name='property-table'>
-          <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']/Item[@name='Fields']/Item"/>
-          <xsl:with-param name="fullname-include">0</xsl:with-param>
-          <xsl:with-param name="parent-include">1</xsl:with-param>
-          <xsl:with-param name="parent-header">ReportingPoint</xsl:with-param>
-          <xsl:with-param name="parent-level">-2</xsl:with-param>
-          <xsl:with-param name="name-include">1</xsl:with-param>
+        <xsl:call-template name='item-property-table'>
+          <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']"/>
+          <xsl:with-param name="fullname-header">ReportingPoint</xsl:with-param>
+          <xsl:with-param name="select-child">Fields</xsl:with-param>
+          <xsl:with-param name="include-index">1</xsl:with-param>
+          <xsl:with-param name="select-child-items">1</xsl:with-param>
         </xsl:call-template>
       </Worksheet>
 

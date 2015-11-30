@@ -48,6 +48,7 @@
       <Worksheet ss:Name='Conditions'>
         <xsl:call-template name='item-property-table'>
           <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']"/>
+          <xsl:with-param name="fullname-header">ReportingPoint</xsl:with-param>
           <xsl:with-param name="select-child">Conditions</xsl:with-param>
           <xsl:with-param name="include-index">1</xsl:with-param>
           <xsl:with-param name="select-child-items">1</xsl:with-param>
@@ -55,16 +56,15 @@
       </Worksheet>
 
       <Worksheet ss:Name='Fields'>
-        <xsl:call-template name='property-table'>
-          <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']/Item[@name='Fields']/Item"/>
-          <xsl:with-param name="fullname-include">0</xsl:with-param>
-          <xsl:with-param name="parent-include">1</xsl:with-param>
-          <xsl:with-param name="parent-header">ReportingPoint</xsl:with-param>
-          <xsl:with-param name="parent-level">-2</xsl:with-param>
-          <xsl:with-param name="name-include">1</xsl:with-param>
+        <xsl:call-template name='item-property-table'>
+          <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']"/>
+          <xsl:with-param name="fullname-header">ReportingPoint</xsl:with-param>
+          <xsl:with-param name="select-child">Fields</xsl:with-param>
+          <xsl:with-param name="include-index">1</xsl:with-param>
+          <xsl:with-param name="select-child-items">1</xsl:with-param>
         </xsl:call-template>
       </Worksheet>
-
+      
       <Worksheet ss:Name='Standard Fields'>
         <xsl:variable name='fields' select="//Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']/Item[@name='Fields']/Item"/>
         <xsl:variable name="prod-fields" select="key('items-by-full-name', $fields/@definition)"/>
