@@ -19,13 +19,6 @@
   <xsl:key name="roles-by-role-id" match="RoleDefinition" use="@roleId"/>
   <xsl:key name="roles-by-user-id" match="Role" use="Member/User/@id"/>
   
-  <!--
-  <xsl:key name="items-by-id" match="Item[@id]" use="@id"/>
-  <xsl:key name="item-link-by-position" match="HistoricalExpressionConfig/ExpressionConfig/ItemLinkCollection" use="count(ItemLink)"/>
-
-  <xsl:variable name="source-items" select="//Item[Stream/PropertyLink]"/>
-  <xsl:variable name="destination-items" select="key('items-by-id', $source-items/Stream/PropertyLink/@id)"/>
--->
   <xsl:template match="/">
     <xsl:call-template name='excel-header-1'/>
     <Workbook  xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -33,8 +26,7 @@
 			xmlns:x="urn:schemas-microsoft-com:office:excel"
 			xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
                >
-      <!--			xmlns:html="http://www.w3.org/TR/REC-html40" -->
-      
+    
 
       <xsl:call-template name='workbook-styles' />
 
