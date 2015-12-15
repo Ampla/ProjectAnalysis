@@ -287,6 +287,7 @@
     <xsl:param name="property"></xsl:param>
     <xsl:param name="type" select="key('types-by-name', $item/@type)"/>
     <xsl:param name="style">value</xsl:param>
+    <xsl:param name="merge-down">0</xsl:param>
     <xsl:variable name="property-overridden" select="concat($property, $overridden)"/>
     <xsl:variable name="is-overridden" select="$item/Property[@name=$property-overridden]"/>
     <xsl:choose>
@@ -296,10 +297,13 @@
             <xsl:apply-templates select="$item/Property[@name=$property]" mode="cell"/>
           </xsl:with-param>
           <xsl:with-param name="style" select="$style"/>
+          <xsl:with-param name="merge-down" select="$merge-down"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:when test="not($type/Property[@name=$property])">
-        <xsl:call-template name="no-value"/>
+        <xsl:call-template name="no-value">
+          <xsl:with-param name="merge-down" select="$merge-down"/>
+        </xsl:call-template>
       </xsl:when>
       <xsl:when test="$item/@definition">
         <xsl:call-template name="property-cell">
@@ -307,6 +311,7 @@
           <xsl:with-param name="property" select="$property"/>
           <xsl:with-param name="type" select="$type"/>
           <xsl:with-param name="style">inherited-value</xsl:with-param>
+          <xsl:with-param name="merge-down" select="$merge-down"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:when test="$type/Property[@name=$property]">
@@ -315,21 +320,17 @@
             <xsl:apply-templates select="$type/Property[@name=$property]" mode="cell"/>
           </xsl:with-param>
           <xsl:with-param name="style">default-value</xsl:with-param>
+          <xsl:with-param name="merge-down" select="$merge-down"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:call-template name="no-value"/>
+        <xsl:call-template name="no-value">
+          <xsl:with-param name="merge-down" select="$merge-down"/>
+        </xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template name="no-value">
-    <xsl:call-template name="style-cell">
-      <xsl:with-param name="style">no-value</xsl:with-param>
-      <xsl:with-param name="text"></xsl:with-param>
-      <xsl:with-param name="comment"></xsl:with-param>
-    </xsl:call-template>
-  </xsl:template>
 
   <!--
   <xsl:template name="get-property-value">
@@ -375,6 +376,18 @@
 
   <xsl:template match="Property[FunctionConfig]" mode="cell">
     <xsl:value-of select="FunctionConfig/@format"/>
+  </xsl:template>
+
+  <xsl:template match="Property[@name='Formula']" mode="cell">
+    <xsl:variable name="value" select="."/>
+    <xsl:choose>
+      <xsl:when test="starts-with($value, 'System Configuration.Metrics.Formulas.')">
+        <xsl:value-of select="substring-after($value, 'System Configuration.Metrics.Formulas.')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$value"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   
   <xsl:template match="Property[property-value/ItemLocations/ItemLink]" mode="cell">

@@ -30,6 +30,9 @@
       <Style ss:ID='no-value' ss:Parent='text' ss:Name='No Value'>
         <Interior ss:Pattern='Solid' ss:Color='Silver'/>
       </Style>
+      <Style ss:ID='merge-down' ss:Parent='text' ss:Name='Merged Down'>
+        <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
+      </Style>
     </Styles>
 	</xsl:template>
 	
@@ -37,11 +40,34 @@
 		<xsl:param name='text' select='.' />
 		<xsl:param name='style'>text</xsl:param>
     <xsl:param name='type'>String</xsl:param>
+    <xsl:param name='cell-index'/>
+    <xsl:param name='merge-down'/>
     <xsl:param name='comment'/>
-		<Cell ss:StyleID="{$style}">
-			<Data ss:Type="{$type}">
-				<xsl:value-of select='$text'/>
-			</Data>
+		<Cell>
+      <xsl:if test="$merge-down">
+        <xsl:if test="$merge-down > 0">
+          <xsl:attribute name="ss:MergeDown">
+            <xsl:value-of select="$merge-down"/>
+          </xsl:attribute>
+        </xsl:if>
+      </xsl:if>
+      <xsl:if test="$cell-index">
+        <xsl:if test="$cell-index > 0">
+          <xsl:attribute name="ss:Index">
+            <xsl:value-of select="$cell-index"/>
+          </xsl:attribute>
+        </xsl:if>
+      </xsl:if>
+      <xsl:if test="$style">
+        <xsl:attribute name="ss:StyleID">
+          <xsl:value-of select="$style"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$text">
+        <Data ss:Type="{$type}">
+          <xsl:value-of select='$text'/>
+        </Data>
+      </xsl:if>
       <xsl:if test='$comment'>
         <Comment>
           <Data>
@@ -52,12 +78,32 @@
 		</Cell>
 	</xsl:template>
 
-  <xsl:template name='text-cell'>
-    <xsl:param name='text' select='.'/>
+  <xsl:template name='merge-cell'>
+    <xsl:param name='text' select='.' />
+    <xsl:param name='style'>text</xsl:param>
+    <xsl:param name='type'>String</xsl:param>
+    <xsl:param name='cell-index'/>
+    <xsl:param name='merge-down'>0</xsl:param>
     <xsl:param name='comment'/>
     <xsl:call-template name='style-cell'>
       <xsl:with-param name='text' select='$text'/>
-      <xsl:with-param name='style'>text</xsl:with-param>
+      <xsl:with-param name='style' select='$style'/>
+      <xsl:with-param name='type' select='$type'/>
+      <xsl:with-param name='cell-index' select='$cell-index'/>
+      <xsl:with-param name='merge-down' select='$merge-down'/>
+      <xsl:with-param name='comment' select='$comment'/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name='text-cell'>
+    <xsl:param name='text' select='.'/>
+    <xsl:param name='comment'/>
+    <xsl:param name='cell-index'/>
+    <xsl:param name='style'>text</xsl:param>
+    <xsl:call-template name='style-cell'>
+      <xsl:with-param name='text' select='$text'/>
+      <xsl:with-param name='style' select='$style'/>
+      <xsl:with-param name='cell-index' select='$cell-index'/>
       <xsl:with-param name='comment' select='$comment'/>
     </xsl:call-template>
   </xsl:template>
@@ -65,19 +111,32 @@
   <xsl:template name='number-cell'>
     <xsl:param name='value' select='.'/>
     <xsl:param name='comment'/>
+    <xsl:param name='style'>text</xsl:param>
     <xsl:call-template name='style-cell'>
       <xsl:with-param name='text' select='$value'/>
-      <xsl:with-param name='style'>text</xsl:with-param>
+      <xsl:with-param name='style' select='$style'/>
       <xsl:with-param name='type'>Number</xsl:with-param>
       <xsl:with-param name='comment' select='$comment'/>
     </xsl:call-template>
   </xsl:template>
 
+  <xsl:template name="no-value">
+    <xsl:param name="merge-down">0</xsl:param>
+    <xsl:call-template name="style-cell">
+      <xsl:with-param name="style">no-value</xsl:with-param>
+      <xsl:with-param name="text"></xsl:with-param>
+      <xsl:with-param name="comment"></xsl:with-param>
+      <xsl:with-param name="merge-down" select="$merge-down"/>
+    </xsl:call-template>
+  </xsl:template>
+
   <xsl:template name='header-cell'>
     <xsl:param name='text' select='.'/>
+    <xsl:param name='comment'/>
     <xsl:call-template name='style-cell'>
       <xsl:with-param name='text' select='$text'/>
       <xsl:with-param name='style'>header</xsl:with-param>
+      <xsl:with-param name='comment' select='$comment'/>
     </xsl:call-template>
   </xsl:template>
 
