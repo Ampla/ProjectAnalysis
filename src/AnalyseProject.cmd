@@ -55,6 +55,7 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Production.xslt -o Output\Excel.Modules.Production.xls
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Quality.xslt -o Output\Excel.Modules.Quality.xls
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Downtime.xslt -o Output\Excel.Modules.Downtime.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Metrics.xslt -o Output\Excel.Modules.Metrics.xls
 
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
@@ -113,6 +114,7 @@ cd ..\..
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
 %nxslt% Working\project.links.xml StyleSheets\Document.Equipment.xslt -o Output\Project.Equipment.html lang=%lang%
 %nxslt% Working\authstore.xml StyleSheets\Document.Security.xslt -o Output\Project.Security.html
+%nxslt% Working\authstore.xml StyleSheets\Excel.Security.xslt -o Output\Excel.Security.xls
 
 %nxslt% Working\project.links.xml StyleSheets\Document.Frames.xslt -o Output\index.html
 %nxslt% Working\project.links.xml StyleSheets\Document.Hierarchy.xslt -o Output\hierarchy.html 
