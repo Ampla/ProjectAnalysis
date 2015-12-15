@@ -51,6 +51,12 @@
     <Content Include="Bootstrap.Downtime.xslt">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Excel.Security.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Modules.Metrics.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Excel.Modules.Downtime.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -106,7 +112,9 @@
     </Content>
     <Content Include="Document.Properties.xslt" />
     <Content Include="Document.Security.Text.xslt" />
-    <Content Include="Document.Security.xslt" />
+    <Content Include="Document.Security.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Summary.xslt" />
     <Content Include="Document.Translations.xslt" />
     <Content Include="Document.Warnings.xslt">
