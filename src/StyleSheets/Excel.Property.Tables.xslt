@@ -298,6 +298,9 @@
           </xsl:with-param>
           <xsl:with-param name="style" select="$style"/>
           <xsl:with-param name="merge-down" select="$merge-down"/>
+          <xsl:with-param name="comment">
+            <xsl:apply-templates select="$item/Property[@name=$property]" mode="comment"/>
+          </xsl:with-param>
         </xsl:call-template>
       </xsl:when>
       <xsl:when test="not($type/Property[@name=$property])">
@@ -321,6 +324,9 @@
           </xsl:with-param>
           <xsl:with-param name="style">default-value</xsl:with-param>
           <xsl:with-param name="merge-down" select="$merge-down"/>
+          <xsl:with-param name="comment">
+            <xsl:apply-templates select="$item/Property[@name=$property]" mode="comment"/>
+          </xsl:with-param>
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
@@ -354,6 +360,8 @@
     <xsl:value-of select="."/>
   </xsl:template>
 
+  <xsl:template match="Property" mode="comment"/>
+
   <xsl:template match="Property[@name='DisplayIconBytes']" mode="cell">
     <xsl:text>{bytes}</xsl:text>
   </xsl:template>
@@ -378,18 +386,8 @@
     <xsl:value-of select="FunctionConfig/@format"/>
   </xsl:template>
 
-  <xsl:template match="Property[@name='Formula']" mode="cell">
-    <xsl:variable name="value" select="."/>
-    <xsl:choose>
-      <xsl:when test="starts-with($value, 'System Configuration.Metrics.Formulas.')">
-        <xsl:value-of select="substring-after($value, 'System Configuration.Metrics.Formulas.')"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$value"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
   
+  <!--
   <xsl:template match="Property[property-value/ItemLocations/ItemLink]" mode="cell">
     <xsl:for-each select="property-value/ItemLocations/ItemLink">
       <xsl:choose>
@@ -405,6 +403,8 @@
       </xsl:if>
     </xsl:for-each>
   </xsl:template>
+  
+  -->
   
   <xsl:template match="Property[@type='System.Boolean']" mode="cell">
     <xsl:choose>
@@ -426,13 +426,71 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  
-  <xsl:template match="Property[@name='CalculationType']" mode="cell">
-    <xsl:call-template name="display-enum"/>
+
+  <xsl:template name="relative-item">
+    <xsl:param name="current" select="."/>
+    <xsl:param name="item"/>
+    <xsl:param name="item-full-name"></xsl:param>
+    <xsl:param name="prefix"></xsl:param>
+    <xsl:variable name="current-full-name" select="$current/@fullName"/>
+    <xsl:choose>
+      <xsl:when test="$item">
+        <xsl:variable name="item-root" select="($item/ancestor-or-self::Item)[1]"/>
+        <xsl:variable name="current-root" select="($current/ancestor-or-self::Item)[1]"/>
+        <xsl:choose>
+          <!-- same tree -->
+          <xsl:when test="$item-root/@id = $current-root/@id">
+            <xsl:call-template name="relative-item">
+              <xsl:with-param name="current" select="$current"/>
+              <xsl:with-param name="item-full-name" select="$item/@fullName"/>
+              <xsl:with-param name="prefix" select="$prefix"/>
+            </xsl:call-template>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="concat('Item Root: ', $item-root/@fullName)"/>
+            <xsl:value-of select="concat('Currrent Root: ', $current-root/@fullName)"/>
+            <xsl:value-of select="$item/@fullName"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="not($current-full-name)">
+        <xsl:value-of select="$item-full-name"/>
+      </xsl:when>
+      <xsl:when test="starts-with($item-full-name, $current-full-name)">
+        <xsl:value-of select="concat('...', $current/@name, substring-after($item-full-name, $current-full-name))"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="relative-item">
+          <xsl:with-param name="current" select="$current/parent::Item"/>
+          <xsl:with-param name="item-full-name" select="$item-full-name"/>
+          <xsl:with-param name="prefix" select="concat('.', $prefix)"/>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="Property[@name='Action']" mode="cell">
-    <xsl:call-template name="display-enum"/>
+
+  <xsl:template match="Property[linkFrom/link/@fullName]" mode="cell">
+    <xsl:variable name="current" select="parent::Item"/>
+    <xsl:variable name="items" select="key('items-by-full-name', linkFrom/link/@fullName)"/>
+    <xsl:for-each select="$items">
+      <xsl:variable name="item" select="."/>
+      <xsl:if test="position() > 1">,</xsl:if>
+      <xsl:call-template name="relative-item">
+        <xsl:with-param name="current" select="$current"/>
+        <xsl:with-param name="item" select="$item"/>
+      </xsl:call-template>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="Property[linkFrom/link/@fullName]" mode="comment">
+    <xsl:variable name="current" select="parent::Item"/>
+    <xsl:variable name="items" select="key('items-by-full-name', linkFrom/link/@fullName)"/>
+    <xsl:for-each select="$items">
+      <xsl:variable name="item" select="."/>
+      <xsl:if test="position() > 1">,</xsl:if>
+      <xsl:value-of select="$item/@fullName"/>
+    </xsl:for-each>
   </xsl:template>
 
 </xsl:stylesheet>

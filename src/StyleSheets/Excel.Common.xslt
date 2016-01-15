@@ -2,7 +2,9 @@
 <xsl:stylesheet version="1.0"
 				xmlns="urn:schemas-microsoft-com:office:spreadsheet"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" >
+                xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" 
+                xmlns:html="http://www.w3.org/TR/REC-html40"
+                xmlns:x="urn:schemas-microsoft-com:office:excel">
 
 	<xsl:template name='excel-header-1'>
 		<xsl:processing-instruction name="mso-application">
@@ -63,17 +65,11 @@
           <xsl:value-of select="$style"/>
         </xsl:attribute>
       </xsl:if>
-      <xsl:if test="$text">
-        <Data ss:Type="{$type}">
-          <xsl:value-of select='$text'/>
-        </Data>
+      <xsl:if test="$text and string-length($text) > 0">
+        <Data ss:Type="{$type}"><xsl:value-of select='$text'/></Data>
       </xsl:if>
-      <xsl:if test='$comment'>
-        <Comment>
-          <Data>
-            <xsl:value-of select='$comment'/>
-          </Data>
-        </Comment>
+      <xsl:if test='string-length($comment) > 0 and not($comment = $text)' xml:space='preserve'>
+        <Comment><Data><html:Font html:Face="Tahoma" x:Family="Swiss" html:Size="9" html:Color="#000000"><xsl:value-of select='$comment'/></html:Font></Data></Comment>
       </xsl:if>
 		</Cell>
 	</xsl:template>
