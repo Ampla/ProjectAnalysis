@@ -470,7 +470,7 @@
   </xsl:template>
 
 
-  <xsl:template match="Property[linkFrom/link/@fullName]" mode="cell">
+  <xsl:template match="Property[property-value[not(*) and text()] and linkFrom/link/@fullName]" mode="cell">
     <xsl:variable name="current" select="parent::Item"/>
     <xsl:variable name="items" select="key('items-by-full-name', linkFrom/link/@fullName)"/>
     <xsl:for-each select="$items">
@@ -483,7 +483,30 @@
     </xsl:for-each>
   </xsl:template>
 
-  <xsl:template match="Property[linkFrom/link/@fullName]" mode="comment">
+  <xsl:template match="Property[property-value[not(*) and text()] and linkFrom/link/@fullName]" mode="comment">
+    <xsl:variable name="current" select="parent::Item"/>
+    <xsl:variable name="items" select="key('items-by-full-name', linkFrom/link/@fullName)"/>
+    <xsl:for-each select="$items">
+      <xsl:variable name="item" select="."/>
+      <xsl:if test="position() > 1">,</xsl:if>
+      <xsl:value-of select="$item/@fullName"/>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="Property[property-value/ItemLocations and linkFrom/link/@fullName]" mode="cell">
+    <xsl:variable name="current" select="parent::Item"/>
+    <xsl:variable name="items" select="key('items-by-full-name', linkFrom/link/@fullName)"/>
+    <xsl:for-each select="$items">
+      <xsl:variable name="item" select="."/>
+      <xsl:if test="position() > 1">,</xsl:if>
+      <xsl:call-template name="relative-item">
+        <xsl:with-param name="current" select="$current"/>
+        <xsl:with-param name="item" select="$item"/>
+      </xsl:call-template>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="Property[property-value/ItemLocations and linkFrom/link/@fullName]" mode="comment">
     <xsl:variable name="current" select="parent::Item"/>
     <xsl:variable name="items" select="key('items-by-full-name', linkFrom/link/@fullName)"/>
     <xsl:for-each select="$items">
