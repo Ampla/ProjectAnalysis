@@ -112,6 +112,9 @@
               <xsl:with-param name="text">Resolver</xsl:with-param>
             </xsl:call-template>
             <xsl:call-template name="header-cell">
+              <xsl:with-param name="text">ResolverName</xsl:with-param>
+            </xsl:call-template>
+            <xsl:call-template name="header-cell">
               <xsl:with-param name="text">Action</xsl:with-param>
             </xsl:call-template>
             <xsl:call-template name="header-cell">
@@ -322,8 +325,17 @@
       <xsl:when test="$resolver">
         <xsl:call-template name="text-cell">
           <xsl:with-param name="text" select="$resolver/@name"/>
-          <!--      <xsl:with-param name="cell-index">5</xsl:with-param> -->
           <xsl:with-param name="style">value</xsl:with-param>
+        </xsl:call-template>
+        <xsl:variable name="resolver-name" select="$resolver/Property[@name='ResolverName']"/>
+        <xsl:call-template name="text-cell">
+          <xsl:with-param name="text" select="$resolver-name"/>
+          <xsl:with-param name="style">
+            <xsl:choose>
+              <xsl:when test="$resolver/@name = $resolver-name">default-value</xsl:when>
+              <xsl:otherwise>value</xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="property-cell">
           <xsl:with-param name="item" select="$resolver"/>
@@ -447,6 +459,9 @@
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:call-template name="no-value"/>
+        <xsl:call-template name="no-value"/>
+        <xsl:call-template name="no-value"/>
         <xsl:call-template name="no-value"/>
         <xsl:call-template name="no-value"/>
         <xsl:call-template name="no-value"/>
