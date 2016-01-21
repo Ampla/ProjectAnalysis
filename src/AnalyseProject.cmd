@@ -61,6 +61,8 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Variables.xslt -o Output\Excel.Variables.xls
 
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Calendar.xslt -o Output\Excel.Calendar.xls
+
 @echo === Expressions ===
 %nxslt% Working\project.expressions.xml StyleSheets\Excel.Expressions.xslt -o Output\Excel.Expressions.xls
 
