@@ -516,4 +516,16 @@
     </xsl:for-each>
   </xsl:template>
 
+  <xsl:template match="Property[@name='CalculationType']" mode="cell">
+    <xsl:call-template name="display-enum"/>
+  </xsl:template>
+
+  <xsl:template match="Property[@name='Action']" mode="cell">
+    <xsl:call-template name="display-enum"/>
+  </xsl:template>
+
+  <xsl:template match="Property[@name='AuthenticationMode']" mode="cell">
+    <xsl:call-template name="display-enum"/>
+  </xsl:template>
+
 </xsl:stylesheet>
