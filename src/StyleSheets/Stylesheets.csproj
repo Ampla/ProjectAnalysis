@@ -51,6 +51,9 @@
     <Content Include="Bootstrap.Downtime.xslt">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Excel.Calendar.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Excel.Security.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -75,7 +78,7 @@
     <Content Include="Document.Inventory.DotML.xslt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Excel.Variables.xslt">
+    <Content Include="Excel.Connectors.xslt">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Document.Browser.Testing.xslt" />

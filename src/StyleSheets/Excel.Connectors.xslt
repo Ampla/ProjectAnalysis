@@ -13,8 +13,11 @@
   <xsl:include href='Excel.Property.Tables.xslt' />
 
   <xsl:variable name="variable-types" select="/Project/Reference/Type[contains(@name, 'Variable')]"/>
+  <xsl:variable name="connector-types" select="/Project/Reference[contains(@name, '.Connectors.')]/Type"/>
 
-  <xsl:key name="all-items-by-type" match="Item[@type]" use="@type"/>
+  <xsl:variable name="selected-types" select="$variable-types | $connector-types"/>
+  
+  <xsl:key name="items-by-type" match="Item[@type]" use="@type"/>
   <xsl:key name="all-items-by-id" match="Item[@type]" use="@id"/>
 
   <xsl:template match="/Project">
@@ -29,25 +32,45 @@
 
       <Worksheet ss:Name='Summary'>
         <Table>
-          <xsl:call-template name='header-row-2-columns'>
-            <xsl:with-param name='column-1'>Variable Type</xsl:with-param>
-            <xsl:with-param name='column-2'>Count</xsl:with-param>
-          </xsl:call-template>
-          <xsl:for-each select="$variable-types">
-            <xsl:variable name="items" select="key('all-items-by-type', @fullName)"/>
-            <xsl:call-template name="data-row-2-columns">
-              <xsl:with-param name="column-1" select="@name" />
-              <xsl:with-param name="column-2" select="count($items)"/>
+          <Column ss:Width='200'/>
+          <Column ss:AutoFitWidth="1" />
+          <Column ss:Width='100'/>
+          <Row>
+            <xsl:call-template name='header-cell'>
+              <xsl:with-param name='text'>Connector Types</xsl:with-param>
             </xsl:call-template>
+            <xsl:call-template name='header-cell'>
+              <xsl:with-param name='text'>Count</xsl:with-param>
+            </xsl:call-template>
+          </Row>
+          <xsl:for-each select="$selected-types">
+            <xsl:sort select="@fullName" data-type="text" order ="ascending"/>
+            <xsl:variable name="items" select="key('items-by-type', @fullName)"/>
+            <Row>
+              <xsl:call-template name="text-cell">
+                <xsl:with-param name="text" select="@name"/>
+                <xsl:with-param name="comment" select="@fullName"/>
+              </xsl:call-template>
+              <xsl:call-template name="number-cell">
+                <xsl:with-param name="value" select="count($items)"/>
+              </xsl:call-template>
+              <xsl:call-template name="hyperlink-cell">
+                <xsl:with-param name="text">Details</xsl:with-param>
+                <xsl:with-param name="sheet-ref" select="@name"/>
+                <xsl:with-param name="cell-ref">A1</xsl:with-param>
+              </xsl:call-template>
+            </Row>
           </xsl:for-each>
         </Table>
       </Worksheet>
 
-      <xsl:for-each select="$variable-types">
+      <xsl:for-each select="$selected-types">
+        <xsl:sort select="@fullName" data-type="text" order ="ascending"/>
         <xsl:variable name="type" select="@fullName"/>
+        <xsl:variable name="items" select="//Item[@type=$type]"/>
         <Worksheet ss:Name="{@name}">
           <xsl:call-template name='property-table'>
-            <xsl:with-param name='items' select="//Item[@type=$type]"/>
+            <xsl:with-param name='items' select="$items"/>
             <xsl:with-param name="index-include">1</xsl:with-param>
             <xsl:with-param name="fullname-include">1</xsl:with-param>
             <xsl:with-param name="parent-include">0</xsl:with-param>
@@ -71,7 +94,6 @@
   <xsl:template match="Property[@name='RecallSample']" mode="comment">
     <xsl:value-of select="."/>
   </xsl:template>
-  
   
   <xsl:template name="nth-string">
     <xsl:param name="value"></xsl:param>

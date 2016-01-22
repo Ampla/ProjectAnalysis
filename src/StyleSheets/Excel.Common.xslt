@@ -23,6 +23,9 @@
       <Style ss:ID='value' ss:Parent='text' ss:Name='Value'>
         <Font ss:Bold="1"/>
       </Style>
+      <Style ss:ID='hyperlink' ss:Parent='text' ss:Name='Hyperlink'>
+        <Font ss:Underline="Single" ss:Color="#0000FF"/>
+      </Style>
       <Style ss:ID='inherited-value' ss:Parent='text' ss:Name='Inherited Value'>
         <Font ss:Italic="1" />
       </Style>
@@ -44,12 +47,21 @@
     <xsl:param name='type'>String</xsl:param>
     <xsl:param name='cell-index'/>
     <xsl:param name='merge-down'/>
+    <xsl:param name='merge-across'/>
     <xsl:param name='comment'/>
+    <xsl:param name='hyperlink'/>
 		<Cell>
       <xsl:if test="$merge-down">
         <xsl:if test="$merge-down > 0">
           <xsl:attribute name="ss:MergeDown">
             <xsl:value-of select="$merge-down"/>
+          </xsl:attribute>
+        </xsl:if>
+      </xsl:if>
+      <xsl:if test="$merge-across">
+        <xsl:if test="$merge-across > 0">
+          <xsl:attribute name="ss:MergeAcross">
+            <xsl:value-of select="$merge-across"/>
           </xsl:attribute>
         </xsl:if>
       </xsl:if>
@@ -63,6 +75,11 @@
       <xsl:if test="$style">
         <xsl:attribute name="ss:StyleID">
           <xsl:value-of select="$style"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$hyperlink">
+        <xsl:attribute name="ss:HRef">
+          <xsl:value-of select="$hyperlink"/>
         </xsl:attribute>
       </xsl:if>
       <xsl:if test="$text and string-length($text) > 0">
@@ -80,6 +97,7 @@
     <xsl:param name='type'>String</xsl:param>
     <xsl:param name='cell-index'/>
     <xsl:param name='merge-down'>0</xsl:param>
+    <xsl:param name='merge-across'>0</xsl:param>
     <xsl:param name='comment'/>
     <xsl:call-template name='style-cell'>
       <xsl:with-param name='text' select='$text'/>
@@ -87,6 +105,7 @@
       <xsl:with-param name='type' select='$type'/>
       <xsl:with-param name='cell-index' select='$cell-index'/>
       <xsl:with-param name='merge-down' select='$merge-down'/>
+      <xsl:with-param name='merge-across' select='$merge-across'/>
       <xsl:with-param name='comment' select='$comment'/>
     </xsl:call-template>
   </xsl:template>
@@ -101,6 +120,28 @@
       <xsl:with-param name='style' select='$style'/>
       <xsl:with-param name='cell-index' select='$cell-index'/>
       <xsl:with-param name='comment' select='$comment'/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name='hyperlink-cell'>
+    <xsl:param name='text' select='.'/>
+    <xsl:param name='sheet-ref'></xsl:param>
+    <xsl:param name='cell-ref'>A1</xsl:param>
+    <xsl:param name='comment'/>
+    <xsl:param name='cell-index'/>
+    <xsl:param name='style'>hyperlink</xsl:param>
+    <xsl:call-template name='style-cell'>
+      <xsl:with-param name='text' select='$text'/>
+      <xsl:with-param name='style' select='$style'/>
+      <xsl:with-param name='cell-index' select='$cell-index'/>
+      <xsl:with-param name='comment' select='$comment'/>
+      <xsl:with-param name='hyperlink'>
+        <xsl:text>#</xsl:text>
+        <xsl:if test='$sheet-ref'>
+          <xsl:value-of select="concat($sheet-ref, '!')"/>
+        </xsl:if>
+        <xsl:value-of select="$cell-ref"/>
+      </xsl:with-param>
     </xsl:call-template>
   </xsl:template>
 
@@ -129,10 +170,12 @@
   <xsl:template name='header-cell'>
     <xsl:param name='text' select='.'/>
     <xsl:param name='comment'/>
+    <xsl:param name='merge-across'/>
     <xsl:call-template name='style-cell'>
       <xsl:with-param name='text' select='$text'/>
       <xsl:with-param name='style'>header</xsl:with-param>
       <xsl:with-param name='comment' select='$comment'/>
+      <xsl:with-param name='merge-across' select='$merge-across'/>
     </xsl:call-template>
   </xsl:template>
 
