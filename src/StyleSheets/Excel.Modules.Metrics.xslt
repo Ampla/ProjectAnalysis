@@ -147,6 +147,9 @@
             <xsl:call-template name="header-cell">
               <xsl:with-param name="text">ConstantItem</xsl:with-param>
             </xsl:call-template>
+			<xsl:call-template name="header-cell">
+              <xsl:with-param name="text">ErrorValue</xsl:with-param>
+            </xsl:call-template>
           </Row>
           <xsl:variable name="kpi-type" select="key('types-by-name', $kpi-type-name)"/>
           <xsl:variable name="resolver-type" select="key('types-by-name', $resolver-type-name)"/>
@@ -375,6 +378,11 @@
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
+			<xsl:call-template name="property-cell">
+              <xsl:with-param name="item" select="$resolver"/>
+              <xsl:with-param name="property">ErrorValue</xsl:with-param>
+              <xsl:with-param name="type" select="$type"/>
+            </xsl:call-template>
           </xsl:when>
           <xsl:when test="$action = 'KPI'">
             <xsl:call-template name="no-value"/>
@@ -391,7 +399,12 @@
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
-          </xsl:when>
+			<xsl:call-template name="property-cell">
+              <xsl:with-param name="item" select="$resolver"/>
+              <xsl:with-param name="property">ErrorValue</xsl:with-param>
+              <xsl:with-param name="type" select="$type"/>
+            </xsl:call-template>
+		  </xsl:when>
           <xsl:when test="$action = 'Resolver'">
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
@@ -407,7 +420,12 @@
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
-          </xsl:when>
+			<xsl:call-template name="property-cell">
+              <xsl:with-param name="item" select="$resolver"/>
+              <xsl:with-param name="property">ErrorValue</xsl:with-param>
+              <xsl:with-param name="type" select="$type"/>
+            </xsl:call-template>
+		  </xsl:when>
           <xsl:when test="$action = 'Variable'">
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
@@ -423,7 +441,12 @@
             </xsl:call-template>
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
-          </xsl:when>
+			<xsl:call-template name="property-cell">
+              <xsl:with-param name="item" select="$resolver"/>
+              <xsl:with-param name="property">ErrorValue</xsl:with-param>
+              <xsl:with-param name="type" select="$type"/>
+            </xsl:call-template>
+		  </xsl:when>
           <xsl:when test="$action = 'Calendar'">
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
@@ -439,7 +462,12 @@
               <xsl:with-param name="type" select="$type"/>
             </xsl:call-template>
             <xsl:call-template name="no-value"/>
-          </xsl:when>
+			<xsl:call-template name="property-cell">
+              <xsl:with-param name="item" select="$resolver"/>
+              <xsl:with-param name="property">ErrorValue</xsl:with-param>
+              <xsl:with-param name="type" select="$type"/>
+            </xsl:call-template>
+		  </xsl:when>
           <xsl:when test="$action = 'Constant'">
             <xsl:call-template name="no-value"/>
             <xsl:call-template name="no-value"/>
@@ -455,10 +483,16 @@
               <xsl:with-param name="property">ConstantItem</xsl:with-param>
               <xsl:with-param name="type" select="$type"/>
             </xsl:call-template>
-          </xsl:when>
-        </xsl:choose>
+			<xsl:call-template name="property-cell">
+              <xsl:with-param name="item" select="$resolver"/>
+              <xsl:with-param name="property">ErrorValue</xsl:with-param>
+              <xsl:with-param name="type" select="$type"/>
+            </xsl:call-template>
+		  </xsl:when>
+ 	    </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:call-template name="no-value"/>
         <xsl:call-template name="no-value"/>
         <xsl:call-template name="no-value"/>
         <xsl:call-template name="no-value"/>
