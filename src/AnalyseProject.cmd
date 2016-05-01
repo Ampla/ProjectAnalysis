@@ -59,7 +59,10 @@ del Output\Graphs\*.* /Q
 
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
-%nxslt% Working\project.links.xml		StyleSheets\Excel.Variables.xslt -o Output\Excel.Variables.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Connectors.xslt -o Output\Excel.Connectors.xls
+
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Calendar.xslt -o Output\Excel.Calendar.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Types.xslt -o Output\Excel.Types.xls
 
 @echo === Expressions ===
 %nxslt% Working\project.expressions.xml StyleSheets\Excel.Expressions.xslt -o Output\Excel.Expressions.xls
