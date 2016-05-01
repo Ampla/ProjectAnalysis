@@ -12,6 +12,8 @@
   <xsl:variable name="crlf" select="'&#xD;&#xA;'"/>
   <xsl:variable name="cr" select="'&#xD;'"/>
   <xsl:variable name="alpha">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</xsl:variable>
+  
+  <xsl:key name="property-by-item-type-name" match="Item/Property" use="concat(../@type, '-', @name)"/>
 
   <xsl:variable name="defaultDisplayOrder">
     <xsl:variable name="platformVersion" select="/*/Reference[@name='Citect.Ampla.StandardItems']/@version"/>
@@ -22,7 +24,8 @@
       <xsl:when test="($majorVersion = 4) and ($minorVersion >= 2)">50000</xsl:when>
       <xsl:otherwise>0</xsl:otherwise>
     </xsl:choose>
-  </xsl:variable> 
+  </xsl:variable>
+   
   
   <xsl:param name="language"/>
 <!--   <xsl:variable name="translations" select="document($language)/Names/Name"/> -->
@@ -126,11 +129,86 @@
         </xsl:attribute>
         <xsl:attribute name="fullName">
           <xsl:value-of select="@name"/>
-        </xsl:attribute>        
+        </xsl:attribute>
+        <xsl:variable name="item-properties" select="key('property-by-item-type-name', concat(../@name,'-DisplayOrder'))"/>
+        <Property name="DisplayOrder" type="System.Int32">
+          <xsl:value-of select="$defaultDisplayOrder"/>
+        </Property>
+        <xsl:apply-templates select="Property"/>
       </xsl:copy>
     </xsl:if>
   </xsl:template>
 
+  <xsl:template match="Type/Property">
+    <xsl:variable name="item-properties" select="key('property-by-item-type-name', concat(../@name,'-', @name))"/>
+    <xsl:variable name="type">
+      <xsl:call-template name="getType">
+        <xsl:with-param name="property-type" select="@type"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:choose>
+      <xsl:when test="$item-properties">
+        <Property name="{@name}" type="{$type}" count="{count($item-properties)}">
+          <xsl:value-of select="."/>
+        </Property>
+      </xsl:when>
+      <xsl:otherwise>
+        <Property name="{@name}" type="{$type}">
+          <xsl:value-of select="."/>
+        </Property>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="Type/Property[@behavior='Runtime']">
+    <xsl:comment>
+      <xsl:text>Runtime: </xsl:text>
+      <xsl:value-of select="@name"/>
+    </xsl:comment>
+  </xsl:template>
+  
+  <xsl:template match="Type/Property[@behavior='Historical']">
+    <xsl:variable name="dataType">
+      <xsl:choose>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.SampleStream, Citect.Ampla.Runtime.Data'">Object</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.EventSampleStream, Citect.Ampla.Runtime.Data'">Event</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.Int32SampleStream, Citect.Ampla.Runtime.Data'">Int32</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.BooleanSampleStream, Citect.Ampla.Runtime.Data'">Boolean</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.StringSampleStream, Citect.Ampla.Runtime.Data'">String</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.SingleSampleStream, Citect.Ampla.Runtime.Data'">Single</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.DateTimeSampleStream, Citect.Ampla.Runtime.Data'">DateTime</xsl:when>
+        <xsl:when test="@type='Citect.Ampla.Runtime.Data.Streams.DoubleSampleStream, Citect.Ampla.Runtime.Data'">Double</xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    <Stream name="{@name}" dataType="{$dataType}"/>
+  </xsl:template>
+
+  <xsl:template name="getType">
+    <xsl:param name="property-type"/>
+    <xsl:variable name="type" select="substring-before($property-type, ', ')"/>
+    <xsl:variable name="assembly" select="substring-after($property-type, ', ')"/>
+    <xsl:choose>
+      <xsl:when test="$assembly = 'mscorlib'">
+        <xsl:value-of select="$type"/>
+      </xsl:when>
+      <xsl:when test="$assembly = 'Citect.Ampla.Framework'">
+        <xsl:value-of select="$type"/>
+      </xsl:when>
+      <xsl:when test="$assembly = 'Citect.Ampla.Framework.Extras'">
+        <xsl:value-of select="$type"/>
+      </xsl:when>
+      <xsl:when test="$assembly = 'Citect.Ampla.Runtime.Data'">
+        <xsl:value-of select="$type"/>
+      </xsl:when>
+      <xsl:when test="$assembly = 'Citect.Security.Identities'">
+        <xsl:value-of select="$type"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$property-type"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
   <xsl:template match="ClassDefinition[@id]">
     <xsl:element name="Item">
       <xsl:attribute name="hash">
@@ -188,6 +266,10 @@
   <xsl:template match="Item[@id]/Property[@name='DataSource']"/>
   <xsl:template match="Item[@id]/Property[@name='Definition']"/>
 
+  <xsl:template match="Type/Property[@name='DataSource']"/>
+  <xsl:template match="Type/Property[@name='Definition']"/>
+  <xsl:template match="Type/Property[@name='PropertyMaskSets']"/>
+
   <xsl:template match="Item[@id]">
     <xsl:element name="Item">
       <xsl:call-template name="addItemAttributes"/>
@@ -207,6 +289,12 @@
     <xsl:attribute name="fullName">
       <xsl:call-template name="getItemFullName"/>
     </xsl:attribute>
+    <xsl:variable name="definition" select="Property[@name='Definition']/ItemLink/@absolutePath"/>
+    <xsl:if test="$definition">
+      <xsl:attribute name="definition">
+        <xsl:value-of select="$definition"/>
+      </xsl:attribute>
+    </xsl:if>
     <xsl:call-template name="addTranslation"/>
     <xsl:apply-templates select="ItemClassAssociation"/>
   </xsl:template>

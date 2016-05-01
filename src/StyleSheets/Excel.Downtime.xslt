@@ -17,6 +17,8 @@
 
   <xsl:include href='Excel.Common.xslt' />
 
+  <xsl:variable name='quote'>'</xsl:variable>
+  
   <xsl:key name="none" match="None" use="@none"/>
   <xsl:key name="cause-by-id" match="Cause" use="@cause"/>
   <xsl:key name="classification-by-id" match="Classification" use="@classification" />
@@ -26,6 +28,8 @@
   <xsl:key name="matrix-by-classification" match="Matrix" use="@classification"/>
   <xsl:key name="matrix-by-effect" match="Matrix" use="@effect"/>
   <xsl:key name="locations-by-fullname" match="Location" use="@fullName"/>
+  <xsl:key name="cause-location-by-fullname" match="CauseLocation" use="@fullName"/>
+  <xsl:key name="downtimes-by-cause-location" match="DowntimeReportingPoint" use="CauseLocations/CauseLocation/@fullName" />
 
   <xsl:variable name="causes" select="/Project/Causes/Cause"/>
   <xsl:variable name="classifications" select="/Project/Classifications/Classification"/>
@@ -33,7 +37,12 @@
   <xsl:variable name="equipmentTypes" select="/Project/EquipmentTypes/EquipmentType"/>
   <xsl:variable name="relationshipMatrixs" select="/Project/EquipmentTypes/EquipmentType/RelationshipMatrix/Matrix"/>
   <xsl:variable name="applicationFolders" select="/Project/EquipmentTypes/EquipmentType/Locations/Location[generate-id() = generate-id(key('locations-by-fullname', @fullName)[1])]"/>
+  <xsl:variable name="downtimeReportingPoints" select="/Project/DowntimeReportingPoints/DowntimeReportingPoint"/>
 
+  <xsl:variable name="usedLocations" select="/Project/EquipmentTypes/EquipmentType/Locations/Location"/>
+  <xsl:variable name="missingLocations" select="/Project/Locations/Location"/>
+  <xsl:variable name="all-locations" select="$usedLocations | $missingLocations"/>
+  
   <xsl:template match="/Project">
     <xsl:call-template name='excel-header-1'/>
     <Workbook  xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -134,6 +143,135 @@
 
         </Table>
       </Worksheet>
+	  
+	  <Worksheet ss:Name='DowntimeCauseLocations'>
+        <Table>
+          <xsl:call-template name='header-row-4-columns'>
+            <xsl:with-param name='column-1'>DowntimeReportingPoint</xsl:with-param>
+            <xsl:with-param name='column-2'>CauseLocation</xsl:with-param>
+            <xsl:with-param name='column-3'>EquipmentType</xsl:with-param>
+            <xsl:with-param name='column-4'>Messages</xsl:with-param>
+          </xsl:call-template>
+          <xsl:for-each select='$downtimeReportingPoints'>
+            <xsl:variable name='point' select='.'/>
+            <xsl:choose>
+              <xsl:when test='count($point/CauseLocations/CauseLocation) = 0'>
+                <xsl:call-template name='data-row-3-columns'>
+                  <xsl:with-param name='column-1' select='$point/@fullName'/>
+                  <xsl:with-param name='column-2'>{all}</xsl:with-param>
+                  <xsl:with-param name='column-3'>{na}</xsl:with-param>
+                </xsl:call-template>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:for-each select='$point/CauseLocations/CauseLocation'>
+                  <xsl:variable name='location' select='key("locations-by-fullname", @fullName)'/>
+                  <xsl:variable name='equipmentType' select='$location/ancestor::EquipmentType'/>
+                  <xsl:variable name='eqType'>
+                    <xsl:choose>
+                      <xsl:when test='not($equipmentType)'></xsl:when>
+                      <xsl:otherwise>
+                        <xsl:value-of select='$equipmentType/@name'/>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:variable>
+                  <xsl:variable name='message'>
+                    <xsl:choose>
+                      <xsl:when test='@message'>
+                        <xsl:value-of select='@message'/>
+                      </xsl:when>
+                      <xsl:when test='not($equipmentType)'>No EquipmentType specified</xsl:when>
+                      <xsl:when test='count($equipmentType/RelationshipMatrix/Matrix) = 0'><xsl:value-of select='$eqType'/> is empty</xsl:when>
+                      <xsl:otherwise></xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:variable>
+                  <xsl:call-template name='data-row-4-columns'>
+                    <xsl:with-param name='column-1' select='$point/@fullName'/>
+                    <xsl:with-param name='column-2' select='@fullName'/>
+                    <xsl:with-param name='column-3' select='$eqType'/>
+                    <xsl:with-param name='column-4' select='$message'/>
+                  </xsl:call-template>
+                </xsl:for-each>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:for-each>
+        </Table>
+      </Worksheet>
+
+      <Worksheet ss:Name='Locations'>
+        <Table>
+          <xsl:call-template name='header-row-5-columns'>
+            <xsl:with-param name='column-1'>Location</xsl:with-param>
+            <xsl:with-param name='column-2'>EquipmentType</xsl:with-param>
+            <xsl:with-param name='column-3'>RelationshipMatrix</xsl:with-param>
+            <xsl:with-param name='column-4'>Downtime</xsl:with-param>
+            <xsl:with-param name='column-5'>Messages</xsl:with-param>
+          </xsl:call-template>
+          <xsl:for-each select='$all-locations'>
+            <xsl:sort select="@fullName"/>
+            <xsl:variable name="equipmentType" select="ancestor::EquipmentType"/>
+            <xsl:variable name="matrix" select="$equipmentType/RelationshipMatrix/Matrix"/>
+            <xsl:variable name="c" select="key('cause-by-id', $matrix/@cause)"/>
+            <xsl:variable name="cl" select="key('classification-by-id', $matrix/@classification)"/>
+            <xsl:variable name="ef" select="key('effect-by-id', $matrix/@effect)"/>
+            <xsl:variable name="downtimes" select="key('downtimes-by-cause-location', @fullName)"/>
+            
+            <xsl:call-template name='data-row-5-columns'>
+              <xsl:with-param name='column-1' select='@fullName'/>
+              <xsl:with-param name='column-2'>
+                <xsl:choose>
+                  <xsl:when test="not($equipmentType)"></xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="$equipmentType/@name"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:with-param>
+              <xsl:with-param name='column-3'>
+                <xsl:choose>
+                  <xsl:when test='$equipmentType'>
+                    <xsl:value-of select="concat(count($c), ' causes')"/>
+                    <xsl:value-of select="concat(' / ', count($cl), ' classifications')"/>
+                    <xsl:if test="count($effects) > 0">
+                      <xsl:value-of select="concat(' / ', count($ef), ' effects')"/>
+                    </xsl:if>
+                  </xsl:when>
+                  <xsl:otherwise>n/a</xsl:otherwise>
+                </xsl:choose>
+              </xsl:with-param>
+              <xsl:with-param name='column-4'>
+                <xsl:choose>
+                  <xsl:when test='count($downtimes) = 1'>1 Downtime</xsl:when>
+                  <xsl:when test='count($downtimes) > 1'><xsl:value-of select='count($downtimes)'/> Downtimes</xsl:when>
+                  <xsl:otherwise>None</xsl:otherwise>
+                </xsl:choose>
+              </xsl:with-param> 
+              <xsl:with-param name='column-5' >
+                <xsl:choose>
+                  <xsl:when test='$downtimes and $equipmentType and $matrix'>
+                    <!-- downtime with equipment type with values -->
+                  </xsl:when>
+                  <xsl:when test='$downtimes and $equipmentType and not($matrix)'>
+                    <xsl:value-of select="concat('Location is a valid Cause Location but its equipment type ', $quote, $equipmentType/@name, $quote, ' is empty.')"/>
+                  </xsl:when>
+                  <xsl:when test='$downtimes and not($equipmentType)'>
+                    <xsl:text>Location is a valid Cause Location but has no equipment type specified.</xsl:text>
+                  </xsl:when>
+                  <xsl:when test='not($downtimes) and $equipmentType'>
+                    <xsl:text>Location has Equipment type but is not listed as a valid Cause Location.</xsl:text>
+                  </xsl:when>
+                  <xsl:when test='not($downtimes) and not($equipmentType)'>
+                    <xsl:text>Location is not used for downtime.</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <text></text>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:with-param>
+            </xsl:call-template>
+
+          </xsl:for-each>
+        </Table>
+      </Worksheet>
+
     </Workbook>
   </xsl:template>
 

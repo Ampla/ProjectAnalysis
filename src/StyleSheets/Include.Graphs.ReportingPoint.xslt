@@ -9,8 +9,9 @@
 	
 	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='include'>Yes</xsl:template>
 	<xsl:template match="Item[@type='Citect.Ampla.Quality.Server.QualityReportingPoint']" mode='include'>Yes</xsl:template>
+  <xsl:template match="Item[@type='Citect.Ampla.Downtime.Server.DowntimeReportingPoint']" mode='include'>Yes</xsl:template>
 
-	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='get-png-filename'>
+  <xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='get-png-filename'>
 		<xsl:param name='name' select='@hash'/>
 		<xsl:value-of select="concat('p_', $name, '.png')"/>
 	</xsl:template>
@@ -19,8 +20,13 @@
 		<xsl:param name='name' select='@hash'/>
 		<xsl:value-of select="concat('q_', $name, '.png')"/>
 	</xsl:template>
-	
-	<xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='graph'>
+
+  <xsl:template match="Item[@type='Citect.Ampla.Downtime.Server.DowntimeReportingPoint']" mode='get-png-filename'>
+    <xsl:param name='name' select='@hash'/>
+    <xsl:value-of select="concat('d_', $name, '.png')"/>
+  </xsl:template>
+
+  <xsl:template match="Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']" mode='graph'>
 		<xsl:param name="filename"/>
 		<xsl:call-template name='render-reporting-point'>
 			<xsl:with-param name='filename' select='$filename'/>
@@ -35,8 +41,16 @@
 			<xsl:with-param name='module'>Quality</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
-	
-	<xsl:template name="render-reporting-point" mode='graph'>
+
+  <xsl:template match="Item[@type='Citect.Ampla.Downtime.Server.DowntimeReportingPoint']" mode='graph'>
+    <xsl:param name="filename"/>
+    <xsl:call-template name='render-reporting-point'>
+      <xsl:with-param name='filename' select='$filename'/>
+      <xsl:with-param name='module'>Downtime</xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="render-reporting-point" mode='graph'>
 		<xsl:param name="filename"/>
 		<xsl:param name='module'/>
 		<xsl:variable name='full-name' select="@fullName"/>

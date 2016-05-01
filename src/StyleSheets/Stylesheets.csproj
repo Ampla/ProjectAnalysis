@@ -34,7 +34,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Authstore.Normalize.xslt" />
+    <Content Include="Authstore.Normalize.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Bootstrap.Planning.xslt" />
     <Content Include="Common.Graphs.DotML.xslt" />
     <Content Include="Bootstrap.ReportingPoints.xslt" />
@@ -46,21 +48,55 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Bootstrap.EquipmentIds.xslt" />
-    <Content Include="Bootstrap.Downtime.xslt" />
+    <Content Include="Bootstrap.Downtime.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Security.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Modules.Metrics.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Modules.Downtime.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Modules.Quality.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Property.Tables.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Modules.Production.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Excel.Expressions.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Document.Inventory.DotML.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Excel.Variables.xslt">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Document.Browser.Testing.xslt" />
-    <Content Include="Document.Browser.xslt" />
+    <Content Include="Document.Browser.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.CodeItems.xslt" />
-    <Content Include="Document.Common.xslt" />
+    <Content Include="Document.Common.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Downtime.xslt" />
-    <Content Include="Document.Equipment.xslt" />
+    <Content Include="Document.Equipment.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Frames.xslt" />
     <Content Include="Document.Graphs.DotML.xslt" />
     <Content Include="Document.Hierarchy.xslt" />
     <Content Include="Document.Interfaces.xslt" />
-    <Content Include="Document.Inventory.DotML.xslt" />
+    <Content Include="Document.Expressions.DotML.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Inventory.Materials.DotML.xslt" />
     <Content Include="Document.ItemTypes.xslt" />
     <Content Include="Document.Metrics.DotML.xslt" />
@@ -68,14 +104,22 @@
     <Content Include="Document.Metrics.Report.xslt" />
     <Content Include="Document.Metrics.xslt" />
     <Content Include="Document.OleDb.xslt" />
-    <Content Include="Document.Properties.Common.xslt" />
-    <Content Include="Document.Properties.ExtraInfo.xslt" />
+    <Content Include="Document.Properties.Common.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Document.Properties.ExtraInfo.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Properties.xslt" />
     <Content Include="Document.Security.Text.xslt" />
-    <Content Include="Document.Security.xslt" />
+    <Content Include="Document.Security.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Document.Summary.xslt" />
     <Content Include="Document.Translations.xslt" />
-    <Content Include="Document.Warnings.xslt" />
+    <Content Include="Document.Warnings.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Excel.Common.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -84,22 +128,43 @@
     </Content>
     <Content Include="File.ItemId.Fullname.Type.xslt" />
     <Content Include="FormatStrings.xml" />
-    <Content Include="Include.Graphs.Colours.xslt" />
-    <Content Include="Include.Graphs.Database2Ampla.xslt" />
-    <Content Include="Include.Graphs.Defaults.xslt" />
+    <Content Include="Include.Graphs.Colours.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Include.Graphs.Database2Ampla.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Include.Graphs.Defaults.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Include.Graphs.File2Ampla.xslt" />
-    <Content Include="Include.Graphs.Metrics.xslt" />
-    <Content Include="Include.Graphs.Project.xslt" />
+    <Content Include="Include.Graphs.Metrics.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Include.Graphs.Project.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Include.Graphs.ReportingPoint.xslt" />
-    <Content Include="Project.Downtime.xslt" />
+    <Content Include="Project.Downtime.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Project.Equipment.xslt" />
+    <Content Include="Project.Expressions.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Project.Flow.xslt" />
     <Content Include="Project.Inventory.xslt" />
-    <Content Include="Project.LinkFrom.xslt" />
-    <Content Include="Project.LinkTo.xslt" />
+    <Content Include="Project.LinkFrom.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Project.LinkTo.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Project.Metrics.xslt" />
     <Content Include="Project.Mindmap%280.8.1%29.xslt" />
-    <Content Include="Project.Normalize.xslt" />
+    <Content Include="Project.Normalize.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Project.OLEDB.xslt" />
     <Content Include="Project.RDF.xslt" />
     <Content Include="Project.Security.xslt" />

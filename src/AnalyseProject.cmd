@@ -39,6 +39,7 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.xml StyleSheets\Project.LinkFrom.xslt -o Working\project.links.from.xml
 %nxslt% Working\project.links.from.xml StyleSheets\Project.LinkTo.xslt -o Working\project.links.xml
 %nxslt% Working\project.links.xml StyleSheets\Project.Flow.xslt -o Working\project.flow.xml
+%nxslt% Working\project.links.xml StyleSheets\Project.Expressions.xslt -o Working\project.expressions.xml
 
 @echo === Security ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Security.xslt -o Working\project.security.xml
@@ -50,9 +51,22 @@ del Output\Graphs\*.* /Q
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Planning.xslt			-o Output\Bootstrap.Planning.html
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.EquipmentIds.xslt			-o Output\Bootstrap.EquipmentIds.html
 
+@echo === Reporting Points ===
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Production.xslt -o Output\Excel.Modules.Production.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Quality.xslt -o Output\Excel.Modules.Quality.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Downtime.xslt -o Output\Excel.Modules.Downtime.xls
+%nxslt% Working\project.links.xml		StyleSheets\Excel.Modules.Metrics.xslt -o Output\Excel.Modules.Metrics.xls
+
 @echo === Variables ===
 %nxslt% Working\project.links.xml       StyleSheets\Bootstrap.Variables.xslt  -o Output\Bootstrap.Variables.html
 %nxslt% Working\project.links.xml		StyleSheets\Excel.Variables.xslt -o Output\Excel.Variables.xls
+
+@echo === Expressions ===
+%nxslt% Working\project.expressions.xml StyleSheets\Excel.Expressions.xslt -o Output\Excel.Expressions.xls
+
+rem %nxslt% Working\project.expressions.xml StyleSheets\Document.Expressions.DotML.xslt -o Working\expressions.dotml
+rem %nxslt% Working\expressions.dotml %dotml%\dotml2dot.xsl -o Working\expressions.gv
+rem %graphviz%\dot.exe -Tpng Working\expressions.gv -o Output\Graphs\expressions.png
 
 @echo === Downtime ===
 %nxslt% Working\project.links.xml StyleSheets\Project.Downtime.xslt -o Working\downtime.xml
@@ -100,6 +114,7 @@ cd ..\..
 %nxslt% Working\project.links.xml StyleSheets\Document.Summary.xslt -o Output\Project.Summary.html lang=%lang%
 %nxslt% Working\project.links.xml StyleSheets\Document.Equipment.xslt -o Output\Project.Equipment.html lang=%lang%
 %nxslt% Working\authstore.xml StyleSheets\Document.Security.xslt -o Output\Project.Security.html
+%nxslt% Working\authstore.xml StyleSheets\Excel.Security.xslt -o Output\Excel.Security.xls
 
 %nxslt% Working\project.links.xml StyleSheets\Document.Frames.xslt -o Output\index.html
 %nxslt% Working\project.links.xml StyleSheets\Document.Hierarchy.xslt -o Output\hierarchy.html 
