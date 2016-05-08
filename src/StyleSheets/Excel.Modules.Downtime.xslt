@@ -46,18 +46,18 @@
       </Worksheet>
 
       <Worksheet ss:Name='Conditions'>
-        <xsl:call-template name='item-property-table'>
+        <xsl:call-template name='item-property-table-by-type'>
           <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Downtime.Server.DowntimeReportingPoint']"/>
-          <xsl:with-param name="select-child">Conditions</xsl:with-param>
+          <xsl:with-param name="select-child-type">Citect.Ampla.Downtime.Server.DowntimeConditionsFolder</xsl:with-param>
           <xsl:with-param name="include-index">1</xsl:with-param>
           <xsl:with-param name="select-child-items">1</xsl:with-param>
         </xsl:call-template>
       </Worksheet>
 
       <Worksheet ss:Name='Split Conditions'>
-        <xsl:call-template name='item-property-table'>
+        <xsl:call-template name='item-property-table-by-type'>
           <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Downtime.Server.DowntimeReportingPoint']"/>
-          <xsl:with-param name="select-child">Split Conditions</xsl:with-param>
+          <xsl:with-param name="select-child-type">Citect.Ampla.Downtime.Server.SplitConditionsFolder</xsl:with-param>
           <xsl:with-param name="include-index">1</xsl:with-param>
           <xsl:with-param name="select-child-items">1</xsl:with-param>
         </xsl:call-template>
