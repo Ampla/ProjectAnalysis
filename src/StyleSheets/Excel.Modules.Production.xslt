@@ -46,9 +46,9 @@
       </Worksheet>
 
       <Worksheet ss:Name='Conditions'>
-        <xsl:call-template name='item-property-table'>
+        <xsl:call-template name='item-property-table-by-type'>
           <xsl:with-param name='items' select="//Item[@type='Citect.Ampla.Production.Server.ProductionReportingPoint']"/>
-          <xsl:with-param name="select-child">Conditions</xsl:with-param>
+          <xsl:with-param name="select-child-type">Citect.Ampla.General.Server.ConditionsFolder</xsl:with-param>
           <xsl:with-param name="include-index">1</xsl:with-param>
           <xsl:with-param name="select-child-items">1</xsl:with-param>
         </xsl:call-template>
